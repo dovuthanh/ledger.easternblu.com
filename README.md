@@ -1,6 +1,6 @@
 # Spectrumledger
 
-![Spectrumledger](https://raw.githubusercontent.com/mrvautin/expressCart/master/public/images/logo.png)
+![Spectrumledger](http://ledger.easternblu.com/images/music-1573043801114-6636.jpg)
 
 `Spectrumledger ` is a music platform built in Node.js (Express, MongoDB) with ethereal
 
