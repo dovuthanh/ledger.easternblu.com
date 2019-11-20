@@ -2,10 +2,16 @@
 
 ![ledger.easternblu.com](http://ledger.easternblu.com/images/music-1573043801114-6636.jpg)
 
-`ledger.easternblu.com ` is a music platform built in Node.js (Express, MongoDB) with ethereal
+`ledger.easternblu.com ` is a music platform built in Node.js (Express, MongoDB) with Algorand
 
 [**View the test server**](http://ledger.easternblu.com)
 
+There are few files can be checked algorand code:
+1. /backend/song.js
+2. /backend/royalty.js
+3. /backend/verify.js
+4. /backend/license.js
+5. /backend/deploy-cronjob.js
 
 ## Installation
 
