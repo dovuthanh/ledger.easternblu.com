@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>View Profile Individual</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="css/view_profile_record/view_profile_record.css">
+	<link rel="stylesheet" href="css/search_results/search_results.css">
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+
+	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+	<script>
+		var OneSignal = OneSignal || [];
+			OneSignal.push(["init", {
+				appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+				// appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+				autoRegister: true,
+				safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+				welcomeNotification: {
+					disable: true,
+				},
+				notifyButton: {
+					enable: true,
+					prenotify: true,
+					position: 'bottom-left',
+					size: 'medium',
+					showCredit: false
+				}
+			}]);
+	</script>
+</head>
+<body>
+	<div class="header">
+		<%- include ../menu/nor_header.ejs %>
+	</div>
+
+	<!-- menu mobile -->
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li><a href="#">HOME</a></li>
+					<li class="active"><a href="#">MY PROFILE</a></li>
+					<li><a href="#">MY SONGS</a></li>
+					<li><a href="#">LICENSING</a></li>
+					<li><a href="#">REGISTER SONG</a></li>
+					<li><a href="#">BOOKMARKED</a></li>
+					<li><a href="#">VERIFY</a></li>
+					<li><a href="#">WALLET</a></li>
+					<li><a href="#">SETTINGS</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="home_content">
+		<div class="center_home">
+			<div class="left_content col-md-10 col-sm-9">
+				<div class="wrap_content" id="tab-content">
+					<div class="tab-content">
+						<div class="my_profile">
+							<h4>My Profile</h4>
+							<div id="edit_profile">
+								<a href="#">EDIT PROFILE</a>
+							</div>
+						</div>
+						<div class="title-name">
+							<h3>Aladdine Sane</h3>
+							<p>Composer</p>
+						</div>
+						<div class="media">
+							<div class="media-left media-middle">
+								<a href="#">
+									<img class="media-object" src="images/image_15.png" alt="...">
+								</a>
+							</div>
+							<div class="media-body">
+								<p class="media-heading">
+									Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium pretium tempor. Ut eget imperdiet neque. In volutpat ante semper diam molestie, et aliquam erat laoreet. Sed sit amet arcu aliquot, molestie justo at, auctor nunc. Phasellus ligula ipsum, volutpat eget semper id, viverra eget nibh. Suspendisse luctus mattis cursus. Nam consectetur ante at nisl hendrerit gravicla. Donec vehicula rhoncus mattis. Mauris dignissim semper mattis.Fusce porttitor a mi at suscipit. Praesent facilisis dolor sapien, vel sodales augue mollis ut. Mauris venenatis magna cu tortor posuere luctus. Aenean tincidunt turpis sed dui aliquam vehicula. Praesent nec elit non dolor consectetur tincidunt sec! in felis. Donec elementum, lacus at mattis tincidunt, eros magna faucibus sem. in condimentum est augue tristique risus.</p>
+								</div>
+							</div>
+							<div class="icon-content">
+								<a href="#"><img src="images/fbicon.png" alt=""></a>
+								<a href="#"><img src="images/linkedin.png" alt=""></a>
+								<a href="#"><img src="images/twitter-icon.png" alt=""></a>
+								<a href="#"><img src="images/messenger.png" alt=""></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<dir class="right-content">
+				<%- include ../menu/right_menu_content.ejs %>
+			</dir>
+		</div>
+
+	<script src="js/jquery.tablesorter.js"></script>
+	<script>
+		$(document).ready(function(){
+			$('.dropdown-menu li a').click(function() {
+				$('#search').val($(this).text());
+				$('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+			});
+
+            $('.btn_cancel').on('click', function() {
+                $('#popup').removeClass('show');
+                $('body').toggleClass('modal-open');
+            });
+
+		    $("#sort-table").tablesorter({
+		    	headers: {
+		            0: { sorter: false },
+		            2: { sorter: false },
+		            3: { sorter: false },
+		            4: { sorter: false },
+		        }
+		    });
+	    });
+	</script>
+</body>
+</html>

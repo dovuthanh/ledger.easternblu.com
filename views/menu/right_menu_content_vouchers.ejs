@@ -1,0 +1,33 @@
+<div class="right_content col-md-2 col-sm-3">
+	<div class="right_sidebar">
+		<ul>
+		<%if(session.userVoucher){%>
+			<%if(session.userVoucher.type == 'admin') {%>
+				<li id="voucher-index"><a href="/vouchers/voucher-index">HOME</a></li>
+				<li id="management-vouchers"><a href="/vouchers/mamagement-vouchers">MANAGERMENT VOUCHERS</a></li>
+				<li id="transaction-history"><a href="/vouchers/transaction-history">HISTORY</a></li>
+				<li id="voucher-settings"><a href="/vouchers/settings">SETTINGS</a></li>
+				<li id="my-account"><a href="/vouchers/my-account">MY ACCOUNT</a></li>
+				<li id="voucher-logout"><a href="/vouchers/logout">LOGOUT</a></li>
+			<%}else if(session.userVoucher.type == 'investor'){%>
+				<li id="management-vouchers"><a href="/vouchers/mamagement-vouchers">MY VOUCHERS</a></li>
+				<li id="request-vouchers"><a href="/vouchers/request-vouchers">REQUEST VOUCHERS</a></li>
+				<li id="transaction-history"><a href="/vouchers/transaction-history">HISTORY</a></li>
+				<li id="my-account"><a href="/vouchers/my-account">MY ACCOUNT</a></li>
+				<li id="voucher-logout"><a href="/vouchers/logout">LOGOUT</a></li>
+			<%}else{%>
+				<li id="voucher-index"><a href="/vouchers/voucher-index">HOME</a></li>
+				<li id="management-vouchers"><a href="/vouchers/mamagement-vouchers">MY VOUCHERS</a></li>
+				<li id="shop-cart"><a href="/vouchers/shop-cart">SHOP CART</a></li>
+				<li id="my-account"><a href="/vouchers/my-account">MY ACCOUNT</a></li>
+				<li id="voucher-logout"><a href="/vouchers/logout">LOGOUT</a></li>
+			<%}%>
+		<%}else{%>
+			<li id="voucher-index"><a href="/vouchers/voucher-index">HOME</a></li>
+			<li id="shop-cart"><a href="/vouchers/shop-cart">SHOP CART</a></li>
+			<li><a href="/vouchers/sign-in">SIGN IN</a></li>
+			<li><a href="/vouchers/register">SIGN UP</a></li>
+		<%}%>
+		</ul>
+	</div>
+</div>

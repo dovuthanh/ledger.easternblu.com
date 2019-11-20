@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REGISTER SONG</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/my_songs/my_songs.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+    <link rel="stylesheet" href="css/mass_registration/nav-wizard.bootstrap.css">
+    <link rel="stylesheet" href="css/mass_registration/mas_register.css">
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="javascripts/mass.js"></script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <!-- menu mobile -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div id="regis_step_1">
+                        <div class="regis_song">
+                            <%if(merkle.albumName && merkle.albumName.length >0){%>
+                            <h3>REGISTRATION - <%=merkle.albumName%> - <%=merkle.batchId%> </h3>
+                            <%}else{%>
+                            <h3>REGISTRATION - <%=merkle.batchId%> </h3>
+                            <%}%>
+                            <div class="upload">
+                                <input type="text" value="<%=user.userWalletAddress%>" hidden="true" id="account_number"></input>
+                                <input type="text" name="merkle_root_id" id="merkle_root_id" hidden="true" value="<%=merkle._id%>" />
+                                <input type="text" name="merkle_root" id="merkle_root" hidden="true" value="<%=merkle.merkleRoot%>" />
+                                <input type="text" name="user_id" id="user_id" hidden="true" value="<%=user._id%>" />
+                                <input type="text" name="user_is_admin" id="user_is_admin" hidden="true" value="" />
+                                <input type="text" name="songdata" id="songdata" hidden="true" value="<%=songMerkles%>" />
+                                <div class="clear"></div>
+                            </div>
+                            <div class="upload">
+                                <div class="song_name" id="song_file_name"></div>
+                                <div class="upload-right" id="progress"></div>
+                                <div class="clear"></div>
+                                <div class="tbar" style="display: none;">
+                                    <div id="myBar" class="uploading" style="width: 0;"></div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <p class="text-info-deploy text-primary">Please note that the Deployment of the Songs can only be executed by Ethereum Account Holder </p>
+                            <div class="col-md-3 col-xs-6"></div>
+                            <div class="info col-md-6 col-xs-6">
+                               <%if(session.passport.user.userShowPrivateKeyBox == true || !walletbk){%>
+                                <%if(!session.passport.user.userWalletAddress){%>
+                                  <p class="text-info-deploy">Please <a href="/mass-sign-up-step-1">click here</a> Ethereum account</p>
+                                <%}else{%>
+                               <div class="form-group text-center">
+                                  <h4 class="control-label">You Account ID</h4>
+                                  <div class="col-md-12 col-xs-12 autocomplete">
+                                     <input type="text" name="public_key" readonly="true" value="<%=session.passport.user.userWalletAddress%>" id="public_key" class="form-control enter text-center" tabindex="0" value="">
+                                  </div>
+                               </div>
+                               <br/>
+                               <br/> 
+                               <br/>
+                                <div class="form-group text-center">
+                                  <h4 class=" control-label">Authorized ID(*)</h4>
+                                  <div class="col-md-12 col-xs-12 autocomplete">
+                                     <input type="password" name="private_key" value="" id="private_key" class="form-control enter text-center" tabindex="0" value="">
+                                  </div>
+                               </div>
+                               <br/>
+                               <br/>
+                               <br/>
+                               <div class="form-group">
+                                  <div class="col-md-4 col-xs-5">
+                                  </div> 
+                                  <div class="col-md-4 col-xs-5">
+                                       <button onclick="deploy()" class="btn_mass_migration">Deploy</button>
+                                  <br/>
+                                  </div>
+                                </div>
+                               <%}%>
+                               <%}else{%>
+                               <div class="form-group text-center">
+                                  <h4 class="control-label">You Account ID</h4>
+                                  <div class="col-md-12 col-xs-12 autocomplete">
+                                     <input type="text" name="public_key" readonly="true" value="<%=walletbk.publicWallet%>" id="public_key" class="form-control enter text-center" tabindex="0" value="">
+                                  </div>
+                               </div>
+                               <br/>
+                               <br/> 
+                               <br/>
+                               <div class="form-group text-center" style="display: none;">
+                                  <h4 class=" control-label">Authorized ID(*)</h4>
+                                  <div class="col-md-12 col-xs-12 autocomplete">
+                                     <input type="password" name="private_key" readonly="true" value="<%=walletbk.publicDeploySeed%>" id="private_key" class="form-control enter text-center" tabindex="0" value="">
+                                  </div>
+                               </div> 
+                               <br/>
+                               <br/>
+                               <br/>
+                               <div class="form-group">
+                                  <div class="col-md-4 col-xs-5">
+                                  </div> 
+                                  <div class="col-md-4 col-xs-5">
+                                       <button onclick="deploy()" class="btn_mass_migration">Deploy</button>
+                                  <br/>
+                                  </div>
+                                </div>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <%}%>
+                                <!-- <p class="text-info-deploy">Please <a href="/mass-sign-up-step-1">click here</a> if you need to create a Public and Private key</p> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <%- include ../process/loading.ejs %>
+                </div>
+            </div>
+            <div class="right-content">
+                <%- include ../menu/right_menu_mass_content.ejs %>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script>
+        var songList;
+        var merkle_root;
+        $(document).ready(function() {
+            $("body").on('click', '.add-new', function(e) {
+                e.preventDefault();
+                var own = $(this).closest('.sub_own');
+                $('.owners').append('<div class="col-md-10 col-xs-10 sub_own">' + own.html() + '</div>');
+                own.find('.add-new').remove();
+            });
+            $('#<%=menu_index%>').addClass('active');
+            var songdata = document.getElementById('songdata').value;
+            var merkle_root = document.getElementById('songdata').value;
+            songList = JSON.parse(songdata);
+            console.log(songList);
+        });
+    </script>
+    <script type="text/javascript">
+        function hide(){
+           $('#loading').hide();
+        }
+        function deploy(){
+            var public_Key = document.getElementById('public_key').value;
+            var private_Key = document.getElementById('private_key').value;
+            if(public_Key == undefined || public_Key.length ==0){
+                bootbox.alert("Please enter Public Key.");
+                return;
+            }
+            if(private_Key == undefined || private_Key.length ==0){
+                bootbox.alert("Please enter Private Key.");
+                return;
+            }
+            if(!Mass.validate_private_key(private_Key, public_Key)){
+                bootbox.alert("Private Key is wrong.");
+                return;
+            }
+            if(songList == undefined || songList.length ==0 ){
+                bootbox.alert("Sorry, your batchId is empty. You can not deploy empty batch.");
+                return;
+            }
+            let pricePay = 20 * 100;
+            $('.load').html('Signing Data...');
+            $('#loading').show();
+            Mass.save_new_mass_registration(public_Key, private_Key, songList, showmessage);
+        }
+
+        function showmessage() {
+            hide();
+            bootbox.hideAll();
+            bootbox.alert({
+                title: "Congratulation",
+                message: "Successfully commited to the blockchain. Wait for email to confirm deployment",
+                callback: function () {
+                    window.location.href = '/mass-registration-history';
+                }
+            })
+        }
+
+    </script>
+</body>
+
+</html>

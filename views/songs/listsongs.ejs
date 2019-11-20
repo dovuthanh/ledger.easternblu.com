@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MY SONGS</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<!-- <link rel="stylesheet" href="css/home/home_loggedin.css"> -->
+	<link rel="stylesheet" href="css/search_results/search_results.css">
+	<link rel="stylesheet" href="css/my_songs/my_songs.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+	<link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">	
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	<script src="javascripts/song.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
+</head>
+<body>
+	<div class="song">
+		<%- include ../menu/nor_header.ejs %>
+	</div>
+	<div class="home_content">
+		<div class="center_home">
+			<div class="left_content col-md-10 col-sm-9">
+				<div class="wrap_content" id="tab-content">
+					<ul class="nav nav-tabs">
+						<li style="width: 50px; height: 30px;">
+							<div class="ic-close" style="top: 5px; right: 10px;">
+								<a href="/" style="background: transparent; border: none;"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+							</div>
+						</li>
+						<li class="active" id="song_tab"><a data-toggle="tab" href="#home">SONGS</a></li>
+						<li><a data-toggle="tab" href="#export-data">EXPORT DATA</a></li>
+					</ul>
+					<div class="tab-content">
+					  	<div id="home" class="tab-pane fade in active search_results">
+					  		<div class="search_left">
+					  		 	<h3>My songs</h3>
+						  	</div>
+						  	<div class="search_right">
+						  		<div class="col-md-4" hidden="true">
+						  			<a href="#">
+						  				<button class="btn_search_results btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						  				</button>
+						  			</a>
+					  			</div>
+					  			<div class="filter col-md-4" hidden="true">
+							  		<div class="dropdown">
+									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									    FILTER
+									    <span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="dropdown-ul">
+									    <li class="has-child">
+									    	<a href="#">FILTER 1</a>
+									    	<ul class="dropdown-menu" >
+									    		<li><a href="">OPSTION 1</a></li>
+									    		<li><a href="">OPSTION 2</a></li>
+									    		<li><a href="">OPSTION 3</a></li>
+									    	</ul>
+									    </li>
+									    <li class="has-child">
+									    	<a href="#">FILTER 2</a>
+									    	<ul class="dropdown-menu" >
+									    		<li><a href="">OPSTION 1</a></li>
+									    		<li><a href="">OPSTION 2</a></li>
+									    		<li><a href="">OPSTION 3</a></li>
+									    	</ul>
+									    </li>
+									  </ul>
+									</div>
+							  	</div>
+						  		<div class="col-md-4" style="float: right;">
+						  			<!-- <a href="/new-song-registration">
+						  				<button class="btn_search_results btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" onclick="javascripts: location.href = '/new-song-registration';">
+						  				NEW SONG
+						  				</button>
+						  			</a> -->
+					  			</div>
+						  	</div>
+
+						   	<div class="clear"></div>
+						    <div class="table-responsive" id="table_search">
+						    	<table class="table table-curved">
+						    		<tr>
+						    			<td></td>
+						    			<td id="song_title"><p>Song Title</p></td>
+						    			<td style="min-width: 150px;"><p>Artist Name</p></td>
+						    			<td style="min-width: 75px;"><i class="fa fa-clock-o" aria-hidden="true"></i></td>
+						    			<td><p>Register Address</p></td>
+						    			<!-- <td style="min-width: 100px;"><p>Royalty partner</p></td> -->
+						    			<td><p>Verification</p></td>
+						    			<td><p>Certificate</p></td>
+						    		</tr>
+						    		 <%
+						    		 var i=0;
+						    		 songs.forEach(function(song){
+						    		 	i++;
+						    		 %>
+						    		 	<tr>
+							    			<td>
+							    				<%if(song.songUrl && song.songUrl.length >0){%>
+							    				<a class="skin-font-color13 skin-color-hover1 fap-single-track" href="<%=song.songUrl%>" title="<%=song.songTitle%> (<%=song.songArtistRefer != undefined ? song.songArtistRefer.artistProfessionName : 'Unknow'%>)" data-meta="#fap-meta-track1" meta="<%=song.songArtistRefer ? song.songArtistRefer.artistProfessionName : ''%>"
+						    					<%if(song.songArtistRefer && song.songArtistRefer.artistsPictures) {%>
+												 rel="<%=song.songArtistRefer.artistsPictures%>"
+						    					<%}%> >
+						    					<img src="images/Search_Results_09.png" alt="">
+							    				</a>
+							    				<%}else{%>
+                                                    <img src="images/Search_Results_09.png" alt="">
+                                                <%}%>
+							    			</td>
+							    			<td class="td-song-title"><a href="/update-song-info?id=<%=song._id%>"><%=song.songTitle%></a></td>
+							    			<%if (song.songArtistRefer){%>
+							    				<td><p><%=song.songArtistRefer.artistProfessionName%></p><h6>artist</h6></td>
+							    			<%}else{%>
+							    				<td><p>Unknow</p><h6>artist</h6></td>
+							    			<%}%>
+							    			<td><%=song.songDuration%></td>
+							    			<%if (song.songContractAddress){%>
+							    				<td><a class="p-font-12" href="<%=url%><%=song.songContractAddress%>" target="_blank"><%=song.songContractAddress%></a></td>
+							    			<%}else if(song.verified != undefined && song.verified == false){%>
+												<td style="color: #ff0000;">Failed</td>
+							    			<%}else{%>
+							    				<% if(!song.songMerkleRootRefer && !song.songBlockHash){%>
+							    					<td>Draft</td>
+							    				<%}else{%>
+													<td>Processing</td>
+												<%}%>
+											<%}%>
+							    			<!-- <td><a href="/change-royalty-partner?id=<%=song._id%>">EDIT</a></td> -->
+											<%if(song.songContractAddress){%>
+												<td class="verif" style="color: #0000ff;">VERIFIED<img src="images/Search_Results_12.png" alt=""></td>
+												<td>
+							    					<a href="/certificate-song?id=<%=song._id%>">
+						    							<button class="btn_search_results" style="width: 120px;">CERTIFICATE</button>
+						    						</a>
+							    				</td>
+											<%}else{%>
+												<%if(!song.songMerkleRootRefer){%>
+													<td class="verif" style="color: #ff0000;"></td>
+													<td>
+								    					<!-- <a href="/certificate-song?id=<%=song._id%>"> -->
+								    					<% if(!song.songBlockHash){%>
+									    					<button onclick="openDialog('<%=song._id%>')" class="btn_search_results" style="width: 120px;">DEPLOY</button>
+									    				<%}%>
+							    						<!-- </a> -->
+								    				</td>
+								    			<%}else{%>
+								    				<td class="verif" style="color: #ff0000;"></td>
+													<td>
+								    			<%}%>
+											<%}%>
+							    		</tr>
+						    		 <%});%>
+						    	</table>
+						    </div>
+
+						    <!-- pagination -->
+						  	<nav aria-label="Page navigation example" id="pagination">
+							  	<ul class="pagination">
+							  		<%if (currentPage != 1) {%>
+							  			<li class="page-item"><a class="page-link" href="/my-songs?page=<%=currentPage-1%>&limit=<%=pages.length%>">PREV</a></li>
+							  		<%}else{%>
+								    	<li class="page-item"><a class="page-link" href="/my-songs?page=1&limit=<%=pages.length%>">PREV</a></li>
+								    <%}%>
+								    <%
+								    pages.forEach(function(page){
+									    if (currentPage == page.number) {%>
+									    	<li class="page-item"><a class="page-link" href="<%=page.url%>"><%=page.number%></a></li>
+										<%}else{%>
+											<li class="page-item"><a class="page-link" href="<%=page.url%>"><%=page.number%></a></li>
+										<%}
+								    })%>
+
+								    <%if (currentPage != pages.length) {%>
+								    	<li class="page-item"><a class="page-link" href="/my-songs?page=<%=currentPage+1%>&limit=<%=pages.length%>">NEXT</a></li>
+									<%}else{%>
+										<li class="page-item"><a class="page-link" href="/my-songs?page=<%=pages.length%>&limit=<%=pages.length%>">NEXT</a></li>
+									<%}%>
+							  	</ul>
+							</nav>
+					  	</div>
+						<div id="export-data" class="tab-pane fade in search_results">
+							<div class="col-md-12" id="my_artist" style="margin-top: 20px; margin-bottom: 20px;">
+								<div class="search_left">
+									<div class="title col-md-7">
+										<h4>Export Data</h4>
+									</div>
+								</div>
+								<div class="search_right sort">
+									<div class="filter col-md-4 col-xs-6">
+
+									</div>
+									<div class="col-md-4 col-xs-6 tot_talent">
+
+									</div>
+								</div>
+							</div>
+							<div class='clear'></div>
+							<div class="col-md-12" id="my_artist" style="margin-top: 20px;margin-left: 20px ;margin-bottom: 20px;">
+								<%if(exportData){%>
+									<div class="alert alert-warning alert-dismissible" id="text-message">
+										We're processing your data. Please wait sometime.
+									</div>
+								<%}else{%>
+									<div class="alert alert-warning alert-dismissible" id="text-message" style="display: none;">
+										We're processing your data. Please wait sometime.
+									</div>
+									<div id="select_file">
+										<ol>
+											<div class="row">
+												<li>
+													<p> Download Import template <a href="/export-song-csv">Click here</a> to download</p>
+												</li>
+												<li>
+													<p> Enter song information.</p>
+												</li>
+												<li>
+													<p> Song Data <button id="btn_upload_song" class="">Click here</button> to Browse location
+														<label id="song_data_file_name"></label></p>
+													<input type="file" style="width: 0px;" accept=".xlsx" name="song_data_file" id="song_data_file"/>
+													<input type="hidden" id="url_song_data_file" />
+												</li>
+												<li>
+													<p>When the locations of the folder of the song files is determined above, <button class="" onclick="ValidateFile();">click here</button> to export those data </p>
+												</li>
+											</div>
+										</ol>
+									</div>
+								<%}%>
+							</div>
+						</d>
+					</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<%- include ../process/loading.ejs %>
+			</div>
+			<div class="right-content">
+				<%- include ../menu/right_menu_content.ejs %>
+			</div>
+		</div>
+		<div class="music-player has-player"></div>
+	</div>
+
+	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile.customized.min.js"></script>
+	<script type="text/javascript" src="js/wait.js"></script>
+	<script type="text/javascript" src="js/jquery.parallax.min.js"></script>
+
+	<script type="text/javascript" src="js/jquery.tweet.js"></script>
+	<script type="text/javascript" src="js/jquery.scrollTo.js"></script>
+
+
+	<!-- <script type="text/javascript" src="js/camera.js"></script> -->
+
+	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+
+	<!-- Player -->
+	<script type="text/javascript" src="js/player/soundmanager2-nodebug-jsmin.js"></script>
+	<script type="text/javascript" src="https://connect.soundcloud.com/sdk.js"></script>
+	<script type="text/javascript" src="js/player/amplify.min.js"></script>
+	<script type="text/javascript" src="js/player/jquery.fullwidthAudioPlayer.min.js"></script>
+	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+	<!-- Custom Js -->
+	<script type="text/javascript" src="js/custom.js"></script>
+	<script>
+		var somgthing1 = '<%=walletbk.publicWallet%>';
+		var somgthing2 = '<%=walletbk.publicDeploySeed%>';
+		$('.dropdown-menu li a').click(function() {
+			$('#search').val($(this).text());
+			$('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+		});
+		$(document).ready(function(){
+			$('#<%=menu_index%>').addClass('active');
+		});
+        var songFile;
+        var songFileUrl;
+
+        $('#btn_upload_song').on('click', function(e) {
+            document.getElementById('song_data_file').click();
+        });
+
+        $(document).ready(function() {
+            if (isAPIAvailable()) {
+                $('#song_data_file').bind('change', handleFileSelect3);
+            }
+        });
+
+        function isAPIAvailable() {
+            // Check for the various File API support.
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                // Great success! All the File APIs are supported.
+                return true;
+            } else {
+                // source: File API availability - http://caniuse.com/#feat=fileapi
+                // source: <output> availability - http://html5doctor.com/the-output-element/
+                document.writeln('The HTML5 APIs used in this form are only available in the following browsers:<br />');
+                // 6.0 File API & 13.0 <output>
+                document.writeln(' - Google Chrome: 13.0 or later<br />');
+                // 3.6 File API & 6.0 <output>
+                document.writeln(' - Mozilla Firefox: 6.0 or later<br />');
+                // 10.0 File API & 10.0 <output>
+                document.writeln(' - Internet Explorer: Not supported (partial support expected in 10.0)<br />');
+                // ? File API & 5.1 <output>
+                document.writeln(' - Safari: Not supported<br />');
+                // ? File API & 9.2 <output>
+                document.writeln(' - Opera: Not supported');
+                return false;
+            }
+        }
+
+        function ValidateFile(){
+            if(songFileUrl == undefined || songFileUrl.length ==0){
+                bootbox.alert("Please select artist data file", function(){});
+                return;
+            }
+            loading('Processing please wait...');
+            setTimeout(function(){
+                $.ajax({
+                    method: 'POST',
+                    url: '/api/mass/exports-template',
+                    data: {blockChainFileUrl: "", songFileUrl: songFileUrl, artistFileUrl:""},
+                    cache: false,
+                    success: function(data){
+                        if(!data.error){
+                            bootbox.alert("We're processing your data. We will send email to you soon.", function(){
+                                // window.location.href = '/mass-registration-media-upload';
+                                hide();
+                                $('div#text-message').show();
+                                $('div#select_file').hide();
+                            });
+                        }else{
+                            bootbox.alert("There is something wrong.", function(){
+                                window.location.reload(true);
+                            });
+                        }
+                    },
+                    fail: function(xhr, textStatus, errorThrown){
+                        alert('something wrong');
+                    }
+                });
+            }, 2000);
+
+        }
+
+        function handleFileSelect3(evt) {
+            var files = evt.target.files;
+            var file = files[0];
+            artistFile = file;
+            if (file) {
+                var formData = new FormData();
+                formData.append('uploads', file, file.name);
+                $.ajax({
+                    method: 'POST',
+                    url: '/api/mass/upload-template-file',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        document.getElementById('song_data_file_name').innerHTML = file.name;
+                        document.getElementById('url_song_data_file').value = data.url;
+                        songFileUrl = data.url;
+                    },
+                    fail: function(xhr, textStatus, errorThrown){
+                        alert('something wrong');
+                    }
+                });
+            }
+        }
+
+        function loading(txt){
+            $('.load').html(txt);
+            $('#loading').show();
+        }
+        function hide(){
+            $('#loading').hide();
+        }
+
+        function openDialog(songId) {
+            var html = '<p id="message_error" class="bg-danger" ></p>'; 
+            html += '<p id="message"> are you sure? </p> ';
+            html += '<p id="message" style="display: none;"><strong> Owner account(Public Key)(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="off" type="text" id ="public_key" value="'+somgthing1+'" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" style="display: none;"><br/>';
+            html += '<p id="message" style="display: none;"><strong> Authorized ID(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="on" type="text" id ="private_key"background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" style="display: none;" value="'+somgthing2+'"></form>';
+
+            var dialog = bootbox.dialog({
+                title: "Deploy song",
+                message: html,
+                closeButton: false,
+                buttons: {
+                    cancel: {
+                         label: '<i class="fa fa-times"></i> Cancel',
+                         className: 'btn-default',
+                         callback: () => {
+                         }
+                     },
+                    continute: {
+                      label: '<i class="fa fa-check"></i> Confirm',
+                      className: 'btn-danger',
+                      callback: () => {
+                        let privateKey = document.getElementById('private_key').value;
+                        let publicKey = document.getElementById('public_key').value;
+                        let pricePay = 20 * 100;
+                        Song.deploy_one_song(songId, publicKey);
+                      }
+                  }            
+              }
+            });
+         }
+
+        var OneSignal = OneSignal || [];
+          OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+              disable: true,
+            },
+            notifyButton: {
+              enable: true,
+              prenotify: true,
+              position: 'bottom-left',
+              size: 'medium',
+              showCredit: false
+            }
+          }]);
+    </script>
+</body>
+</html>

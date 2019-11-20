@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Login - Vouchers Management</title>
+	<link rel="stylesheet" href="../css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/common/common.css">
+	<link rel="stylesheet" href="../css/login/login.css">
+	<link rel="stylesheet" href="../css/vouchers/voucher.css">
+
+	<script src="../js/jquery-3.2.1.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="logo">				
+					<div id="tab-content">
+						<img class="img_logo" src="../images/logo_1.jpg" alt="">
+						<h3>login</h3>
+						<div class="alert alert-danger" style="margin-top: 20px; display: none;" id="message"></div>	
+						<ul class="nav nav-tabs"">
+							<li class="active"><a data-toggle="tab" href="#user">FOR USER</a></li>
+							<li><a data-toggle="tab" href="#investor">FOR INVESTOR</a></li>
+						</ul>
+						<div class="tab-content">
+							<div class="form_login tab-pane fade in active" id="user">
+								<form action="#" method="post" onsubmit="return false;">
+									<div class="form-group">
+										<label class="col-md-4 control-label">email</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="user_email" id="user_email" class="form-control" tabindex="1" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">password</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="password" name="user_password" id="user_password" class="form-control" tabindex="2" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<button type="submit" class="btn btn-primary submit" onclick="sign_in_for_user();">LOGIN</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="form_login tab-pane fade" id="investor">
+								<form action="#" method="post" onsubmit="return false;">
+									<div class="form-group">
+										<label class="col-md-4 control-label">account id</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="investor_role" id="investor_role" class="form-control account_id" tabindex="0"  value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">email</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="investor_email" id="investor_email" class="form-control" tabindex="1" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">password</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="password" name="investor_password" id="investor_password" class="form-control" tabindex="2" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<button type="submit" class="btn btn-primary submit" onclick="sign_in_for_investor();">LOGIN</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="ic-close">
+						<a href="/vouchers/voucher-index"><img class="cancel" src="../images/cancel.jpg" alt=""></a>
+					</div>					
+					<div class="clear"></div>								
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var user_email = document.getElementById('user_email');
+		var user_password = document.getElementById('user_password');
+		var investor_role = document.getElementById('investor_role');
+		var investor_email = document.getElementById('investor_email');
+		var investor_password = document.getElementById('investor_password');
+
+		if (user_email.value.length == 0) {
+			user_email.setCustomValidity('Please enter email');
+		}
+		if (user_password.value.length == 0) {
+			user_password.setCustomValidity('Please enter password');
+		}
+		if (investor_role.value.length == 0) {
+			investor_role.setCustomValidity('Please enter user id');
+		}
+		if (investor_email.value.length == 0) {
+			investor_email.setCustomValidity('Please enter email');
+		}
+		if (investor_password.value.length == 0) {
+			investor_password.setCustomValidity('Please enter password');
+		}
+
+		user_email.addEventListener('input', function(){
+			user_email.setCustomValidity('');
+		}, false);
+		user_password.addEventListener('input', function(){
+			user_password.setCustomValidity('');
+		}, false);
+		investor_role.addEventListener('input', function(){
+			investor_role.setCustomValidity('');
+		}, false);
+		investor_email.addEventListener('input', function(){
+			investor_email.setCustomValidity('');
+		}, false);
+		investor_password.addEventListener('input', function(){
+			investor_password.setCustomValidity('');
+		}, false);
+	</script>
+	<script src="../javascripts/vouchers.js"></script>
+	<script type="text/javascript">
+		function sign_in_for_user(){
+			Voucher.vouchers_sign_in_for_user();
+		}
+
+		function sign_in_for_investor(){
+			Voucher.vouchers_sign_in_for_investor();
+		}
+	</script>
+</body>
+</html>

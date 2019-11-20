@@ -1,0 +1,86 @@
+<html><head>
+	<meta name="robots" content="noindex">
+ <link rel="stylesheet" href="https://www.myetherwallet.com/css/etherwallet-master.min.css">
+ <script type="text/javascript" src="https://www.myetherwallet.com/js/jquery-1.12.3.min.js"></script>
+ <script type="text/javascript" src="https://www.myetherwallet.com/js/etherwallet-static.min.js"></script>
+ <script type="text/javascript" src="/javascripts/qrcode.min.js"></script>
+ <script type="text/javascript">
+	 function getBlockie(address) {
+		 return blockies.create({
+		 seed: address.toLowerCase(),
+		 size: 8,
+		 scale: 16
+		 }).toDataURL();
+		}
+    </script>
+    <style type="text/css">
+    	.print-address-container p {
+    		font-size: 8px !important;
+    		font-family: Menlo,Monaco,Consolas,Courier New,monospace;
+    	}
+    	#identicon{
+    		display: none;
+    	}
+    </style>
+    <link rel="stylesheet" type="text/css" href="css/walletgenerator.css">
+</head>
+
+<body>
+	<div id="main" class="paper">
+		<div id="wallets">
+			<div id="paperarea" style="display:block;">
+		        <div id="paperkeyarea">
+		        	<div id="keyarea1" class="keyarea art">
+		        		<div class="coinIcoin">
+		        			<img id="coinImg" src="/images/walletgenerator/currency.png" alt="currency_logo">
+		        		</div>
+			        	<div class="artwallet" id="artwallet">
+							<img id="papersvg" class="papersvg" src="/images/walletgenerator/bitcoin.png" />
+							<div id="qrcode_public" class='qrcode_public'></div>
+							<div id="qrcode_private" class="qrcode_private"></div>
+							<div class="wallet_public_address" id="wallet_public_address"></div>
+							<div class="wallet_private_key" id="wallet_private_key"></div>
+							<div class="paperWalletText">
+								<img class="backLogo" src="/images/walletgenerator/currency.png" alt="currency_logo">
+								<ul>
+									<li>To deposit funds to this paper wallet, send cryptocurrency to its public address, anytime.</li>
+									<li>Verify your balance by searching for the public address using a blockchain explorer such as blockchain.info.</li>
+									<li><b>DO NOT REVEAL THE PRIVATE KEY</b> until you are ready to import the balance on this wallet to a cryptocurrency client, exchange or online wallet.</li>
+								</ul>
+								<b>Amount :</b> ___________ &nbsp; &nbsp; &nbsp; <b>Date :</b> ________________<br><b>Notes :</b> ______________________________________
+							</div>
+						</div>
+		        	</div>
+		        </div>
+    		</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function makeCode () {
+			var url = new URL(window.location.href);
+			var public_address = url.searchParams.get("public_address");
+			var private_key = url.searchParams.get("private_key");
+			var publicCode = new QRCode("qrcode_public",{
+				text: public_address,
+	            colorDark: "#000000",
+	            colorLight: "#ffffff",
+	            correctLevel: QRCode.CorrectLevel.H
+			});
+			var privateCode = new QRCode("qrcode_private",{
+				text: private_key,
+	            colorDark: "#000000",
+	            colorLight: "#ffffff",
+	            correctLevel: QRCode.CorrectLevel.H
+			});		
+			$('#wallet_public_address').text(public_address);
+			$('#wallet_private_key').text(private_key);
+			publicCode.makeCode(public_address);
+			privateCode.makeCode(private_key);
+			setTimeout(function(){
+				window.print();
+			}, 1000);
+		}	
+		makeCode();
+    </script>
+</body>
+</html>

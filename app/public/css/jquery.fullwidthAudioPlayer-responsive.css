@@ -1,0 +1,98 @@
+/*
+* Fullwidth Audio Player - Responsive Layout
+*
+*/
+
+/* Smartphones (landscape) ----------- */
+@media only screen
+and (max-width : 350px) {
+	
+	#fap-meta-wrapper {
+		width: 200px;
+	}
+	
+}
+
+ 
+/* Smartphones (landscape) ----------- */
+@media only screen
+and (max-width : 1170px) {
+	
+	#fap-main {
+		width: 100%;
+	}
+	
+	#fap-meta-wrapper {
+		width: 250px;
+	}
+	
+	#fap-ui-wrapper {
+		width: 80px;
+		margin-right:10px;
+	}
+	
+	#fap-time-bar, #fap-volume-bar, #fap-volume-sign, #fap-playlist-toggle, #fap-playlist-shuffle { 
+		display: none;
+	}
+	
+	#fap-current-cover, #fap-cover-replacement, #fap-cover-replacement canvas, #fap-cover-replacement svg {
+		max-width: 40px !important;
+		max-height: 40px !important;
+		margin-left:10px;
+	}
+	
+	#fap-ui-wrapper > div {
+		display: none;
+	}
+	
+	#fap-ui-wrapper > div:first-child {
+		display: block;
+		margin-right: 0;
+	}
+	
+	#fap-current-title {
+		font-size: 9px;
+		line-height: 9px;
+	}
+	
+	#fap-social-links {
+		margin-top: 2px;
+		line-height: 6px;
+	}
+	
+	#fap-current-meta, #fap-social-links a {
+		font-size: 6px;
+		line-height: 8px;
+	}
+	
+	#fap-time-bar, #fap-volume-bar, #fap-volume-sign, #fap-playlist-toggle, #fap-playlist-shuffle { 
+		display: none;
+	}
+	
+}
+
+
+
+/* Desktops and laptops ----------- */
+@media only screen
+and (min-width : 1170px) {
+
+	#fap-main {
+		width:1150px;
+	}
+	
+	#fap-meta-wrapper {
+		width: 530px;
+	}
+	
+	#fap-ui-wrapper {
+		width: 430px;
+	}
+	
+	#fap-time-bar, #fap-volume-bar, #fap-volume-sign, #fap-playlist-toggle, #fap-playlist-shuffle { 
+		display: block;
+	}
+
+}
+
+

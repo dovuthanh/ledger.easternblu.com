@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Index</title>
+	<link rel="stylesheet" href="../css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/common/common.css">
+	<link rel="stylesheet" href="../css/home/home.css">
+	<link rel="stylesheet" href="../css/search_results/search_results.css">
+	<link rel="stylesheet" href="../css/my_songs/my_songs.css">
+	<link rel="stylesheet" type="text/css" href="../css/vouchers/voucher.css">
+	<link rel="stylesheet" href="../css/jquery.dataTables.min.css">
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</head>
+<body>
+	<!-- header-slider -->
+	<div class="song">
+         <%- include ../menu/header_vouchers.ejs %>
+    </div>
+    <div class="home">
+    	<div class="center_home">
+    		<div class="left-content col-md-10 col-sm-9">
+    			<div class="wrap_content">
+    				<div class="search_left">
+    					<h3>My Shop Cart</h3>
+    					<label style="margin-left: 15px;">Please select vouchers to buy</label>
+    				</div>
+    				<div class="search_right">
+    					<div class="management">
+	    					<a href="#"><button class="btn-standard" type="button" onclick="checkout();"> BUY </button></a>
+	    				</div>
+    				</div>
+    				<div class="clear"></div>
+    				<div class="table-responsive" id="table_search">
+			    		<table class="table table-curved">
+			    			<tbody>
+			    				<tr>
+				    				<td><input type="checkbox" id="checkbox-all"></td>
+				    				<td>No.</td>
+					    			<td><p>Owner Address</p></td>
+					    			<td style="min-width: 150px;"><p>Type</p></td>
+					    			<td style="min-width: 150px;"><p>Status</p></td>
+					    			<td><p>Amount</p></td>
+					    			<td><p>Discount</p></td>
+					    			<td><p>Verification</p></td>
+					    			<td></td>
+					    		</tr>
+					    		<%
+					    			var i = 0;
+					    			vouchers.forEach((voucher) => {
+					    				i++;
+					    		%>
+					    			<tr>
+						    			<td><input type="checkbox" name="checkbox-item" value="<%=voucher._id%>"></td>
+						    			<td><%=i%></td>
+						    			<td><p><%=voucher.ownerAddress%></p></td>
+						    			<td style="min-width: 150px;"><p><%=voucher.type%></p></td>
+						    			<td style="min-width: 150px;"><p><%=voucher.status%></p></td>
+						    			<td><p>$<%=voucher.amount%></p></td>
+						    			<td><p><%=voucher.discount%>%</p></td>
+						    			<td><p>Verified</p></td>
+						    			<td><button class="btn-transparent"><i class="fa fa-times" aria-hidden="true" style="font-size: 1.5em; color: #ff0000;"></i></button></td>
+						    		</tr>
+					    		<%});%>
+			    			</tbody>
+			    		</table>
+			    	</div>
+
+			    	<!-- pagination -->
+				  	<nav aria-label="Page navigation example" id="pagination">
+					  	<ul class="pagination">
+						    <li class="page-item"><a class="page-link" href="<%=paginate.href(true).prev%>">PREV</a></li>
+						    <%
+						    pages.forEach(function(page){
+						    %>
+						    <li class="page-item"><a class="page-link" href="<%=page.url%>"><%=page.number%></a></li>
+						    <%})%>
+						    <li class="page-item"><a class="page-link" href="<%=paginate.href().next%>">NEXT</a></li>
+					  	</ul>
+					</nav>
+    			</div>
+    		</div>
+    		<%- include ../menu/right_menu_content_vouchers.ejs %>
+    	</div>
+    </div>
+	<!-- end footer -->
+
+	<script src="../js/jquery-3.2.1.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/icheck.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(() => {
+			$('#<%=menu_index%>').addClass('active');
+		});
+
+		$('#checkbox-all').on('change', (evt) => {
+          if (document.getElementById('checkbox-all').checked) {
+            var checkList = document.getElementsByName('checkbox-item');
+            checkList.forEach((item) => {
+              if (!item.disabled) {
+                item.checked = true;
+              }
+            });
+          }else{
+            var checkList = document.getElementsByName('checkbox-item');
+            checkList.forEach((item) => {
+              if (!item.disabled) {
+                item.checked = false;
+              }
+            });
+          }
+        });
+	</script>
+
+	<script src="../js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+	<script src="https://checkout.stripe.com/checkout.js"></script>
+	<script type="text/javascript" src="../javascripts/vouchers.js"></script>
+	<script type="text/javascript">
+		function checkout(){
+			Voucher.vouchers_validate_active(instancePopup);
+		}
+
+		function instancePopup(data) {
+            console.log(data);
+            var html = '';
+            html += "<table class='fail-table table table-hover' id='fail_table'>";
+            html += "<thead><tr><th>No.</th>";
+            html += "<th>Type</th>";
+            html += "<th>Price</th>";
+            html += '</tr></thead><tbody>';
+            var i = 1;
+            data.forEach((obj) => {
+                html += '<tr><td>' + i + '</td>';
+                html += '<td>' + obj.type + '</td>';
+                html += '<td style="color: #ff0000">$' + (obj.amount - obj.amount * obj.discount / 100) + '</td></tr>'
+                i++;
+            });
+            html += '</tbody></table>';
+
+            bootbox.dialog({
+                message: html,
+                closeButton: false,
+                buttons: {
+                    cancel: {
+                      label: '<i class="fa fa-times"></i> Cancel',
+                      class: 'btn btn-default',
+                      callback: () => {
+                        window.location.reload();
+                      }
+                    },
+                    continute: {
+                        label: '<i class="fa fa-check"></i> Continute',
+                        class: 'btn btn-primary',
+                        callback: () => {
+                            // call payment here
+                     		openStripe(data);
+                        }
+                    }
+                }
+            });
+            var fail_search = '';
+            fail_search += "<div class='input-group search1-group'>";
+            fail_search += "<input type='search' id='search1' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+            fail_search += "<div class='input-group-addon search1'></div></div>";
+
+            $('#fail_table').dataTable({
+                "scrollY": 200,
+                "scrollCollapse": true,
+                "jQueryUI": true,
+                "paging": false,
+                
+            });
+
+            $('#fail_table_filter').append(fail_search);
+            $('#fail_table_filter label').hide();
+
+            $('#search1').on('keyup', function() {
+                var s = $('#search1').val();
+                $('#fail_table_filter label input[type=search]').val(s);
+                $('#fail_table_filter label input[type=search]').keyup();
+            });
+        }
+
+        var voucherIDs = [];
+        var total = 0;
+        function openStripe(data) {
+        	total = 0;
+        	data.forEach((obj) => {
+        		voucherIDs.push(obj._id);
+        		total += (obj.amount - obj.amount * obj.discount / 100) * 100;
+        	});
+        	console.log(total);
+
+        	var checkout = StripeCheckout.configure({
+		        key: 'pk_test_ywev9rlXeo2eMcddrx8aSgVW',
+		        token: onReceiveToken,
+		        image: 'https://nairteashop.org/wp-content/uploads/avatar.png',
+		        name: '<%=session.userVoucher ? session.userVoucher.email : ''%>',
+		        description: 'Payment to buy vouchers',
+		        amount: total,
+		        billingAddress: true
+		    });
+
+		    checkout.open();
+        }
+
+        function onReceiveToken(token, args) {
+        	console.log(token.id);
+        	Voucher.voucher_charge(token.id, voucherIDs, total);
+	    }
+	</script>
+</body>
+</html>

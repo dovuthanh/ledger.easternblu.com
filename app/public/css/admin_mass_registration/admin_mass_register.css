@@ -1,0 +1,214 @@
+.search_results {
+	margin: 40px 20px;
+}
+#table_search .table>tbody>tr>td {
+    vertical-align: initial;
+    text-align: center;
+}
+#table_search .fa-clock-o {
+	font-size: 20px !important;
+}
+.verif img {
+	height: 15px !important;
+	margin-left: 10px;
+}
+#table_search .table img {
+	height: 40px;
+}
+.btn_search_results {
+	border-radius: 25px;
+    background: #0A3E6D;
+    border: none;
+    color: #fff;
+    height: 30px;
+    width: 100px;
+    letter-spacing: 2px;
+    outline: none;
+}
+#table_search .table td h6 {
+	font-size: 11px;
+    color: #858585;
+    text-align: left; 
+    padding-left: 10px;
+}
+#table_search .table p {
+	text-align: left;
+    padding-left: 10px;
+}
+#table_search .table tr:first-child, .verif {
+    font-weight: 600;
+    color: #0A3E6D;
+}
+#pagination {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#pagination .pagination>li>a {
+	border: none;
+}
+#pagination .pagination>li:first-child>a {
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	font-weight: 600;
+    margin-right: 40px;
+}
+#pagination .pagination>li:last-child>a {
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	font-weight: 600;
+    margin-left: 40px;
+}
+#pagination .pagination>.active>a {
+    color: #337ab7; 
+    background-color: initial; 
+    border-color: #ddd; 
+    font-weight: 600;
+}
+#pagination ul {
+	border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.table-curved {
+    border-collapse: separate;
+    border: solid #ddd 1px;
+    border-radius: 6px;
+    border-left: 0px;
+    border-top: 0px;
+}
+.table-curved > thead:first-child > tr:first-child > th {
+    border-bottom: 0px;
+    border-top: solid #ddd 1px;
+}
+.table-curved td {
+	vertical-align: middle !important;
+}
+.table-curved td, .table-curved th {
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+}
+.table-curved > :first-child > :first-child > :first-child {
+    border-top-left-radius: 6px;
+}
+.table-curved > :first-child > :first-child > :last-child {
+    border-top-right-radius: 6px;
+}
+.table-curved > :last-child > :last-child > :first-child {
+    border-bottom-left-radius: 6px;
+}
+.table-curved > :last-child > :last-child > :last-child {
+    border-bottom-right-radius: 6px;
+}
+
+.search_left {
+	width: 50%;
+	float: left;
+}
+.search_left h3 {
+	margin-top: 0;
+}
+.filter {
+	width: 50%;
+	float: left;
+}
+.filter .dropdown {
+	float: right;
+}
+.filter .btn-default, .filter .btn-default:hover, .filter .btn-default:focus {
+	border-radius: 25px;
+	outline: none;
+    width: 140px;
+}
+.btn-default:hover, .btn-default:focus {
+	background-color: #fff !important;
+	outline: none;
+	border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.has-child {
+	position: relative;
+}
+
+.has-child ul {
+	display: none;
+	position: absolute;
+	left: 100%;
+	top: 0;
+}
+
+.has-child:hover ul {
+	display: block;
+}
+
+.search_right {
+    width: 50%;
+    float: left;
+}
+.search_right .btn_search_results {
+    width: 100%;
+}
+.search_right .btn_search_results:hover, .search_right .btn_search_results:focus {
+    background-color: #0A3E6D !important;
+    width: 100% !important;
+    border-radius: 25px;
+    background: #0A3E6D;
+    border: none;
+    color: #fff !important;
+    height: 30px;
+    letter-spacing: 2px;
+    outline: none;
+}
+.p-address{
+    font-size: 12px;
+    line-height: 0.7;
+}
+
+.crop{
+    width: 170px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}​
+
+.p-right{
+	float: right;
+}
+
+.button-right{
+	float: right;
+}
+
+.mass {
+    width: 110px;
+    border-radius: 25px;
+    float: right;
+    color: #0a3e6d;
+    border: 1px solid #0a3e6d;
+    font-size: 12px;
+    font-weight: 600;
+    outline: none !important;
+}
+
+.mass:hover, .mass:focus {
+    border-radius: 25px;
+    box-shadow: none;
+    outline: none !important; 
+    border: 1px solid #0a3e6d;
+}
+
+#table_search {
+    padding-top: 20px;
+}

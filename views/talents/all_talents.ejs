@@ -1,0 +1,64 @@
+<div class="col-md-12" id="my_artist" style="margin-top: 20px; margin-bottom: 20px;">
+	<div class="search_left">
+		<div class="title col-md-7">
+			<h4>All Talents</h4>
+		</div>
+	</div>
+	<div class="search_right sort">
+		<div class="filter col-md-4 col-xs-6">
+			<form action="" onsubmit="return false;">
+				<div class="dropdown">
+				  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				  		SORT BY: A-Z
+				   <i class="fa fa-chevron-down"></i>
+				  </button>
+				  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="dropdown-ul">
+				    <li class="has-child">
+				    	<a href="#" onclick="sortTalent(1);">A-Z</a>
+				    	<a href="#" onclick="sortTalent(0);">Z-A</a>
+				    </li>
+				  </ul>
+				</div>
+			</form>
+	  	</div>
+		<div class="col-md-4 col-xs-6 tot_talent">
+			<a class="new_talent" href="/create-talent?type=artist">
+  				<button class="btn_search_results btn_results btn btn-default dropdown-toggle" type="submit">
+  				NEW TALENT</button>
+  			</a>
+		</div>
+	</div>
+</div>
+<div class='clear'></div>
+<%
+var c = 0;
+talents.forEach(function(talent){
+c++;
+%>
+	<div class="item-content">
+		<div class="thumbnail">
+         <%if(talent.artistsPictures){%>
+            <div class="image-item-home-logged">
+               <img src="<%=talent.artistsPictures ? talent.artistsPictures : 'images/song_default.jpg'%>" alt="..." width="250" height="250">
+            </div>
+
+         <%}else{%>
+         <div class="image-item-home-logged">
+         	<a href='/my-profile?id=<%=talent._id%>'>
+            	<img src="images/image_15.png" alt="..." width="250" height="250">
+            </a>
+         </div>
+         <%}%>
+            <div class="caption">
+            	<%if(talent.artistNonRomanizedName == undefined || talent.artistNonRomanizedName.length == 0){%>
+            		<h4><a href="/my-profile?id=<%=talent._id%>" class="person-title"><%=talent.artistProfessionName%></a></h4>
+            	<%}else{%>
+            		<h4><a href="/my-profile?id=<%=talent._id%>" class="person-title"><%=talent.artistProfessionName%></br>(<%=talent.artistNonRomanizedName.trim()%>)</a></h4>
+            	<%}%>
+            </div>
+         </div>
+	</div>
+	<%if(c % 5 == 0) {%>
+		<div class="clear"></div>
+	<%}%>
+<%});%>

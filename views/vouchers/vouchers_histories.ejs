@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TRANSACTION HISTORY</title>
+	<link rel="stylesheet" href="../css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/common/common.css">
+	<link rel="stylesheet" href="../css/home/home.css">
+	<link rel="stylesheet" href="../css/search_results/search_results.css">
+	<link rel="stylesheet" href="../css/my_songs/my_songs.css">
+	<link rel="stylesheet" type="text/css" href="../css/vouchers/voucher.css">
+</head>
+<body>
+	<div class="song">
+         <%- include ../menu/header_vouchers.ejs %>
+    </div>
+    <div class="home">
+    	<div class="center_home">
+    		<div class="left-content col-md-10 col-sm-9">
+    			<div class="wrap_content">
+    				<div class="search_left">
+    					<h3>Transaction History</h3>
+    				</div>
+    				<div class="clear"></div>
+    				<div class="table-responsive" id="table_search">
+			    		<table class="table table-curved">
+			    			<tbody>
+			    				<tr>
+				    				<td></td>
+				    				<td><p>Transaction Hash</p></td>
+				    				<td><p>Buyer Address</p></td>
+				    				<td><p>Email</p></td>
+					    			<td style="min-width: 50px;"><p>Amount</p></td>
+					    			<td style="min-width: 150px;"><p>Status</p></td>
+					    			<td><p>Date Created</p></td>
+					    		</tr>
+					    		<%
+					    			histories.forEach((history) => {
+					    		%>
+					    			<tr>
+						    			<td><input type="checkbox" name=""></td>
+						    			<td><a href="https://ropsten.etherscan.io/tx/<%=history.blockHash%>" target="_blank"><%=history.blockHash%></a></td>
+						    			<td><p><%=history.buyer%></p></td>
+						    			<td><p><%=history.buyerEmail%></p></td>
+						    			<td style="min-width: 50px;"><p><%=history.totalTokens%></p></td>
+						    			<%if(history.status == 'processing'){%>
+						    				<td style="min-width: 150px;"><p>PROCESSING</p></td>
+						    			<%}else if(history.status == 'successed'){%>
+						    				<td style="min-width: 150px; color: #0000ff;"><p>SUCCESSED</p></td>
+						    			<%}else{%>
+						    				<td style="min-width: 150px; color: #ff0000;"><p>FAILED</p></td>
+						    			<%}%>
+						    			<td><p><%=history.createdAt == undefined ? '' : history.createdAt.toString().substr(0,24)%></p></td>
+						    		</tr>
+					    		<%});%>
+			    			</tbody>
+			    		</table>
+			    	</div>
+
+			    	<!-- pagination -->
+				  	<nav aria-label="Page navigation example" id="pagination">
+					  	<ul class="pagination">
+						    <li class="page-item"><a class="page-link" href="<%=paginate.href(true).prev%>">PREV</a></li>
+						    <%
+						    pages.forEach(function(page){
+						    %>
+						    <li class="page-item"><a class="page-link" href="<%=page.url%>"><%=page.number%></a></li>
+						    <%})%>
+						    <li class="page-item"><a class="page-link" href="<%=paginate.href().next%>">NEXT</a></li>
+					  	</ul>
+					</nav>
+    			</div>
+    		</div>
+    		<%- include ../menu/right_menu_content_vouchers.ejs %>
+    	</div>
+    </div>
+
+	<script src="../js/jquery-3.2.1.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/icheck.min.js"></script>
+	<script src="../javascripts/vouchers.js"></script>
+
+	<script type="text/javascript">
+    	$('document').ready(() => {
+    		$('#<%=menu_index%>').addClass('active');
+    	});
+    </script>
+</body>
+</html>

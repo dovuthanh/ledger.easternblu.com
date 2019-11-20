@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WHITELIST</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://jschr.github.io/bootstrap-modal/css/bootstrap-modal.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <!-- <link rel="stylesheet" href="css/home/home_loggedin.css"> -->
+    <link rel="stylesheet" href="css/search_results/search_results.css">
+    <link rel="stylesheet" href="css/my_songs/my_songs.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="song">
+        <%- include ../menu/big_header_admin.ejs %>
+    </div>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active search_results">
+                            <div class="search_left">
+                                <h3>WHITELIST</h3>
+                            </div>
+                            <div class="search_right">
+                                <div class="col-md-4" hidden="true">
+                                    <a href="#">
+                                        <button class="btn_search_results btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        </button>
+                                    </a>
+                                </div>
+                                <div class="col-md-12" style="float: right;">
+                                    <div class="col-md-4 col-xs-12 col-sm-12 res">
+                                        <button class="btn_search_results btn btn-default dropdown-toggle" type="button" onclick="authorisedWallet()">
+                                            AUTHORISED
+                                        </button>
+                                    </div>
+                                    <div class="col-md-4 col-xs-12 col-sm-12 res">
+                                        <a href="/whitelist-import-csv" class="btn_search_results btn btn-default dropdown-toggle" type="button">IMPORT</a>
+                                    </div>
+                                    <div class="col-md-4 col-xs-12 col-sm-12 res">
+                                        <button class="btn_search_results btn btn-default dropdown-toggle" type="button" onclick='add_email()'>
+                                            ADD EMAIL
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="col-md-12 col-xs-12" hidden="true">
+                                <input type="text" name="role" id="role" readonly="true" class="form-control" tabindex="0" value="<%=session.passport.user.userWalletAddress%>">
+                            </div>
+                            <div class="clear"></div>
+                            <div class="table-responsive" id="table_search">
+                                <table class="table table-curved">
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" name="checkbox-all" id="checkbox-all" value="all">
+                                        </td>
+                                        <td>First Name</td>
+                                        <td>Last Name</td>
+                                        <td id="song_title">
+                                            <p>Email</p>
+                                        </td>
+                                        <td style="min-width: 150px;">
+                                            <p>Wallet Address</p>
+                                        </td>
+                                        <td>
+                                            <p>Status</p>
+                                        </td>
+                                        <td style="min-width: 100px;">
+                                            <p>Sync status</p>
+                                        </td>
+                                        <td style="min-width: 150px;">
+                                            <p>Deploy status</p>
+                                        </td>
+                                        <td style="min-width: 200px;">
+                                            <p>Created</p>
+                                        </td>
+                                    </tr>
+                                    <%
+                                    var i=0;
+                                    whitelists.forEach(function(whitelist){
+                                      i++;
+                                    %>
+                                        <tr>
+                                            <%if(whitelist.onchain){%>
+                                                <td>
+                                                    <input type="checkbox" name="checkbox-item" id="item<%=i%>" value="<%=whitelist.walletAddress%>" disabled="">
+                                                </td>
+                                            <%}else{%>
+                                                <td>
+                                                    <input type="checkbox" name="checkbox-item" id="item<%=i%>" value="<%=whitelist.walletAddress%>">
+                                                </td>
+                                            <%}%>
+                                                <td>
+                                                    <%=whitelist.firstName%>
+                                                </td>
+                                                <td>
+                                                    <%=whitelist.lastName%>
+                                                </td>
+                                                <td class="td-song-title">
+                                                    <a href="#>">
+                                                        <%=whitelist.email%>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <%=whitelist.walletAddress%>
+                                                </td>
+                                            <%if (whitelist.active){%>
+                                                <td>
+                                                    <button class="btn-transparent" onclick="disable_email('<%=whitelist._id%>')">
+                                                        <i class="fa fa-check text-success" aria-hidden="true"></i>
+                                                    </button>
+                                                </td>
+                                            <%}else{%>
+                                                <td>
+                                                    <button class="btn-transparent" onclick="active_email('<%=whitelist._id%>')">
+                                                        <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                                                    </button>
+                                                </td>
+                                            <%}%>
+                                            <%if (whitelist.onchain){%>
+                                                <td><i class="fa fa-check text-success" aria-hidden="true"></td>
+                                            <%}else{%>
+                                              <td><i class="fa fa-times text-danger" aria-hidden="true" ></td>
+                                            <%}%>
+                                            <%if(whitelist.deployStatus && whitelist.onchain){%>
+                                              <td class="text-success" style="min-width: 150px;"><p><b>Successed</b></p></td>
+                                            <%}else if(whitelist.deployStatus && !whitelist.onchain){%>
+                                              <td class="text-danger" style="min-width: 150px;"><p><b>Failed</b></p></td>
+                                            <%}else{%>
+                                              <td style="min-width: 150px; text-align: left;"><p>Processing</p></td>
+                                            <%}%>
+                                            <td><%=whitelist.created_at%></td>
+                                          </tr>
+                                    <%});%>
+                                </table>
+                            </div>
+
+                            <!-- pagination -->
+                            <nav aria-label="Page navigation example" id="pagination">
+                              <ul class="pagination">
+                                <li class="page-item"><a class="page-link" href="<%=paginate.href(true).prev%>">PREV</a></li>
+                                <%
+                                pages.forEach(function(page){
+                                %>
+                                <li class="page-item"><a class="page-link" href="<%=page.url%>"><%=page.number%></a></li>
+                                <%})%>
+                                <li class="page-item"><a class="page-link" href="<%=paginate.href().next%>">NEXT</a></li>
+                              </ul>
+                          </nav>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <dir class="right-content">
+            <%- include ../menu/right_menu_content.ejs %>
+          </dir>
+      </div>
+      <div class="music-player has-player">
+      </div>
+  </div>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://getbootstrap.com/2.3.2/assets/js/google-code-prettify/prettify.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+  <script type="text/javascript" src="javascripts/whitelist.js" async></script>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+    <script type="text/javascript" src="javascripts/whitelist.js"></script>
+    <script type="text/javascript">
+      function insert_email_to_white_list() {
+        WhiteList.insert_email_to_white_list(callback);
+      };
+
+      function disable_email(item) {
+        WhiteList.disable_email(item, callback);
+      };
+
+      function active_email(item) {
+        WhiteList.active_email(item, callback);
+      };
+
+      function callback(error, msg) {
+        bootbox.alert(msg, function(){
+          if(!error){
+            window.location.reload(true);
+          }
+        });
+      };
+
+      function authorisedWallet() {
+        var walletList = [];
+        var checkList = document.getElementsByName('checkbox-item');
+        checkList.forEach((item) => {
+        if (item.checked) {
+          walletList.push(item.value);
+        }
+      });
+
+      if (walletList.length == 0) {
+        alert('Please select address to authorised');
+        return;
+      }
+
+      WhiteList.authoriseMany(walletList);
+      }
+    </script>
+    <script type="text/javascript">
+      $(document).ready(() => {
+        $('#checkbox-all').on('change', (evt) => {
+          if (document.getElementById('checkbox-all').checked) {
+            var checkList = document.getElementsByName('checkbox-item');
+            checkList.forEach((item) => {
+              if (!item.disabled) {
+                item.checked = true;
+              }
+            });
+          }else{
+            var checkList = document.getElementsByName('checkbox-item');
+            checkList.forEach((item) => {
+              if (!item.disabled) {
+                item.checked = false;
+              }
+            });
+          }
+          dd('DumpMan');
+          dd('DumpMan');
+          dd('DumpMan');
+        });
+
+        $('#<%=menu_index%>').addClass('active');
+      });
+    </script>
+
+    <script>
+      function add_email(){
+        var html = '<h4 class="modal-title">Add Email</h4>';
+        html += '<div class="modal-body">';
+        html += '<input type="text" name="email" id="email" class="form-control" tabindex="0" value="" placeholder="Email" /><br/>';
+        html += '<input type="text" name="wallet_address" id="wallet_address" class="form-control" tabindex="1" placeholder="Ethereum wallet address" value="" />';
+        html += '</div>';
+        html += '<div class="modal-footer">';
+        html += '<button type="button" id="btn_insert_email_white_list" onclick="insert_email_to_white_list()" class="btn btn-primary submit">Save changes</button>';
+        html +='</div>';
+
+        bootbox.dialog({
+          message: html,
+          closeButton: true,
+        });
+      }
+
+    </script>
+
+</body>
+</html>

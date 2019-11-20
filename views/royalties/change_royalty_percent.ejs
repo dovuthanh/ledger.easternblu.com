@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ROYALTY PARTNER</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<!-- <link rel="stylesheet" href="css/home/home_loggedin.css"> -->
+	<link rel="stylesheet" href="css/search_results/search_results.css">
+	<link rel="stylesheet" href="css/royalty_partner/royalty_partner.css">
+	<link rel="stylesheet" href="css/my_songs/my_songs.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+	<link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+  	<script src="js/jquery.min.js"></script>
+  	<script type="text/javascript" src="javascripts/royalty.js"></script>
+  	<script src="js/bootstrap.min.js"></script>
+  	<script src="js/jquery-ui.js"></script>
+  	<script src="js/bootstrap-datepicker.min.js"></script>
+  	<script src="js/bootstrap-timepicker.min.js"></script>
+  	<script src="https://checkout.stripe.com/checkout.js"></script>
+	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+
+</head>
+<body>
+	<div class="song">
+		<%- include ../menu/nor_header.ejs %>
+	</div>
+	<div class="home_content">
+		<div class="center_home">
+			<div class="left_content col-md-10 col-sm-9">
+				<div class="wrap_content" id="tab-content">
+					<ul class="nav nav-tabs">
+						<li style="width: 50px; height: 30px;">
+							<div class="ic-close" style="top: 5px; right: 10px;">
+								<a href="/" style="background: transparent; border: none;"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+							</div>
+						</li>
+						<li class="active" id="song_tab"><a data-toggle="tab" href="#home">ROYALTY PARTNER</a></li>
+						<li><a data-toggle="tab" data-target="#confirmation">WAITING CONFIRMATION(<%=confirmation.length%>)</a></li>
+					</ul>
+					<div class="tab-content">
+					  	<div id="home" class="tab-pane fade in active search_results">
+					  		<div class="search_left">
+					  		 	<h3>Royalty Partner</h3>
+					  		 	<p>Song title: <b><%=song.songTitle%></b></p>
+								<p>Register Address: <b><%=song.songContractAddress%></b></p>
+								<p>Song Hash: <b><%=song.songHash%></b></p>
+								<!-- <p>Owner Percent: <b><%=ownerTotalPercent%>%</b></p> -->
+						  	</div>
+						  	<div class="search_right">
+						  		<div class="col-md-12 col-xs-12" hidden="true">
+	                             	<input type="text" name="role" id="role" readonly="true" class="form-control" tabindex="0" value="<%=song.songOwnerContractAddress%>">
+	                             	<input type="text" name="song_contract_address" id="song_contract_address" readonly="true" class="form-control" tabindex="0" value="<%=song.songContractAddress%>">
+	                             	<input type="text" name="song_id" id="song_id" class="form-control hidden" tabindex="0" value="<%=song._id%>">
+	                          	</div>
+						  		<div class="col-md-4" hidden="true">
+						  			<a href="#">
+						  				<button class="btn_search_results btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						  				</button>
+						  			</a>
+					  			</div>
+					  			<div class="filter col-md-4" hidden="true">
+							  		<div class="dropdown">
+									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									    FILTER
+									    <span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="dropdown-ul">
+									    <li class="has-child">
+									    	<a href="#">FILTER 1</a>
+									    	<ul class="dropdown-menu" >
+									    		<li><a href="">OPSTION 1</a></li>
+									    		<li><a href="">OPSTION 2</a></li>
+									    		<li><a href="">OPSTION 3</a></li>
+									    	</ul>
+									    </li>
+									    <li class="has-child">
+									    	<a href="#">FILTER 2</a>
+									    	<ul class="dropdown-menu" >
+									    		<li><a href="">OPSTION 1</a></li>
+									    		<li><a href="">OPSTION 2</a></li>
+									    		<li><a href="">OPSTION 3</a></li>
+									    	</ul>
+									    </li>
+									  </ul>
+									</div>
+							  	</div>
+						  		<div class="col-md-6" style="float: right;">
+						  			<a href="/mass-registration">
+						  				<button class="btn_search_results btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" onclick="addRoyaltyPartner('<%=song._id%>')">
+						  				ADD ROYALTY PARTNER
+						  				</button>
+						  			</a>
+					  			</div>
+						  	</div>
+						   	<div class="clear"></div>
+						    <div class="table-responsive" id="table_search">
+						    	<table class="table table-curved">
+						    		<tr>
+						    			<td><p>User ID</p></td>
+						    			<td><p>Account ID</p></td>
+						    			<td><p>Percent(%)</p></td>
+						    			<td><p></p></td>
+						    		</tr>
+						    		<tr>
+						    			<td><p><%=session.passport.user.userAccountName%>(Registrant)</p></td>
+							    		<td><p><%=session.passport.user.userWalletAddress%></p></td>
+							    		<td><p><%=ownerTotalPercent%>%</p></td>
+							    		<td><p></p></td>
+						    		</tr>
+						            <%royalties.forEach(function(confirm) {%>
+						            	<%if(confirm.status == 2) {%>
+						            		<tr>
+						    					<td><p><%=confirm.royaltyUserID%></p></td>
+							    				<td><p><%=confirm.royaltyPartnerAddress%></p></td>
+							    				<td><p><%=confirm.percentAfter%>%</p></td>
+							    				<%if (confirm.status == 2) {%>
+							    					<td><p>Confirmed</p></td>
+							    				<%}else if (confirm.status == 3) {%>
+							    					<td><p>Denied</p></td>
+							    				<%}else if (confirm.status == 4) {%>
+							    					<td><p>Deploy Failed</p></td>
+							    				<%}%>
+						            		</tr>
+						            	<%}%>
+					    			<%})%>
+						    	</table>
+						    </div>
+					  	</div>
+
+					  	<div id="confirmation" class="tab-pane fade search_results">
+					  		<div class="search_left">
+					  		 	<h3>Royalty Partner Waiting Confirmation</h3>
+						  	</div>
+						  	
+							<div class="clear"></div>
+						    <div class="table-responsive" id="table_search">
+						    	<table class="table table-curved">
+						    		<tr>
+						    			<td><p>User ID</p></td>
+						    			<td><p>Account ID</p></td>
+						    			<td><p>Percent(%)</p></td>
+						    			<td><p>Status</p></td>
+						    		</tr>
+
+						    		<%confirmation.forEach(function(confirm) {%>
+						    			<%if(confirm.status == 0 || confirm.status == 1){%>
+						    				<tr>
+								    			<td><p><%=confirm.royaltyName%></p></td>
+							    				<td><p><%=confirm.royaltyPartnerAddress%></p></td>
+							    				<td><p><%=confirm.percentAfter%>%</p></td>
+							    				<%if(confirm.status == 0) {%>
+							    					<td><p>Deploying</p></td>
+							    				<%}else if (confirm.status == 1) {%>
+							    					<td><p>Waitting Confirmation</p></td>
+							    				<%}%>
+								            </tr>
+						    			<%}%>
+					    			<%})%>
+						    	</table>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<dir class="right-content">
+				<%- include ../menu/right_menu_content.ejs %>
+			</dir>
+			<div class="clear"></div>
+            <%- include ../process/loading.ejs %>
+		</div>
+
+		<div class="music-player has-player"></div>
+	</div>
+	<script>
+		var public_key = '<%=walletbk.publicWallet%>';
+		var private_key = '<%=walletbk.publicDeploySeed%>';
+		var walletOwner = '<%=song.songOwnerContractAddress%>';
+		var walletUser = '<%=session.passport.user.userWalletAddress%>';
+		$('.dropdown-menu li a').click(function() {
+			$('#search').val($(this).text());
+			$('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+		});
+		$(document).ready(function(){
+			$('#<%=menu_index%>').addClass('active');
+		});
+
+		function saveRoyaltyPartner(){
+
+		}
+
+		function addRoyaltyPartner(id){
+			var html = '<p id="message_error" class="bg-danger" ></p>'; 
+			// html += '<p id="message"><strong> AccountID: none </strong></p>';
+			html += '<form class="bootbox-form" _lpchecked="1" autocomplete="new-password">';
+			html += '<input class="bootbox-input bootbox-input-email form-control" autocomplete="new-password" type="email" id ="email_partner" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" placeholder="Search by UserID or Email" ><input class="bootbox-input bootbox-input-email form-control" autocomplete="off" type="hidden" id ="account_id" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"><br/>';
+			html += '<p id="message"><strong>AccountID(*)</strong></p><input class="bootbox-input form-control" autocomplete="off" type="text" id ="public_key" name ="royalty_percent" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" disabled="true" placeholder="AccountID"><br/>';
+			html += '<p id="message"><strong> Percent</strong></p><input class="bootbox-input bootbox-input-number form-control" autocomplete="off" type="number" id ="royalty_percent" name ="royalty_percent" disabled="true" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" placeholder="%Owned"><br/>';
+			// html += '<p id="message"><strong> Voucher Code (If Any)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="off" type="text" id ="voucher_code" name ="voucher_code" disabled="true" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"><br/>';
+			// html += '<p id="message"><strong> Price of Registration</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="off" type="text" id ="price_of" value="$20" disabled="true" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"><br/>';
+			if(private_key.length>0){
+				html += '<p id="message" style="display: none;"><strong> Authorized ID(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="on" type="text" id ="private_key" value="'+private_key+'" disabled="true" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" style="display: none;"></form>';
+			}else{
+				html += '<p id="message" ><strong> Authorized ID(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="on" type="text" id ="private_key" value="'+private_key+'" disabled="true" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" ></form>';
+			}
+
+			var dialog = bootbox.dialog({
+				title: "Add Royalty Partner",
+			    message: html,
+			    closeButton: false,
+			    buttons: {
+                	cancel: {
+                         label: '<i class="fa fa-times"></i> Cancel',
+                         className: 'btn-default',
+                         callback: () => {
+                         }
+                     },
+                 	continute: {
+                      label: '<i class="fa fa-check"></i> Add',
+                      className: 'btn-danger',
+                      callback: () => {
+                      	var email = document.getElementById("email_partner").value;
+                        var royalty_percent = document.getElementById('royalty_percent').value;
+                        var public_key = document.getElementById('public_key').value;
+                      	if(walletOwner == public_key){
+							bootbox.alert("You're owner.");
+							return;
+						}
+                        if(royalty_percent.length ==0 || royalty_percent <= 0){
+                         	document.getElementById('message_error').innerHTML = "Percent is not valid"
+                        }
+                        if(email.length ==0){
+                         	document.getElementById('message_error').innerHTML = "Email is not valid"
+                        }
+                        if(public_key.length ==0){
+                         	document.getElementById('message_error').innerHTML = "Public Key is not valid"
+                        }
+                        Royalty.checking_voucher_if_any(openStripe);
+                        return false;
+                      }
+                  }            
+              }
+			});
+			autocomplete(document.getElementById("email_partner"), document.getElementById('account_id'), document.getElementById('message'), document.getElementById('private_key'), document.getElementById('voucher_code'),document.getElementById('public_key'));//for singer 
+         }
+
+         function autocomplete(inp, inp_id, message, private_key, voucher, public_key) {
+           /*the autocomplete function takes two arguments,
+           the text field element and an array of possible autocompleted values:*/
+           var currentFocus;
+           /*execute a function when someone writes in the text field:*/
+           inp.addEventListener("input", function(e) {
+               var a, b, i, val = this.value;
+               /*close any already open lists of autocompleted values*/
+               closeAllLists();
+               if (!val) { return false;}
+               currentFocus = -1;
+               /*create a DIV element that will contain the items (values):*/
+               a = document.createElement("DIV");
+               a.setAttribute("id", this.id + "autocomplete-list");
+               a.setAttribute("class", " autocomplete-items autocomplete-list");
+               /*append the DIV element as a child of the autocomplete container:*/
+               this.parentNode.appendChild(a);
+               $.get( "/autocomplete_user?term="+val, function( data ) {
+                 for (var i = data.length - 1; i >= 0; i--) {
+                    var user_email = data[i].userAccountName;
+                    var user_id = data[i]._id;
+                    var user_account_id = data[i]._id;
+                    var user_walllet = data[i].userWalletAddress;
+                    if(user_email.length == 0) continue;
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    b.innerHTML += '<strong>'+user_email+'</strong><br/>';
+                    b.innerHTML += user_walllet;
+                    /*insert a input field that will hold the current array item's value:*/
+                    b.innerHTML += "<input type='hidden' value='" + user_email + "'>";
+                    b.innerHTML += "<input type='hidden' value='" + user_account_id + "'>";
+                    b.innerHTML += "<input type='hidden' value='" + user_walllet + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function(e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        inp_id.value = this.getElementsByTagName("input")[1].value;
+                        public_key.value = this.getElementsByTagName("input")[2].value;
+                        royalty_percent.disabled = false;
+                        private_key.disabled = false;
+                        // public_key.disabled = false;
+                        // voucher.disabled = false;
+                        // message.innerHTML = "<strong>AccountID: "+user_account_id+"</strong>"
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                 }
+               });
+           });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function(e) {
+            var x = document.getElementById(this.id + " autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+              /*If the arrow DOWN key is pressed,
+              increase the currentFocus variable:*/
+              currentFocus++;
+              /*and and make the current item more visible:*/
+              addActive(x);
+            } else if (e.keyCode == 38) { //up
+              /*If the arrow UP key is pressed,
+              decrease the currentFocus variable:*/
+              currentFocus--;
+              /*and and make the current item more visible:*/
+              addActive(x);
+            } else if (e.keyCode == 13) {
+              /*If the ENTER key is pressed, prevent the form from being submitted,*/
+              e.preventDefault();
+              if (currentFocus > -1) {
+                /*and simulate a click on the "active" item:*/
+                if (x) x[currentFocus].click();
+              }
+            }
+        });
+        function addActive(x) {
+          /*a function to classify an item as "active":*/
+          if (!x) return false;
+          /*start by removing the "active" class on all items:*/
+          removeActive(x);
+          if (currentFocus >= x.length) currentFocus = 0;
+          if (currentFocus < 0) currentFocus = (x.length - 1);
+          /*add class "autocomplete-active":*/
+          x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+          /*a function to remove the "active" class from all autocomplete items:*/
+          for (var i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+          }
+        }
+        function closeAllLists(elmnt) {
+          /*close all autocomplete lists in the document,
+          except the one passed as an argument:*/
+          var x = document.getElementsByClassName("autocomplete-items");
+          for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+              x[i].parentNode.removeChild(x[i]);
+            }
+          }
+        }
+        /*execute a function when someone clicks in the document:*/
+         document.addEventListener("click", function (e) {
+               closeAllLists(e.target);
+           });
+         }
+
+         var priceOf = 0;
+         function openStripe(payPrice) {
+            priceOf = payPrice;
+            var checkout = StripeCheckout.configure({
+                 key: 'pk_test_ywev9rlXeo2eMcddrx8aSgVW',
+                 token: onReceiveToken,
+                 image: '/images/logo-spx-stripe.png',
+                 name: '<%=session.passport.user ? session.passport.user.email : ''%>',
+                 description: 'Payment to registration song',
+                 amount: payPrice,
+                 billingAddress: true
+            });
+
+            checkout.open();
+         }
+
+         function onReceiveToken(token, args) {
+            console.log(token.id);
+            if (priceOf == 0) {
+               alert('Could not payment');
+               return;
+            }
+            Royalty.regis_charge(token.id, priceOf);
+         }
+
+        var OneSignal = OneSignal || [];
+          OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+              disable: true,
+            },
+            notifyButton: {
+              enable: true,
+              prenotify: true,
+              position: 'bottom-left',
+              size: 'medium',
+              showCredit: false
+            }
+          }]);
+    </script>
+</body>
+</html>

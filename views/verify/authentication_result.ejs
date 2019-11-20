@@ -1,0 +1,45 @@
+<h3>Authenticate</h3>
+<div id="form_authentication_result">
+	<div class="authen">
+		<table>
+			<tr>
+				<%if(!error && error == 0){%>
+					<th><img src="images/ic_verified.png" alt=""></th>
+					<td><p style="color: #0000ff"><%=msg%></p></td>
+				<%}else{%>
+					<th><img src="images/ic_unverified.png" alt=""></th>
+					<td><p style="color: #ff0000"><%=msg%></p></td>
+				<%}%>
+			</tr>
+		</table>
+    </div>
+
+    <div class="form_result">
+		<div class="table-responsive table_verify_result">
+			<table class="table">
+			    <tr>
+			    	<th>Digilal Signature</th>
+			    	<td><%=signature%></td>
+			    </tr>
+			    <tr>
+			    	<th>Hash</th>
+			    	<td><%=hash%></td>
+			    </tr>
+			    <%if(merkleRoot.length != 0){%>
+			    	<tr>
+				    	<th>Merkle Root</th>
+				    	<td><%=merkleRoot%></td>
+				    </tr>
+			    <%}%>
+			    <tr>
+			    	<th>Account Number</th>
+			    	<td><%=role%></td>
+			    </tr>
+			</table>
+		</div>
+	</div>
+
+	<div class="ic-close" style="margin: 40px 30px 0px 0px">
+		<a href="#" onclick="tabBack(1)"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+	</div>
+</div>

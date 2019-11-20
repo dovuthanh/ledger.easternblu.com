@@ -1,0 +1,548 @@
+.wrap_content{
+    background: #fff;
+    margin-right: 30px;
+}
+
+.tab-content {
+     height: auto;
+     align-items: center;
+     font-size: 13px;
+     padding: 25px;
+     overflow: hidden;
+}
+ .tab-content h3 {
+     font-weight: bold;
+}
+ .text-button {
+     margin: 20px 0 10px 15px;
+}
+ h4{
+     font-weight: bold;
+}
+ #bt1 {
+     outline: none;
+     border-radius: 25px;
+     background: #ffffff;
+     color: #0a3e6d;
+     width: 100%;
+}
+
+.div-img{
+	display: inline-block;
+	width: 12%;
+	vertical-align: middle;
+}
+
+ .btn-img {
+ 	display: block;
+ 	margin: 0px auto;
+    height: 20px;
+     /*width: 34px;*/
+     /*background-image: url(/images/muiten.jpg);*/
+}
+ .b-text {
+     font-weight: bold;
+}
+ .center_home {
+     margin: 80px 30px;
+     overflow: hidden;
+}
+ #form-group{
+     padding-left: 0;
+}
+ .form-group{
+     /*margin-bottom: 0;*/
+}
+ .button_c{
+     background: #0a3e6d ;
+     border-radius: 20px;
+     color: #fff;
+     width: 85px;
+     height: 32px;
+    /*margin-left: 10px;
+     */
+}
+ .button-a button {
+     background: #fff;
+     border-radius: 25px;
+     color: #fff;
+     width: 120px;
+     height: 32px;
+     text-align: center;
+}
+ .button-a img {
+     width: 15px;
+     height: 15px;
+}
+ .button-m button{
+     float: right;
+     border-radius: 25px;
+     background: #0a3e6d;
+     margin-right: 22px;
+     width: 85px;
+     height: 30px;
+     color: #fff;
+     margin: 0;
+}
+ #button-m button{
+     float: right;
+     border-radius: 25px;
+     background: #0a3e6d;
+     margin-right: 14px;
+}
+ .button-b{
+     width: 30%;
+}
+
+ .btn {
+     border-radius: 25px;
+}
+ #home button{
+     background: #0a3e6d ;
+     border-radius: 20px;
+     color: #fff;
+     width: 120px;
+     height: 32px;
+     float: right;
+     margin-right: 15px;
+     outline: none !important;
+}
+ #button-d{
+     background: #0a3e6d ;
+     border-radius: 20px;
+     color: #fff;
+     width: 120px;
+     height: 32px;
+     text-align: center;
+     border: 1px solid #ccc;
+}
+/* input {
+     border-radius: 10px;
+     width: 250px;
+     height: 29px;
+}
+ */
+ .input-add {
+     margin: 9px 10px 5px 15px;
+}
+ .input-add input{
+     outline: none;
+     border: 1px solid #ccc;
+     border-radius: 25px 0px 0px 25px;
+     border-right: none;
+     width: 24%;
+     height: 34px;
+}
+ #form_bt button {
+     width: 31%;
+     border-radius: 25px;
+     font-weight: 600;
+     letter-spacing: 1px;
+     background: #0a3e6d;
+}
+ .form-control {
+     width: 30%;
+     margin-left: 15px;
+     margin-top: 15px;
+     border-radius: 25px;
+     display: inline;
+     /*color: #1e9355;*/
+     font-size: 11px;
+}
+ .add-input .form-control {
+     width: auto;
+     margin-left: 15px;
+     margin-top: 15px;
+     display: inline;
+     color: #1e9355;
+     font-size: 11px;
+}
+ select{
+     border: 1px solid #ccc;
+     border-radius: 0px 25px 25px 0;
+     border-left: none;
+     width: 6%;
+     height: 22px;
+     margin-left: -4px;
+     height: 34px;
+}
+ .input-type {
+     border: 1px solid #ccc;
+     border-radius: 0px 25px 25px 0;
+     border-left: none;
+     margin-left: -5px;
+     margin-bottom: 0px;
+     height: 34px;
+     background: #fff;
+     color: #1e9355;
+     padding: 0px 10px 3px 3px;
+     line-height: 34px;
+     vertical-align: middle;
+     width: 7%;
+}
+ .input-type-c {
+     background: none;
+     border: 1px solid #ccc;
+     border-radius: 25px;
+     height: 34px;
+     width: 42%;
+     margin-right: 18px;
+     float: right;
+}
+ .input-typeip {
+     border: 1px solid #ccc;
+     border-radius: 25px 0px 0px 25px;
+     border-right: none;
+     width: 35%;
+     height: 34px;
+     outline: none;
+     padding: 0px 5px 0px 15px;
+     vertical-align: middle;
+}
+ #tab-content .tab-content {
+     text-align: justify;
+}
+ #table-first {
+     /*width: 30%;*/
+     /*margin-left: 15px;*/
+     margin-top: 10px;
+     height: 50px;
+}
+
+.table-transfer{
+	width: 30%;
+    margin-left: 15px;
+}
+
+ #currency_type {
+     outline: none;
+     color: #1e9355;
+     background-color: #fff;
+     margin-left: -80px;
+     border-color: #fff;
+     height: 30px;
+     width: 60px;
+     vertical-align: middle;
+}
+
+ .table-nb {
+     width: 50%;
+     margin-left: 15px;
+}
+ .color_tr {
+     color:#3f60a6;
+}
+ .style_colorth {
+     color: #168f4f;
+     text-align: center;
+}
+ .style_color {
+     color: #3f60a6;
+     text-align: center;
+     padding-right: 10px;
+}
+ .style_color1 {
+     color: #3f60a6;
+     text-align: center;
+     float: right;
+     padding-right: 10px;
+}
+ .style_standard {
+     color: #323232;
+     width: 80%;
+}
+ .text-m p {
+     margin-top: 10px;
+     text-align: right;
+     width: 30%;
+}
+ .text-m-a p {
+     text-align: right;
+     width: 30%;
+}
+ .text-e{
+     margin-left: 30px;
+}
+ .form-transfer{
+     /*margin-top: 0px;*/
+}
+ .table-curved {
+     border-collapse: separate;
+     border: solid #ddd 0px;
+     border-radius: 6px;
+     border-left: 0px;
+     border-top: 0px;
+     border-bottom: 0px;
+}
+
+.btn-primary {
+	width: 30%;
+	margin-left: 15px;
+	margin-top: 15px;
+}
+
+.btn-primary:hover {
+	background-color: #0a3e6d;
+}
+
+ .table-curved > thead:first-child > tr:first-child > th {
+     border-bottom: 0px;
+     border-top: solid #ddd 1px;
+}
+ .table-curved td {
+     vertical-align: middle !important;
+}
+ .but{
+     width: 30%;
+     margin: 20px;
+}
+ .table-curved td, .table-curved th {
+    /* border-left: 1px solid #ddd;
+     border-top: 1px solid #ddd;
+     */
+}
+ .table-curved > :first-child > :first-child > :first-child {
+     border-top-left-radius: 6px;
+}
+ .table-curved > :first-child > :first-child > :last-child {
+     border-top-right-radius: 6px;
+}
+ .table-curved > :last-child > :last-child > :first-child {
+     border-bottom-left-radius: 6px;
+}
+ .table-curved > :last-child > :last-child > :last-child {
+     border-bottom-right-radius: 6px;
+}
+ .col-md-4 input[type="radio"]{
+     opacity: 0;
+}
+ .col-md-4 input[type="radio"] + label{
+     cursor: pointer;
+     height: 30px;
+     padding: 5px 20px;
+     border-radius: 25px;
+     background: #fff;
+     color: #000;
+     border: 1px solid #000;
+     width: 100%;
+     text-align: center;
+}
+ .col-md-4 input[type="radio"]:checked + label{
+     /*border: 1px solid #0a3e6d;*/
+     color: #fff;
+     background-color: #0a3e6d;
+}
+ .col-md-4 input[type="radio"]:hover + label{
+     /*border: 1px solid #0a3e6d;*/
+     color: #fff;
+     background-color: #0a3e6d;
+}
+
+@media (width: 1366px) {
+    .input-typeip {
+        width: 32%;
+    }
+
+    .input-type {
+        width: 9%;
+    }
+}
+
+@media (width: 1024px) {
+    .input-typeip {
+        width: 22%;
+    }
+
+    .input-type {
+        width: 14%;
+    }
+
+    .transfer {
+        width: 78%;
+    }
+
+    #receive_amount {
+        width: 78%;
+    }
+
+    .text-m p {
+        width: 78%;
+    }
+
+    .trans_speed {
+        width: 82%;
+    }
+
+    .text-m-a p {
+        width: 78%;
+    }
+
+    .table-transfer, #private_key, .btn-transfer {
+        width: 78%;
+    }
+
+
+}
+
+@media (width: 768px) {
+    .input-type-c {
+        width: 40%;
+        margin-right: 0;
+    }
+
+    .input-type {
+        width: 10%;
+    }
+
+    #home button {
+        margin-bottom: 12px;
+    }
+
+    #table-first {
+        width: 50%;
+        margin-left: 15px;
+    }
+
+    #transfer_to {
+        width: 95%;
+    }
+
+    #receive_amount {
+        width: 95%;
+    }
+
+    .text-m-a p {
+        width: 100%;
+        text-align: right;
+        font-size: 14px;
+        padding-top: 10px;
+        padding-right: 22px;
+    }
+
+    #private_key {
+        width: 95%;
+    }
+
+    .btn-transfer {
+        width: 95%;
+    }
+
+    .text-m p {
+        width: 100%;
+        padding-right: 18px;
+    }
+
+    .buy_sp8 {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+}
+
+@media only screen and (max-width: 767px) {
+    .nav-tabs>li {
+         float: none;
+         margin-bottom: 0;
+         width: 100%;
+         border: 1px solid #ddd;
+    }
+     #table-first {
+         width: 100%;
+         margin-left: 0;
+    }
+     .table-responsive {
+         border-left: 1px solid #ddd;
+         border-right: 1px solid #ddd;
+         border-radius: 6px;
+         border-top: 0;
+    }
+     .center_home {
+         margin: 40px 30px;
+         overflow: hidden;
+    }
+     .input-type {
+        width: 15%;
+    }
+     .input-type-c {
+         margin: 0px 0px -2px -3px;
+    }
+     form #table-first{
+         width: 150%;
+    }
+     .table-nb {
+         width: 100%;
+    }
+     .b-text {
+         overflow: scroll;
+    }
+     #tab-content .tab-content {
+         border-radius: 0;
+    }
+     #tab-content .nav-tabs>li a, #tab-content .nav-tabs>li.active a {
+         border-top-left-radius: 0;
+         border-top-right-radius:0;
+         margin-right: 0;
+    }
+
+    .wrap_content {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .tab-content {
+        padding: 15px;
+    }
+
+    .transaction {
+        border-top: 1px;
+    }
+
+    #home button {
+        margin-bottom: 12px;
+    }
+
+    .input-typeip {
+        width: 27%;
+    }
+
+    .transfer {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    #receive_amount {
+        width: 98%;
+        margin-left: 0;
+    }
+
+    .text-m p {
+        width: 100%;
+        padding-right: 7px;
+    }
+
+    .text-m-a p {
+        text-align: center;
+        width: 100%;
+        padding-top: 10px;
+    }
+
+    #private_key {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .btn-transfer {
+       width: 100%;
+       margin-left: 0; 
+    }
+}
+
+@media (max-width: 320px) {
+    .input-type {
+        width: 20%;
+    }
+
+    .input-typeip {
+        width: 22%;
+    }
+}

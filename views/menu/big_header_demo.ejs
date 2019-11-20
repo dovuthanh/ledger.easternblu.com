@@ -1,0 +1,142 @@
+<div class="header">
+	<div class="col-md-3 col-sm-3"></div>
+	<div class="col-md-6 col-sm-6">
+		<div class="logo_home">
+			<a href="/"><img src="images/logo_home.png" alt=""></a>
+		</div>
+		<div class="search">
+			<form action="#" onsubmit="return false;">
+				<div class="input-group" id="group">
+					<input type="text" <%if( typeof key!='undefined'){%> value="<%=key%> <%}%>"  name="key" class="form-control" placeholder="SEARCH" id="search-input" onchange="search();"">
+					<input type="text" name="search-type" id="search-type" value="song" hidden="">
+					<div class="input-group-btn"> 
+						<div class="btn-group">
+						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="search-select">
+						    <%if(typeof type!= 'undefined' && type == 'work'){%> 
+							IN WORKS
+							<%}else{%>
+							IN SONGS
+							<%}%>
+						    <i class="fa fa-chevron-down"></i>
+						  </button>
+						  <ul class="dropdown-menu">
+						  	<%if(session.passport){%>
+						  		<%if(session.passport.user) {%>
+						  			<li><a href="#" onclick="switchType('song');">IN SONGS</a></li>
+					  				<li><a href="#" onclick="switchType('work');">IN WORKS</a></li>
+						  		<%}else{%>
+						  			<li><a href="#" onclick="switchType('song');">IN SONGS</a></li>
+						  		<%}%>
+						  	<%}else{%>
+						  		<li><a href="#" onclick="switchType('song');">IN SONGS</a></li>
+						  	<%}%>
+						  </ul>
+						</div>
+						<button type="submit" class="btn btn-default" aria-label="Help" id="search-icon" onclick="searchClick();"></button> 
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<%if (session.passport) {%>
+		<%if (session.passport.user) {%>
+			<div class="col-md-3 col-sm-3 col-xs-12 header_right">
+				<div class="col-md-6 col-sm-12 col-xs-6 sub_user">
+				</div>
+				<div class="col-md-6 col-sm-12 col-xs-6 sub_user1">
+					<div class="log_header">
+						<%if (session.passport.user.userIsOwner){%>
+							<input type="text" hidden="true" readonly="true" name="accountaddress_session" id="accountaddress_session" value="<%=session.passport.user.userWalletAddress%>">
+						<%}else{%>
+							<input type="text" hidden="true" readonly="true" name="accountaddress_session" id="accountaddress_session" value="<%=session.passport.user.userManagerWalletAddress%>">
+						<%}%>
+						<input type="text" hidden="true" readonly="true" name="user_id_header" id="user_id_header" value="<%=session.passport.user._id%>">
+						<input type="text" hidden="true" readonly="true" name="Owner" id="Owner" value="<%=session.passport.user.userIsOwner%>">
+						
+						<div class="header-text-overflow">
+							<a href="javascripts: return void(0);"><span><%=session.passport.user.userFullName%>&nbsp;</a>
+						</div>
+					</div>			
+				</div>
+			</div>
+		<%}else{%>
+			<div class="col-md-3 col-sm-3 col-xs-12 header_right">
+				<div class="col-md-6 col-sm-12 col-xs-6">
+					<div class="re_header">
+						<a href="/sign-up-info">SIGN UP</a>
+						<!-- <a href="#" onclick="underDeveloper();">SIGN UP</a> -->
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-12 col-xs-6">
+					<div class="log_header">
+						<a href="/sign-in">SIGN IN</a>
+					</div>			
+				</div>
+			</div>
+		<%}%>
+	<%}else{%>
+		<div class="col-md-3 col-sm-3 col-xs-12 header_right">
+			<div class="col-md-6 col-sm-12 col-xs-6">
+				<div class="re_header">
+					<a href="/sign-up-info">SIGN IN</a>
+					<!-- <a href="#" onclick="underDeveloper();">SIGN UP</a> -->
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-12 col-xs-6">
+				<div class="log_header">
+					<a href="/sign-in">SIGN UP</a>
+				</div>			
+			</div>
+		</div>
+	<%}%>
+	<div class="clear"></div>
+	<!-- menu mobile -->
+	<nav class='visible-xs'>
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>                        
+	      </button>
+	    </div>
+	    <div class="collapse navbar-collapse" id="myNavbar">
+	      <ul class="nav navbar-nav">
+	        <li class="active"><a href="/">HOME</a></li>
+	        <li><a href="/sign-in">SIGN UP</a></li>
+	        <li><a href="/sign-up-info">SIGN IN</a></li>
+	        <!-- <li><a href="#" onclick="underDeveloper();">SIGN IN</a></li> -->
+	        <li><a href="/verification-and-authentication">VERYFY</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+<script type="text/javascript">
+	function switchType(type) {
+		document.getElementById('search-type').setAttribute('value', type);
+	}
+
+	function searchClick() {
+		search();
+	}
+
+	function search() {
+		var key = document.getElementById('search-input').value.trim();
+        if (key.length == 0) {
+        	return;
+        }
+        var type = document.getElementById('search-type').value;
+        window.location.href = '/search-demo?key=' + key + '&type=' + type;
+	}
+
+	function underDeveloper() {
+		// bootbox.alert({
+		//     message: "This function is only for developer",
+		//     backdrop: true
+		// });
+		alert('This function is only for developer');
+	}
+</script>

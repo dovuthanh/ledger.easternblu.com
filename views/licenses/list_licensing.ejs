@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>LICENSING</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/search_results/search_results.css">
+	<link rel="stylesheet" href="css/licensing/my-licensings.css">
+	<link rel="stylesheet" href="css/square/blue.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+
+	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+	<script>
+		var OneSignal = OneSignal || [];
+			OneSignal.push(["init", {
+				appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+				// appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+				autoRegister: true,
+				safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+				welcomeNotification: {
+					disable: true,
+				},
+				notifyButton: {
+					enable: true,
+					prenotify: true,
+					position: 'bottom-left',
+					size: 'medium',
+					showCredit: false
+				}
+			}]);
+	</script>
+</head>
+<body>
+	<div class="song">
+		<%- include ../menu/nor_header.ejs %>
+	</div>
+	<!-- menu mobile -->
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">HOME</a></li>
+					<li><a href="#">MY TALENTS</a></li>
+					<li><a href="#">MY SONGS</a></li>
+					<li><a href="#">LICENSING</a></li>
+					<li><a href="#">REGISTER SONG</a></li>
+					<li><a href="#">VERIFY</a></li>
+					<li><a href="#">TRANSACTIONS</a></li>
+					<li><a href="#">SETTINGS</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="home_content">
+		<div class="center_home">
+			<div class="left_content col-md-10 col-sm-9">
+				<div class="wrap_content" id="tab-content">
+					<ul class="nav nav-tabs">
+						<li style="width: 50px; height: 30px;">
+							<div class="ic-close" style="top: 5px; right: 10px;">
+								<a href="/" style="background: transparent; border: none;"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+							</div>
+						</li>
+						<li class="active"><a data-toggle="tab" data-target="#home">ALL</a></li>
+						<li><a data-toggle="tab" data-target="#licensee">LICENSEE</a></li>
+						<li><a data-toggle="tab" data-target="#licensor">LICENSOR</a></li>
+					</ul>
+					<div class="tab-content">
+						<div id="home" class="tab-pane fade in active">
+							<div class="clear"></div>
+						    <div class="table-responsive" id="table_search">
+						    	<table class="table table-curved">
+						    		<tr>
+						    			<td><p>Item Info</p></td>
+						    			<td><p>Contract Info</p></td>
+						    			<td><p>Price </p></td>
+						    			<td><p>History</p></td>
+						    			<td><p>Status</p></td>
+						    		</tr>
+						    		<%
+						    			var i=0;
+						    			orders.forEach(function(order){
+						    				i++;
+						    		%>
+						    			<tr style="background: #ddd;">
+											<td colspan="5"><h5><%=order.title%></h5></td>
+										</tr>
+							    		<tr>
+							    			<td style="">
+							    				<p>Artist Name <b><%=order.songArtistName%></b></p>
+							    				<p>Composer <b><%=order.songComposerName%></b> </p>
+							    				<p class="p-font-12">Register Address <b><%=order.songContractAddress%></b></p>
+							    			</td>
+							    			<td><p>Buyer <b><%=order.licenseFrom%></b></p>
+							    				<p>Date Issue <b><%=order.dateCreated%></b> </p>
+							    				<p>Peroid <b><%=order.peroid%> Months</b></p>
+							    				<p>Territory <b><%=order.territories%></b> </p>
+												<%if(order.licenseAddress){%>
+												<p class="p-font-12">License Address <b><a href="<%=url%><%=order.licenseAddress%>"><%=order.licenseAddress%></a></b></p>
+												<%}%>
+							    				<%if(order.licenseType == 'song_recording'){%>
+							    					<p>Contract Type <b>Song Contract</b></p></td>
+							    				<%}else{%>
+							    					<p>Contract Type <b>Work Contract</b></p></td>
+							    				<%}%>
+							    			</td>
+							    			<%if(order.method == 'token') {%>
+							    				<td><b><%=order.amount ? order.amount : 0%></b> SP8</td>
+							    			<%}else{%>
+							    				<td><b>$<%=order.amount ? order.amount : 0%></b> USD</td>
+							    			<%}%>
+							    			<%if (order.dateRequest){%>
+							    				<td>Date Requested <b><%=order.dateRequest%></b></td>
+							    			<%}else{%>
+							    				<td></td>
+							    			<%}%>
+							    			<td>
+							    				<p>
+							    					<%if (!order.licenseDeployStatus){%>
+							    						<b>PROCESSING</b>
+							    					<%}else if(order.status == 1){%>
+							    						<%if (order.ownerAddress == session.passport.user.userWalletAddress){%>
+							    							<div class="accept"><button class="btn_search_results"><a href="/accept-license?address=<%=order._id%>" style="color: #FFF;">ACCEPT</a></button></div>
+								    						<div class="accept"><button class="btn_search_results" id="button"><a href="/reject-license?address=<%=order._id%>">REJECT</a></button></div>
+							    						<%}else if(order.buyerAddress == session.passport.user.userWalletAddress){%>
+							    							<b>WAITING CONFIRMATION</b>
+							    						<%}else{%>
+							    							<b>LICENSED</b>
+							    						<%}%>
+							    					<%}else if (order.status == 2){%>
+							    						<%if (order.ownerAddress == session.passport.user.userWalletAddress){%>
+							    							<b>ACCPETED</b>
+							    						<%}else{%>
+							    							<div class="accept"><button class="btn_search_results"><a href="/payment-license?address=<%=order._id%>" style="color: #FFF;">PAY</a></button></div>
+								    						<div class="accept"><button class="btn_search_results" id="button"><a href="/reject-license?address=<%=order._id%>">REJECT</a></button></div>
+							    						<%}%>
+							    					<%}else if (order.status == 3){%>
+							    						<b style="color: #ff0000;">FAILED</b>
+							    					<%}else{%>
+							    						<b>COMPLETED</b>
+							    					<%}%>
+								    			</p>
+							    			</td>
+							    		</tr>
+						    		<%});%>
+						    	</table>
+						    </div>
+						</div>
+
+						<div id="licensee" class="tab-pane fade">
+							<div class="clear"></div>
+						    <div class="table-responsive" id="table_search">
+						    	<table class="table table-curved">
+						    		<tr>
+						    			<td><p>Item Info</p></td>
+						    			<td><p>Contract Info</p></td>
+						    			<td><p>Price </p></td>
+						    			<td><p>History</p></td>
+						    			<td><p>Status</p></td>
+						    		</tr>
+						    		<%
+						    			var i=0;
+						    			licenses.forEach(function(licensee){
+						    				i++;
+						    		%>
+						    			<tr style="background: #ddd;">
+											<td colspan="5"><h5><%=licensee.title%></h5></td>
+										</tr>
+							    		<tr>
+							    			<td style="">
+							    				<p>Artist Name <b><%=licensee.songArtistName%></b></p>
+							    				<p>Composer <b><%=licensee.songComposerName%></b> </p>
+												<p class="p-font-12">Register Address <b><%=licensee.songContractAddress%></b></p>
+							    			</td>
+							    			<td><p>Buyer <b><%=licensee.licenseFrom%></b></p>
+							    				<p>Date Issue <b><%=licensee.dateCreated%></b> </p>
+							    				<p>Peroid <b><%=licensee.peroid%> Months</b></p>
+							    				<p>Territory <b><%=licensee.territories%></b> </p>
+												<%if(licensee.licenseAddress){%>
+												<p class="p-font-12">License Address <b><a href="<%=url%><%=licensee.licenseAddress%>"><%=licensee.licenseAddress%></a></b></p>
+												<%}%>
+							    				<%if(licensee.licenseType == 'song_recording'){%>
+							    					<p>Contract Type <b>Song Contract</b></p></td>
+							    				<%}else{%>
+							    					<p>Contract Type <b>Work Contract</b></p></td>
+							    				<%}%>
+							    			</td>
+							    			<%if(licensee.method == 'token') {%>
+							    				<td><b><%=licensee.amount ? licensee.amount : 0%></b> SP8</td>
+							    			<%}else{%>
+							    				<td><b>$<%=licensee.amount ? licensee.amount : 0%></b> USD</td>
+							    			<%}%>
+							    			<%if (licensee.dateRequest){%>
+							    				<td>Date Requested <b><%=licensee.dateRequest%></b></td>
+							    			<%}else{%>
+							    				<td></td>
+							    			<%}%>
+							    			<td>
+							    				<p>
+							    					<%if (!licensee.licenseDeployStatus){%>
+							    						<b>PROCESSING</b>
+							    					<%}else if(licensee.status == 1){%>
+							    						<%if (licensee.ownerAddress == session.passport.user.userWalletAddress){%>
+							    							<div class="accept"><button class="btn_search_results"><a href="/accept-license?address=<%=licensee._id%>" style="color: #FFF;">ACCEPT</a></button></div>
+								    						<div class="accept"><button class="btn_search_results" id="button"><a href="/reject-license?address=<%=licensee._id%>">REJECT</a></button></div>
+							    						<%}else if(licensee.buyerAddress == session.passport.user.userWalletAddress){%>
+							    							<b>WAITING CONFIRMATION</b>
+							    						<%}else{%>
+							    							<b>LICENSED</b>
+							    						<%}%>
+							    					<%}else if (licensee.status == 2){%>
+							    						<%if (licensee.ownerAddress == session.passport.user.userWalletAddress){%>
+							    							<b>ACCPETED</b>
+							    						<%}else{%>
+							    							<div class="accept"><button class="btn_search_results"><a href="/payment-license?address=<%=licensee._id%>" style="color: #FFF;">PAY</a></button></div>
+								    						<div class="accept"><button class="btn_search_results" id="button"><a href="/reject-license?address=<%=licensee._id%>">REJECT</a></button></div>
+							    						<%}%>
+							    					<%}else if (licensee.status == 3){%>
+							    						<b style="color: #ff0000;">FAILED</b>
+							    					<%}else{%>
+							    						<b>COMPLETED</b>
+							    					<%}%>
+								    			</p>
+							    			</td>
+							    		</tr>
+						    		<%});%>
+						    	</table>
+						    </div>
+						</div>
+
+						<div id="licensor" class="tab-pane fade">
+							<div class="clear"></div>
+						    <div class="table-responsive" id="table_search">
+						    	<table class="table table-curved">
+						    		<tr>
+						    			<td><p>Item Info</p></td>
+						    			<td><p>Contract Info</p></td>
+						    			<td><p>Price </p></td>
+						    			<td><p>History</p></td>
+						    			<td><p>Status</p></td>
+						    		</tr>
+						    		<%
+						    			var i=0;
+						    			licensors.forEach(function(licensor){
+						    				console.log(licensor);
+						    				i++;
+						    		%>
+						    			<tr style="background: #ddd;">
+											<td colspan="5"><h5><%=licensor.title%></h5></td>
+										</tr>
+							    		<tr>
+							    			<td style="">
+							    				<p>Artist Name <b><%=licensor.songArtistName%></b></p>
+							    				<p>Composer <b><%=licensor.songComposerName%></b> </p>
+												<p class="p-font-12">Register Address <b><%=licensor.songContractAddress%></b></p>
+							    			</td>
+							    			<td><p>Buyer <b><%=licensor.licenseFrom%></b></p>
+							    				<p>Date Issue <b><%=licensor.dateCreated%></b> </p>
+							    				<p>Peroid <b><%=licensor.peroid%> Months</b></p>
+							    				<p>Territory <b><%=licensor.territories%></b> </p>
+												<%if(licensor.licenseAddress){%>
+												<p class="p-font-12">License Address <b><a href="<%=url%><%=licensor.licenseAddress%>"><%=licensor.licenseAddress%></a></b></p>
+												<%}%>
+							    				<%if(licensor.licenseType == 'song_recording'){%>
+							    					<p>Contract Type <b>Song Contract</b></p></td>
+							    				<%}else{%>
+							    					<p>Contract Type <b>Work Contract</b></p></td>
+							    				<%}%>
+							    			</td>
+							    			<%if(licensor.method == 'token') {%>
+							    				<td><b><%=licensor.amount ? licensor.amount : 0%></b> SP8</td>
+							    			<%}else{%>
+							    				<td><b>$<%=licensor.amount ? licensor.amount : 0%></b> USD</td>
+							    			<%}%>
+							    			<%if (licensor.dateRequest){%>
+							    				<td>Date Requested <b><%=licensor.dateRequest%></b></td>
+							    			<%}else{%>
+							    				<td></td>
+							    			<%}%>
+							    			<td>
+							    				<p>
+							    					<%if (!licensor.licenseDeployStatus){%>
+							    						<b>PROCESSING</b>
+							    					<%}else if(licensor.status == 1){%>
+							    						<%if (licensor.ownerAddress == session.passport.user.userWalletAddress){%>
+							    							<div class="accept"><button class="btn_search_results"><a href="/accept-license?address=<%=licensor.licenseAddress%>" style="color: #FFF;">ACCEPT</a></button></div>
+								    						<div class="accept"><button class="btn_search_results" id="button"><a href="/reject-license?address=<%=licensor.licenseAddress%>">REJECT</a></button></div>
+							    						<%}else if(licensor.ownerAddress == session.passport.user.userWalletAddress){%>
+							    							<b>WAITING CONFIRMATION</b>
+							    						<%}else{%>
+							    							<b>LICENSED</b>
+							    						<%}%>
+							    					<%}else if (licensor.status == 2){%>
+							    						<%if (licensor.ownerAddress == session.passport.user.userWalletAddress){%>
+							    							<b>ACCPETED</b>
+							    						<%}else{%>
+							    							<div class="accept"><button class="btn_search_results"><a href="/payment-license?address=<%=licensor.licenseAddress%>" style="color: #FFF;">PAY</a></button></div>
+								    						<div class="accept"><button class="btn_search_results" id="button"><a href="/reject-license?address=<%=licensor.licenseAddress%>">REJECT</a></button></div>
+							    						<%}%>
+							    					<%}else if (licensor.status == 3){%>
+							    						<b style="color: #ff0000;">FAILED</b>
+							    					<%}else{%>
+							    						<b>COMPLETED</b>
+							    					<%}%>
+								    			</p>
+							    			</td>
+							    		</tr>
+						    		<%});%>
+						    	</table>
+						    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<dir class="right-content">
+				<%- include ../menu/right_menu_content.ejs %>
+			</dir>
+		</div>
+	</div>
+
+	<script>
+		$(document).ready(function(){
+			$('.btn_cancel').on('click', function() {
+	            $('#popup').removeClass('show');
+	            $('body').toggleClass('modal-open');
+	        });
+
+			$('#<%=menu_index%>').addClass('active');
+		});
+	</script>
+</body>
+</html>

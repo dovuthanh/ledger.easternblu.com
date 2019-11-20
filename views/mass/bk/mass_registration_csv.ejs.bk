@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REGISTER SONG</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="http://jschr.github.io/bootstrap-modal/css/bootstrap-modal.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/my_songs/my_songs.css">
+    <link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+    <link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+    <link rel="stylesheet" href="css/mass_registration/mas_register.css">
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div id="regis_step_1">
+                        <div class="regis_song">
+                            <h3>Registration</h3>
+                            <div class="upload">
+                                <p style='font-size: 14px'>Begin upload file csv here. <a href="/CSVTemplates.csv" target="_blank">Click here</a> to download csv template</p>
+                                <!-- <p style='font-size: 14px'>The file format is .mp3, file size maximum is 1MB.</p> -->
+                                <input type="file" multiple id="files" accept=".csv" name="files[]" style="display: none;">
+                                <!-- <input type="file" multiple id="filesmapping" accept=".csv" name="files[]" style="display: none;"> -->
+                                <button type="button" class="btn btn-default up_button" id="btn_select_file">SELECT FILES .CSV</button>
+                                <!-- <button type="button" class="btn btn-default up_button" id="btn_mapping_artist">START MAPPING ARTIST</button> -->
+                                <!-- <button type="button" class="btn btn-default up_button" id="btn_deploy">DEPLOY</button> -->
+                                <!-- <button type="button" class="btn btn-default up_button" id="btn_convert_romanized">ARTIST ROMANIZED</button> -->
+                                <!-- <button type="button" class="btn btn-default up_button" id="btn_export_song">EXPORT SONG</button> -->
+                                <!-- <input type="file" multiple id="mapping_songs" accept=".csv" name="files[]" style="display: none;"> -->
+                                <!-- <button type="button" class="btn btn-default up_button" id="btn_mapping_song">MAPPING SONG</button> -->
+                                <!-- <button type="button" class="btn btn-default up_button" id="btn_mapping_file">SELECT MAPPING .CSV</button> -->
+                              <!--   <button type="button" class="btn btn-default up_button" id="song_folder" onclick="getDirectory();">SELECT UPLOAD FOLDER</button> -->
+                                <input type="file" id="directory" webkitdirectory directory multiple style="display: none;" onchange="mappingMassRegistration(this);" oncancel="hide();">
+                                <br/>
+                                <div class="pg-upload" style="display: none; margin-top: 20px;" id="progressbar">
+                                    <div class="song_name" id="file_name" style="font-size: 1.5em;"></div>
+                                    <div id="progress" style="float: right; font-size: 1.5em;"></div>
+                                    <div class="clear"></div>
+                                    <div class="tbar">
+                                        <div id="myBar" class="uploading" style="width: 0;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" hidden="">
+                                <div class="col-md-12 col-xs-12">
+                                    <input type="text" name="user_id" id="user_id" readonly="" class="form-control" tabindex="0"  value="<%=user._id%>">
+                                </div>
+                            </div>
+
+                            <!--  <output id="list">
+                        </output> -->
+                            <hr />
+                            <div id="result" border></div>
+                            <div class="clear"></div>
+                            <div id="loading">
+						        <img class='img-load' src="images/loading.gif">
+						        <p class='load'></p>
+						    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <%- include ../menu/right_menu_content.ejs %>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="music-player has-player">
+    </div>
+    <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+    <script type="text/javascript" src="js/jquery.migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile.customized.min.js"></script>
+    <script type="text/javascript" src="js/wait.js"></script>
+    <script type="text/javascript" src="js/jquery.parallax.min.js"></script>
+    <script type="text/javascript" src="js/jquery.tweet.js"></script>
+    <script type="text/javascript" src="js/jquery.scrollTo.js"></script>
+    <!-- <script type="text/javascript" src="js/camera.js"></script> -->
+    <script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <!-- Player -->
+    <script type="text/javascript" src="js/player/soundmanager2-nodebug-jsmin.js"></script>
+    <script type="text/javascript" src="https://connect.soundcloud.com/sdk.js"></script>
+    <script type="text/javascript" src="js/player/amplify.min.js"></script>
+    <script type="text/javascript" src="js/player/jquery.fullwidthAudioPlayer.min.js"></script>
+    <!-- Custom Js -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/custom.js"></script>
+    <script src="javascripts/mass.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="js/bootstrap-timepicker.min.js"></script>
+    <script src="js/jquery.csv.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script>
+        var type = 'csv';
+        var checkCSVFileStatus;
+        var pathList = [];
+        var filelist = [];
+        var axcvs = [];
+        var failedlist = [];
+        var allowanced = false;
+
+        $(document).ready(function() {
+            $("body").on('click', '.add-new', function(e) {
+                e.preventDefault();
+                var own = $(this).closest('.sub_own');
+                $('.owners').append('<div class="col-md-10 col-xs-10 sub_own">' + own.html() + '</div>');
+                own.find('.add-new').remove();
+            });
+            $('#<%=menu_index%>').addClass('active');
+        });
+        $('#btn_select_file').on('click', function(e) {
+            type = 'csv';
+            document.getElementById('files').click();
+        });
+        $('#btn_mapping_file').on('click', function(e) {
+            type = 'mapping';
+            document.getElementById('filesmapping').click();
+        });
+
+        $('#btn_deploy').on('click', (e) => {
+            Mass.validate_merkle_root();
+        });
+
+        $('#btn_convert_romanized').on('click', (e) => {
+            $.post('/api/mass/admin-convert-romanized', {
+
+            }, (data) => {
+
+            });
+        });
+
+        $('#btn_mapping_song').on('click', (e) => {
+            type = 'mapping_songs';
+            document.getElementById('mapping_songs').click();
+        });
+
+        $('#btn_export_song').on('click', (e) => {
+            $.post('/api/mass/export-registration-song, (data) => {
+                console.log(data.songs);
+                var html = '';
+                html += "<table id='fail_table' class='fail-table table-hover'>";
+                html += "<thead><tr><th>No.</th>";
+                html += "<th>Song Name</th>";
+                html += "<th>Singer</th>";
+                html += "<th>Writer</th>";
+                html += "<th>Lyricist</th>";
+                html += "<th>Song Url</th>";
+                html += "<th>Song Path</th>";
+                html += "<th>Artist Pictures</th>";
+                html += '</tr></thead><tbody>';
+                var i = 1;
+                data.songs.forEach((obj) => {
+                    console.log(obj, i);
+                    console.log(obj.songArtistRefer != undefined, obj.songComposerRefer != undefined, obj.songLyricRefer != undefined);
+                    html += '<tr><td>' + i + '</td>';
+                    html += "<td>" + obj.songCatNo + '</td>';
+                    html += "<td>" + obj.songTitle + '</td>';
+                    if (obj.songArtistRefer != undefined) {
+                        html += "<td>" + obj.songArtistRefer.artistProfessionName + '</td>';
+                    }else{
+                        html += "<td></td>";
+                    }
+                    if (obj.songComposerRefer != undefined) {
+                        html += "<td>" + obj.songComposerRefer.artistProfessionName + '</td>';
+                    }else{
+                        html += "<td></td>";
+                    }
+                    if (obj.songLyricRefer != undefined) {
+                        html += "<td>" + obj.songLyricRefer.artistProfessionName + '</td>';
+                    }else{
+                        html += "<td></td>";
+                    }
+                    html += "<td>" + obj.songUrl + '</td>';
+                    pathList.forEach((object) => {
+                        if (object.songname == obj.songTitle && object.cat == obj.songCatNo) {
+                            html += "<td>" + object.filepath + '</td>';
+                        }
+                    });
+                    if (obj.songArtistRefer != undefined) {
+                        if (obj.songArtistRefer.artistsPictures != undefined) {
+                            html += "<td>" + 'http://ledger.easternblu.com' + obj.songArtistRefer.artistsPictures + "</td></tr>";
+                        }else{
+                            html += "<td></td></tr>";
+                        }
+                    }else{
+                        html += "<td></td></tr>";
+                    }
+
+                    i++;
+                });
+                html += '</tbody></table>';
+
+                bootbox.dialog({
+                    message: html,
+                    closeButton: false,
+                    buttons: {
+                        ok: {
+                            label: '<i class="fa fa-check"></i> OK',
+                            class: 'btn btn-primary',
+                            callback: () => {
+                                window.location.reload();
+                            }
+                        }
+                    }
+                });
+                var fail_search = '';
+                fail_search += "<div class='input-group search1-group'>";
+                fail_search += "<input type='search' id='search1' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+                fail_search += "<div class='input-group-addon search1'></div></div>";
+
+                $('#fail_table').dataTable({
+                    "scrollY": 200,
+                    "scrollCollapse": true,
+                    "jQueryUI": true,
+                    "paging": false,
+                    'responsive': true
+                });
+
+                $('#fail_table_filter').append(fail_search);
+                $('#fail_table_filter label').hide();
+
+                $('#search1').on('keyup', function() {
+                    var s = $('#search1').val();
+                    $('#fail_table_filter label input[type=search]').val(s);
+                    $('#fail_table_filter label input[type=search]').keyup();
+                });
+            });
+        });
+    </script>
+    <!-- import and read file csv -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.233.1.min.js"></script>
+    <script type="text/javascript" src="javascripts/awsHelper.js"></script>
+    <script>
+        $(document).ready(function() {
+            if (isAPIAvailable()) {
+                $('#files').bind('change', handleFileSelect);
+                $('#filesmapping').bind('change', handleFileSelect);
+                $('#mapping_songs').bind('change', handleFileSelect);
+            }
+        });
+
+        function isAPIAvailable() {
+            // Check for the various File API support.
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                // Great success! All the File APIs are supported.
+                return true;
+            } else {
+                // source: File API availability - http://caniuse.com/#feat=fileapi
+                // source: <output> availability - http://html5doctor.com/the-output-element/
+                document.writeln('The HTML5 APIs used in this form are only available in the following browsers:<br />');
+                // 6.0 File API & 13.0 <output>
+                document.writeln(' - Google Chrome: 13.0 or later<br />');
+                // 3.6 File API & 6.0 <output>
+                document.writeln(' - Mozilla Firefox: 6.0 or later<br />');
+                // 10.0 File API & 10.0 <output>
+                document.writeln(' - Internet Explorer: Not supported (partial support expected in 10.0)<br />');
+                // ? File API & 5.1 <output>
+                document.writeln(' - Safari: Not supported<br />');
+                // ? File API & 9.2 <output>
+                document.writeln(' - Opera: Not supported');
+                return false;
+            }
+        }
+
+        function handleFileSelect(evt) {
+            var files = evt.target.files; // FileList object
+            var file = files[0];
+            // read the file contents
+            if (type == 'csv') {
+                printTable(file);
+            }else if (type == 'mapping') {
+                mapping(file);
+            }else if (type == 'mapping_songs') {
+                genfilelist(file);
+            }
+        }
+
+	    function loading(txt){
+	    	$('.load').html(txt);
+	        $('#loading').show();
+		}
+
+	    function hide(){
+           $('#loading').hide();
+        }
+
+        function genfilelist(file) {
+            console.log('starting...');
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = async function(event) {
+                var csv = event.target.result;
+                var data = $.csv.toArrays(csv);
+                console.log(data);
+
+                for (var row in data) {
+                    if (row <= data.length) {
+                        if (row != 0) {
+                            var obj = {};
+                            for (var item in data[row]) {
+                                if (item <= data[row].length) {
+                                    if (item == 1) {
+                                        obj.cat = data[row][item].length == 0 ? '' : data[row][item];
+                                    }
+                                    if (item == 2) {
+                                        obj.songname = data[row][item].length == 0 ? '' : data[row][item];
+                                    }
+                                    if (item == 7) {
+                                        obj.filepath = data[row][item].length == 0 ? '' : data[row][item];
+                                    }
+                                }
+                            }
+                            pathList.push(obj);
+                        }
+                    }
+                }
+
+                console.log(pathList);
+            }
+        }
+
+        function mapping(file) {
+            console.log('start mapping');
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = async function(event) {
+                var csv = event.target.result;
+                var data = $.csv.toArrays(csv);
+                console.log(data);
+
+                for (var row in data) {
+                    if (row <= data.length) {
+                        if (row != 0) {
+                            var obj = {};
+                            for (var item in data[row]) {
+                                if (item <= data[row].length) {
+                                    if (item == 1) {
+                                        obj.songname = data[row][item].length == 0 ? '' : data[row][item];
+                                    }
+                                    if (item == 2) {
+                                        obj.errmsg = data[row][item].length == 0 ? '' : data[row][item];
+                                    }
+                                }
+                            }
+                            axcvs.push(obj);
+                        }
+                    }
+                }
+
+                console.log(axcvs);
+
+                var html = '';
+                html += "<table id='fail_table' class='fail-table table-hover'>";
+                html += "<thead><tr><th>No.</th>";
+                html += "<th>Cat</th>";
+                html += "<th>Song Name</th>";
+                html += "<th>Error Message</th>";
+                html += '</tr></thead><tbody>';
+                var i = 1;
+
+                for (var j = 0; j < axcvs.length; j++) {
+                    var objmap = axcvs[j];
+                    for (var k = 0; k < filelist.length; k++) {
+                        var obj = filelist[k];
+                        if (objmap.songname == obj.songname) {
+                            html += '<tr><td>' + i + '</td>';
+                            html += "<td>" + obj.cat + '</td>';
+                            html += "<td>" + objmap.songname + '</td>';
+                            html += "<td style='color: #ff0000'>" + objmap.errmsg + '</td></tr>'
+                            i++;
+                            break;
+                        }
+                    }
+                }
+
+                html += '</tbody></table>';
+
+                bootbox.dialog({
+                    message: html,
+                    closeButton: false,
+                    buttons: {
+                        cancel: {
+                            label: '<i class="fa fa-times"></i> Cancel',
+                            class: 'btn btn-default',
+                            callback: () => {
+                                window.location.reload();
+                            }
+                        },
+                        continute: {
+                            label: '<i class="fa fa-check"></i> Continute',
+                            class: 'btn btn-primary',
+                            callback: () => {
+                                var id = document.getElementById('user_id').value;
+                                if (id != undefined) {
+                                    window.location.href = '/mass-registration?id=<%=user._id%>';
+                                }else{
+                                    window.location.href = '/mass-registration';
+                                }
+                            }
+                        }
+                    }
+                });
+
+                var fail_search = '';
+                fail_search += "<div class='input-group search1-group'>";
+                fail_search += "<input type='search' id='search1' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+                fail_search += "<div class='input-group-addon search1'></div></div>";
+
+                $('#fail_table').dataTable({
+                    "scrollY": 200,
+                    "scrollCollapse": true,
+                    "jQueryUI": true,
+                    "paging": false,
+                    'responsive': true
+                });
+
+                $('#fail_table_filter').append(fail_search);
+                $('#fail_table_filter label').hide();
+
+                $('#search1').on('keyup', function() {
+                    var s = $('#search1').val();
+                    $('#fail_table_filter label input[type=search]').val(s);
+                    $('#fail_table_filter label input[type=search]').keyup();
+                });
+            }
+        }
+
+        function printTable(file) {
+            checkCSVFileStatus = true;
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = async function(event) {
+                filelist = [];
+                failedlist = [];
+                axcvs = [];
+                var csv = event.target.result;
+                var data = $.csv.toArrays(csv);
+                if(data.length >500){
+                    alert('Your songs is greater than limit.');
+                    return;
+                }
+                var html = "<table class='table table-hover' id='contents'>";
+                loading('loading...');
+                for (var row in data) {
+                    if (row < 8027) {
+                        if (row == 0) {
+                            html += '<thead><tr>\r\n';
+                            html += '<th>No.</th>\r\n';
+                            for (var item in data[row]) {
+                                // console.log(item);
+                                if (item == 0 || item == 1 || item == 2 || item == 3 || item == 4 || item == 5 || item == 6) {
+                                    if (item <= data[row].length) {
+                                        html += '<th>' + data[row][item] + '</th>\r\n';
+                                    }
+                                }
+                            }
+                            html += '<th>message</th>\r\n';
+                            html += '</tr></thead><tbody>\r\n';
+                        } else {
+                            var obj = {};
+                            obj.id = row;
+                            html += '<tr>\r\n';
+                            html += '<th>' + row + '</th>\r\n';
+
+                            for (var item in data[row]) {
+                                console.log(item);
+                                if (item <= data[row].length) {
+                                    if (item == 0) { // name
+                                        obj.songname = data[row][item].length == 0 ? '' : data[row][item];
+                                        html += '<td><input type="text" readonly="" hidden="" name="songname" id="songname' + row + '" value="' + obj.songname + '">' + obj.songname + '</td>\r\n';
+                                    } else if (item == 1) { // Song location
+                                        obj.songlocation = data[row][item].length == 0 ? '' : data[row][item];
+                                        html += '<td><input type="text" readonly="" hidden="" name="obj.song_location" id="song_location' + row + '" value="' + obj.songlocation + '">' + obj.songlocation + '</td>\r\n';
+                                    } else if (item == 2) { // singer
+                                        obj.singername = data[row][item].length == 0 ? '' : data[row][item];
+                                        html += '<td><input type="text" readonly="" hidden="" name="singername" id="singername' + row + '" value="' + obj.singername + '">' + obj.singername + '</td>\r\n';
+                                    } else if (item == 3) { // avatar
+                                        obj.avatarlocation = data[row][item].length == 0 ? '' : data[row][item];
+                                        html += '<td><input type="text" readonly="" hidden="" name="avatar" id="avatar' + row + '" value="' + obj.avatarlocation + '">' + obj.avatarlocation + '</td>\r\n';
+                                    } else if (item == 4) { // duration
+                                        obj.duration = data[row][item].length == 0 ? '' : data[row][item];
+                                        html += '<td><input type="text" readonly="" hidden="" name="duration" id="duration' + row + '" value="' + data[row][item] + '">' + data[row][item] + '</td>\r\n';
+                                    }
+                                    else if (item == 5) { // publish date
+                                        obj.publishdate = data[row][item].length == 0 ? '' : data[row][item];
+                                        html += '<td><input type="text" readonly="" hidden="" name="publishdate" id="publishdate' + row + '" value="' + obj.publishdate + '">' + obj.publishdate + '</td>\r\n';
+                                    }
+                                }
+                            }
+                            if(!validateRow(obj) && checkCSVFileStatus){
+                                checkCSVFileStatus =false;
+                            }
+                            html += '<td><input type="text" readonly="" hidden="" name="errorMessage" id="errorMessage' + row + '" value="' + obj.errorMessage + '">' + obj.errorMessage + '</td>\r\n';
+                            html += '<td name="tdpath" id="tdpath'+row+'"></td>\r\n';
+                            html += '</tr>\r\n';
+                            filelist.push(obj);
+                        }
+                    }
+                }
+                html += '</tbody></table>';
+                // <i class="fa fa-times" aria-hidden="true" style="color: #ff0000; font-size: 1.5em;"></i>
+                if(checkCSVFileStatus){
+                    html += '<button class="btn btn-default" id="upfile" onclick="getListFileUpload();">Upload</button>';
+                }else{
+                    html += '<button class="btn btn-default disabled" id="upfile">Upload</button>';
+                    bootbox.alert("There are few issue with your csv file. Please correct it before upload.");
+                }
+                setTimeout(function(){
+                	$('#result').html(html);
+                	var search = '';
+	                search += "<div class='input-group search1-group'>";
+	                search += "<input type='search' id='search' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+	                search += "<div class='input-group-addon search1' data-click-state='0'></div></div>";
+
+	                $('#contents').dataTable({
+	                    "scrollY": 400,
+	                    "scrollCollapse": true,
+	                    "jQueryUI": true,
+	                    "paging": false,
+	                });
+
+	                $('#contents_filter').append(search);
+	                $('#contents_filter label').hide();
+
+	                $('#search').on('keyup', function() {
+	                    var s = $('#search').val();
+	                    $('#contents_filter label input[type=search]').val(s);
+	                    $('#contents_filter label input[type=search]').keyup();
+	                });
+
+                }, 1000);
+
+                document.addEventListener('DOMSubtreeModified', hide);
+                $('#files').on('click',function(){
+                    $('#result').html('');
+                });
+            };
+
+            reader.onerror = function() {
+                alert('Unable to read ' + file.fileName);
+            };
+        }
+
+        var idx = 0;
+        $('#btn_mapping_artist').on('click', function(e) {
+            var obj = filelist[idx];
+            console.log(obj);
+
+            mappingArtist(obj);
+        });
+
+        function validateRow(obj){
+            console.log(obj);
+            obj.errorMessage = "";
+            if(obj.songname.length ==0){
+                obj.errorMessage = "Please enter song name.";
+                return false;
+            }
+            if(obj.songlocation.length ==0){
+                obj.errorMessage = "Please enter song location.";
+                return false;
+            }
+            if(obj.singername.length ==0){
+                obj.errorMessage = "Please enter singer name.";
+                return false;
+            }
+            if(obj.avatarlocation.length ==0){
+                obj.errorMessage = "Please enter avatar location.";
+                return false;
+            }
+            if(obj.duration.length ==0){
+                obj.errorMessage = "Please enter song duration.";
+                return false;
+            }
+            if(obj.publishdate.length ==0){
+                obj.errorMessage = "Please enter publish date.";
+                return false;
+            }
+
+            var i = 0;
+            filelist.forEach(element => {
+                i++;
+                if(element.errorMessage.length == 0){
+                if(element.songname == obj.songname && element.singername == obj.singername && element.duration ==obj.duration && element.publishdate == obj.publishdate){
+                    obj.errorMessage = "Duplicate song with row "+ i;
+                    return false;
+                }
+              }
+            });
+
+            return true;
+        }
+
+        function mappingArtist(obj) {
+            if (obj == undefined) {
+                return;
+            }
+            $.post('/mapping-artist', {
+                songname: obj.songname,
+                artistname: obj.artistname
+            }, (data) => {
+                if (data.error == 0) {
+                    console.log('ok');
+                }else{
+                    console.error('not ok');
+                }
+                idx++;
+                var nextObj = filelist[idx];
+                mappingArtist(nextObj);
+            });
+        }
+    </script>
+
+    <script>
+
+        function getDirectory() {
+            loading('Processing...');
+            document.getElementById('directory').click();
+        };
+
+        function mappingMassRegistration(input) {
+            hide();
+            var files = input.files;
+            if (files.length == 0) {
+                alert('No one file found');
+                return;
+            }
+
+            if (filelist.length == 0) {
+                alert('No items to match');
+                return;
+            }
+
+            allowanced = true;
+            for (var i = 0; i < filelist.length; i++) {
+                const obj = filelist[i];
+                if (obj.songname.length != 0) {
+                    var checked = false;
+                    for (var j = 0; j < files.length; j++) {
+                        var fileName = files[j].name.replace('.mp3', '').trim();
+                        if (fileName == obj.songname && files[j].webkitRelativePath.includes(obj.cat)) {
+                            obj.file = files[j];
+                            checked = true;
+                            break;
+                        }
+                    }
+                    if (!checked) {
+                        filelist[i].status = false;
+                        filelist[i].errmsg = 'File not found';
+                        failedlist.push(filelist[i]);
+                    } else {
+                        filelist[i].status = true;
+                    }
+                    var tdindex = 'tdpath' + (i + 1);
+                    var tdpath = document.getElementById(tdindex);
+
+                    if (checked) {
+                        tdpath.innerHTML = filelist[i].file.webkitRelativePath;
+                    } else {
+                        tdpath.innerHTML = '<i class="fa fa-times" aria-hidden="true" style="color: #ff0000;"></i>&nbsp;&nbsp;' + filelist[i].errmsg;
+                        tdpath.style.color = '#ff0000';
+                    }
+                }
+            }
+            console.log('Merge successed', filelist.length - failedlist.length);
+        }
+
+        function instancePopup(data) {
+            var html = '';
+            html += "<table id='fail_table' class='fail-table table-hover'>";
+            html += "<thead><tr><th>No.</th>";
+            html += "<th>Cat No.</th>";
+            html += "<th>Song Name</th>";
+            html += "<th>Artist</th>";
+            html += "<th>Writer</th>";
+            html += "<th>Lyricist</th>";
+            html += "<th>Error Message</th>";
+            html += '</tr></thead><tbody>';
+            var i = 1;
+            data.forEach((obj) => {
+                html += '<tr><td>' + i + '</td>';
+                html += "<td>" + obj.cat + '</td>';
+                html += "<td>" + obj.songname + '</td>';
+                html += "<td>" + obj.artistname + '</td>';
+                html += "<td>" + obj.composername + '</td>';
+                html += "<td>" + obj.lyricname + '</td>';
+                html += "<td style='color: #ff0000'>" + obj.errmsg + '</td></tr>'
+                i++;
+            });
+            html += '</tbody></table>';
+
+            bootbox.dialog({
+                message: html,
+                closeButton: false,
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancel',
+                        class: 'btn btn-default',
+                        callback: () => {
+                            window.location.reload();
+                        }
+                    },
+                    continute: {
+                        label: '<i class="fa fa-check"></i> Continute',
+                        class: 'btn btn-primary',
+                        callback: () => {
+                            var id = document.getElementById('user_id').value;
+                            if (id != undefined) {
+                                window.location.href = '/mass-registration?id=<%=user._id%>';
+                            }else{
+                                window.location.href = '/mass-registration';
+                            }
+                        }
+                    }
+                }
+            });
+            var fail_search = '';
+            fail_search += "<div class='input-group search1-group'>";
+            fail_search += "<input type='search' id='search1' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+            fail_search += "<div class='input-group-addon search1'></div></div>";
+
+            $('#fail_table').dataTable({
+                "scrollY": 200,
+                "scrollCollapse": true,
+                "jQueryUI": true,
+                "paging": false,
+                'responsive': true
+            });
+
+            $('#fail_table_filter').append(fail_search);
+            $('#fail_table_filter label').hide();
+
+            $('#search1').on('keyup', function() {
+                var s = $('#search1').val();
+                $('#fail_table_filter label input[type=search]').val(s);
+                $('#fail_table_filter label input[type=search]').keyup();
+            });
+        }
+
+        var progress = document.getElementById('myBar');
+        var index = 0;
+
+        function getListFileUpload() {
+            // console.log(filelist);
+            $('html, body').animate({ scrollTop: 0 }, 600);
+            if (!checkCSVFileStatus) {
+                bootbox.alert("There are few issue with your csv file. Please correct it before upload.");
+                return;
+            }
+            uploadDataToServerToWAdminCheck();
+            // document.getElementById('progressbar').style.display = "block";
+            // document.getElementById('progress').innerHTML = '0/'+ filelist.length +' files successed';
+            // var obj = filelist[index];
+            // upload(obj, index);
+        }
+
+        function uploadDataToServerToWAdminCheck(){
+            loading('loading...');
+            $.ajax({
+                type: 'POST',
+                url: "/api/mass/create-multi-songs",
+                data: {
+                    songs: filelist
+                },
+                cache: false
+            }).done((res) => {
+                if(res.failedList.length >0){
+                    // bootbox.alert("Upload completed", function(){ window.location.href = '/mass-registration';});
+                    bootbox.alert({ 
+                      title: "Error",
+                      message: "There are some errors:<br/>" + res.failedList.join("<br>"), 
+                      callback: function(){  }
+                    })
+                }else{
+                    bootbox.alert("Upload completed. We will process data and will let you know next step shortly. Thanks!!!", function(){ window.location.href = '/mass-registration';});
+                }
+            }).fail(() => {
+                bootbox.alert("There is something wrong");
+            });
+        }
+
+        function upload(obj, idx) {
+            console.log(obj);
+            if (obj == undefined) {
+                if (failedlist.length != 0) {
+                    //show popup file upload failed
+                    instancePopup(failedlist);
+                } else {
+                    var id = document.getElementById('user_id').value;
+                    if (id != undefined) {
+                        window.location.href = '/mass-registration?id=<%=user._id%>';
+                    }else{
+                        window.location.href = '/mass-registration';
+                    }
+                }
+                return;
+            }
+            if (!obj.status) {
+                index++;
+                var nextObj = filelist[index];
+                upload(nextObj, index);
+            } else {
+                document.getElementById('file_name').innerHTML = obj.songname;
+                var percentComplete = parseInt((index + 1) / filelist.length * 100);
+                progress.style.width = percentComplete + '%';
+                Mass.song_mass_upload(obj.file, success, failure);
+            }
+        }
+
+        var count = 0;
+        function success(hash) {
+            console.log('success');
+            var obj = filelist[index];
+            obj.hash = hash;
+
+            Upload.upload_song(obj.file, (err, data, songTempUrl) => {
+                if (err || !data) {
+                    var failedObj = filelist[index];
+                    failedObj.errmsg = 'Could not upload.';
+                    failedlist.push(failedObj);
+
+                    index++;
+                    var nextObj = filelist[index];
+                    upload(nextObj, index);
+                    return;
+                }
+                
+                obj.tempUrl = songTempUrl;
+                var ext = obj.file.name.split('.').pop();
+                var size = obj.file.size;
+
+                count++;
+                document.getElementById('progress').innerHTML = count + '/' + filelist.length + ' files successed';
+
+                Mass.save_song_mass(obj.hash, obj.cat, obj.tempUrl, obj.songname, obj.artistname, obj.lyricname, obj.composername, ext, size, (status, msg) => {
+                    if (!status) {
+                        var failedObj = filelist[index];
+                        failedObj.errmsg = msg;
+                        failedlist.push(failedObj);
+                    }
+
+                    index++;
+                    var nextObj = filelist[index];
+                    upload(nextObj, index);
+                });
+            }, progressHandler);
+        }
+
+        function failure(msg) {
+            var failedObj = filelist[index];
+            failedObj.errmsg = msg;
+            failedlist.push(failedObj);
+
+            index++;
+            var nextObj = filelist[index];
+            upload(nextObj, index);
+        }
+
+        function progressHandler(evt) {
+            // if (evt.lengthComputable) {
+            //     var percentComplete = evt.loaded / evt.total;
+            //     percentComplete = parseInt(percentComplete * 100);
+
+            //     if (percentComplete == 100) {
+            //         count++;
+            //         document.getElementById('progress').innerHTML = count + '/' + filelist.length + ' files successed';
+
+            //         var obj = filelist[index];
+            //         obj.tempUrl = '/uploads/audio/' + filelist[index].file.name;
+            //         var ext = obj.file.name.split('.').pop();
+            //         var size = obj.file.size;
+            //         Mass.save_song_mass(obj.hash, obj.cat, obj.tempUrl, obj.songname, obj.artistname, ext, size, (status, msg) => {
+            //             if (!status) {
+            //                 var failedObj = filelist[index];
+            //                 failedObj.errmsg = msg;
+            //                 failedlist.push(failedObj);
+            //             }
+
+            //             index++;
+            //             var nextObj = filelist[index];
+            //             upload(nextObj, index);
+            //         });
+            //     }
+            // }
+        }
+
+        $(document).ready(function() {
+            $('.btn_cancel').on('click', function() {
+                $('#popup').removeClass('show');
+                $('body').toggleClass('modal-open');
+            });
+        });
+    </script>
+</body>
+
+</html>

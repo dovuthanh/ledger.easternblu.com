@@ -1,0 +1,90 @@
+<h3>Verify</h3>
+<div class="form_result" id="form_verify_result">
+	<div><p style="color: #00f; font-size: 16px;">Verify successfull.</p></div>
+	<input type="text" id="signature" readonly="" hidden="" value="<%=signature%>">
+	<input type="text" id="merkle" readonly="" hidden="" value="<%=merkle%>">
+	<input type="text" id="hash" readonly="" hidden="" value="<%=hash%>">
+	<input type="text" id="role" readonly="" hidden="" value="<%=role%>">
+
+	<div class="table-responsive table_verify_result">
+		<table class="table">
+			<%if(type == 1){%>
+				<tr>
+					<th>Song title</th>
+					<td><%=title%></td>
+				</tr>
+			<%}else if(type==2) {%>
+				<tr>
+					<th>Work title</th>
+					<td><%=title%></td>
+				</tr>
+			<%}%>
+			<tr>
+				<th>Contract Address</th>
+				<td><%=address%></td>
+			</tr>
+		    <tr>
+		    	<th>Digilal Signature</th>
+		    	<td><%=signature%>&nbsp;&nbsp;<button class="copy btn btn-default" data-clipboard-text="<%=signature%>">COPY</button></td>
+		    </tr>
+		    <tr>
+		    	<%if(type == 3) {%>
+		    		<th>Merkle Root</th>
+		    		<td><%=merkle%>&nbsp;&nbsp;<button class="copy btn btn-default" data-clipboard-text="<%=merkle%>">COPY</button></td>
+		    	<%}else{%>
+		    		<th>Hash</th>
+		    		<td><%=hash%>&nbsp;&nbsp;<button class="copy btn btn-default" data-clipboard-text="<%=hash%>">COPY</button></td>
+		    	<%}%>
+		    </tr>
+		    <%if(type == 3 && hash.length != 0) {%>
+		    	<tr>
+			    	<th>Hash</th>
+			    	<td><%=hash%>&nbsp;&nbsp;<button class="copy btn btn-default" data-clipboard-text="<%=hash%>">COPY</button></td>
+			    </tr>
+		    <%}%>
+		    <tr>
+		    	<th>Account Number</th>
+		    	<td><%=role%>&nbsp;&nbsp;<button class="copy btn btn-default" data-clipboard-text="<%=role%>">COPY</button></td>
+		    </tr>
+		    <tr>
+				<th>Type</th>
+				<%if(type == 3) {%>
+					<td>Mass Recording</td>
+				<%}else if(type == 2) {%>
+					<td>Work Recording</td>
+				<%}else{%>
+					<td>Song Recording</td>
+				<%}%>
+				<input type="text" id="type" readonly="" hidden="" value="<%=type%>">
+			</tr>
+		</table>
+	</div>
+	<p>Please proceed to <a class="au" href="#" onclick="authentication();">authentication page</a> to verify this information. Lorem lpsum</p>
+
+	<div class="ic-close" style="margin: 40px 30px 0px 0px">
+		<a href="#" onclick="tabBack();"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready((e) => {
+		var clipboard = new ClipboardJS('.btn');
+
+		clipboard.on('success', function(event) {
+	        console.log(event);
+	        $(event.trigger).text("Copied!");
+	        event.clearSelection();
+		    setTimeout(function() {
+		      $(event.trigger).text("COPY");
+		    }, 1500);
+	    });
+
+	    clipboard.on('error', function(event) {
+	        console.error(event);
+	        $(event.trigger).text("Could not copied!");
+	        setTimeout(function() {
+		      $(event.trigger).text("COPY");
+		    }, 1500);
+	    });
+	});
+</script>

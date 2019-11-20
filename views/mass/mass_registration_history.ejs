@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REGISTRATION</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <!-- <link rel="stylesheet" href="css/home/home_loggedin.css"> -->
+    <link rel="stylesheet" href="css/admin_user/admin_user.css">
+    <link rel="stylesheet" href="css/admin_mass_registration/admin_mass_register.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+    <link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active search_results">
+                            <div class="search_left">
+                                <h3>REGISTRATION</h3>
+                            </div>
+
+                            <!-- <button class="btn btn-default mass" onclick="window.location.href='/mass-registration'">New Mass</button> -->
+
+                            <div class="clear"></div>
+                            <div class="table-responsive" id="table_search">
+                                <table class="table table-curved">
+                                    <tr>
+                                        <td>
+                                            <p>Batch ID</p>
+                                        </td>
+                                        <td>
+                                            <p>Album Name</p>
+                                        </td>
+                                        <td>
+                                            <p>Status</p>
+                                        </td>
+                                        <td>
+                                            <p>Owner Name</p>
+                                        </td>
+                                        <td>
+                                            <p>User ID</p>
+                                        </td>
+                                        <td>
+                                            <p>Registered Date</p>
+                                        </td>
+                                    </tr>
+                                    <%
+					    		 	var i=0;
+					    		 	merkles.forEach(function(merkle){
+					    		 		i++;
+					    		 	%>
+                                        <tr>
+                                            <td>
+                                                <a href="/admin-mass-migration-detail?id=<%=merkle._id%>">
+                                                    <p class="crop">
+                                                        <%=merkle.batchId%>
+                                                    </p>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <p class="crop"><%=merkle.albumName%></p>
+                                            </td>
+                                        <%if(merkle.isCompleted){%>
+                                            <td>
+                                                <p class="crop">Completed</p>
+                                            </td>
+                                        <%}else{%>
+                                            <td>
+                                                <p class="crop">Processing</p>
+                                            </td>
+                                        <%}%>
+                                        <%if(merkle.userRefer){%>
+                                            <td>
+                                                <p>
+                                                    <%=merkle.userRefer.userAccountName%>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="crop">
+                                                    <%=merkle.ownerPublicKey%>
+                                                </p>
+                                            </td>
+                                        <%}else{%>
+                                            <td>
+                                                <p>Unknown</p>
+                                            </td>
+                                            <td>
+                                                <p>Unknown</p>
+                                            </td>
+                                        <%}%>
+                                            <td>
+                                                <p>
+                                                    <%=merkle.dateRegistration%>
+                                                </p>
+                                            </td>
+                                            <!-- <%if(merkle.blockHash == undefined || merkle.blockHash.length == 0) {%>
+                                                <td>
+                                                    <a href="#" onclick="deploy_migration('<%=merkle._id%>');">
+                                                        <button class="btn_mass_migration" type="button" style="min-width: 200px;">DEPLOY MIGRATION</button>
+                                                    </a>
+                                                </td>
+                                            <%}else{%>
+                                                <td>
+                                                    <p></p>
+                                                </td>
+                                            <%}%> -->
+                                        </tr>
+                                        <%});%>
+                                </table>
+                            </div>
+
+                            <!-- pagination -->
+                            <nav aria-label="Page navigation example" id="pagination">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" href="<%=paginate.href(true).prev%>">PREV</a></li>
+                                    <%
+						    			pages.forEach(function(page){
+						    		%>
+                                        <li class="page-item">
+                                            <a class="page-link" href="<%=page.url%>">
+                                                <%=page.number%>
+                                            </a>
+                                        </li>
+                                    <%})%>
+                                        <li class="page-item"><a class="page-link" href="<%=paginate.href().next%>">NEXT</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <dir class="right-content">
+                <%- include ../menu/right_menu_content.ejs %>
+            </dir>
+        </div>
+        <div class="music-player has-player">
+        </div>
+    </div>
+
+    <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+    <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/jquery.migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="js/jquery.mobile.customized.min.js"></script>
+    <script type="text/javascript" src="js/wait.js"></script>
+    <script type="text/javascript" src="js/jquery.parallax.min.js"></script>
+
+    <script type="text/javascript" src="js/jquery.tweet.js"></script>
+    <script type="text/javascript" src="js/jquery.scrollTo.js"></script>
+
+    <!-- <script type="text/javascript" src="js/camera.js"></script> -->
+
+    <script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+
+    <!-- Player -->
+
+    <script type="text/javascript" src="js/player/soundmanager2-nodebug-jsmin.js"></script>
+    <script type="text/javascript" src="https://connect.soundcloud.com/sdk.js"></script>
+    <script type="text/javascript" src="js/player/amplify.min.js"></script>
+    <script type="text/javascript" src="js/player/jquery.fullwidthAudioPlayer.min.js"></script>
+
+    <!-- Custom Js -->
+
+    <script type="text/javascript" src="js/custom.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $('.dropdown-menu li a').click(function() {
+            $('#search').val($(this).text());
+            $('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+        });
+        $(document).ready(function() {
+            $('#<%=menu_index%>').addClass('active');
+        });
+    </script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+        var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+                disable: true,
+            },
+            notifyButton: {
+                enable: true,
+                prenotify: true,
+                position: 'bottom-left',
+                size: 'medium',
+                showCredit: false
+            }
+        }]);
+    </script>
+    <script type="text/javascript" src="javascripts/mass.js"></script>
+    <script type="text/javascript">
+        function deploy_migration(id) {
+            Mass.admin_deploy_mass_registration(id);
+        }
+    </script>
+</body>
+
+</html>

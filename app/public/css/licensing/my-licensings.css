@@ -1,0 +1,22 @@
+#tab-content .tab-content {
+    padding: 25px;
+}
+h5 {
+	text-align: left;
+	font-weight: bold;
+	margin-left: 10px;
+}
+#button {
+	background: #fff;q
+	color: #fff;
+	border: 1px solid #ccc;
+	color: blue;
+	margin-top: 10px;
+}
+.accept {
+	float: left;
+	width: 100%;
+}
+p{
+	text-justify: auto
+}

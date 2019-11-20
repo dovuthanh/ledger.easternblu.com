@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Index</title>
+	<link rel="stylesheet" href="../css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/common/common.css">
+	<link rel="stylesheet" href="../css/home/home.css">
+	<link rel="stylesheet" href="../css/search_results/search_results.css">
+	<link rel="stylesheet" href="../css/my_songs/my_songs.css">
+	<link rel="stylesheet" type="text/css" href="../css/vouchers/voucher.css">
+
+	<script src="../js/jquery-3.2.1.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+	<script src="../js/icheck.min.js"></script>
+</head>
+<body>
+	<!-- header-slider -->
+	<div class="song">
+         <%- include ../menu/header_vouchers.ejs %>
+    </div>
+    <div class="home">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+               	<div class="wrap_content">
+               		<div class="table-responsive" id="table_search">
+               			<table class="table table-curved">
+               				<tbody>
+               					<tr>
+				    				<td></td>
+				    				<td><p>No.</p></td>
+					    			<td><p>Owner Address</p></td>
+					    			<td style="min-width: 150px;"><p>Type</p></td>
+					    			<td style="min-width: 150px;"><p>Status</p></td>
+					    			<td><p>Amount</p></td>
+					    			<td><p>Discount</p></td>
+					    			<td><p>Verification</p></td>
+					    			<td></td>
+					    		</tr>
+               					<%
+               						var i = 0;
+					    			vouchers.forEach((voucher) => {
+					    		%>
+					    			<%if(voucherIDs.indexOf(voucher.id) == -1){
+					    				i++;
+					    			%>
+						    			<tr>
+							    			<td><input type="checkbox" name=""></td>
+							    			<td><%=i%></td>
+							    			<td><p><%=voucher.ownerAddress%></p></td>
+							    			<td style="min-width: 150px;"><p><%=voucher.type%></p></td>
+							    			<td style="min-width: 150px;"><p><%=voucher.status%></p></td>
+							    			<td><p><%=voucher.amount%></p></td>
+							    			<td><p><%=voucher.discount%>%</p></td>
+							    			<td><p>Verified</p></td>
+							    			<td><button class="btn_search_results" id="<%=voucher._id%>" onclick="add_to_shop_cart(this);"><i class="fa fa-cart-plus" aria-hidden="true" style="font-size: 1.5em;"></i></button></td>
+							    		</tr>
+						    		<%}%>
+					    		<%});%>
+               				</tbody>
+			    		</table>
+               		</div>
+
+               		<!-- pagination -->
+				  	<nav aria-label="Page navigation example" id="pagination">
+					  	<ul class="pagination">
+						    <li class="page-item"><a class="page-link" href="<%=paginate.href(true).prev%>">PREV</a></li>
+						    <%
+						    pages.forEach(function(page){
+						    %>
+						    <li class="page-item"><a class="page-link" href="<%=page.url%>"><%=page.number%></a></li>
+						    <%})%>
+						    <li class="page-item"><a class="page-link" href="<%=paginate.href().next%>">NEXT</a></li>
+					  	</ul>
+					</nav>
+                </div>
+            </div>
+            <div class="right-content">
+             	<%- include ../menu/right_menu_content_vouchers.ejs %>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../javascripts/vouchers.js"></script>
+    <script type="text/javascript">
+    	$('document').ready(() => {
+    		$('#<%=menu_index%>').addClass('active');
+    	});
+
+    	function add_to_shop_cart(e) {
+    		console.log(e.id);
+    		Voucher.vouchers_add_to_shop_cart(e.id);
+    	}
+
+    	function gotoShopCart() {
+    		window.location.href = '/vouchers/shop-cart';
+    	}
+    </script>
+</body>
+</html>

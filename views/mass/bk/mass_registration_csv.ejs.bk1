@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REGISTER SONG</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/my_songs/my_songs.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="css/mass_registration/mas_register.css">
+    <link rel="stylesheet" href="css/mass_registration/nav-wizard.bootstrap.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="javascripts/mass.js"></script>
+    <script src="js/jquery.csv.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div id="regis_step_1">
+                        <div class="regis_song">
+                            <h3>REGISTRATION</h3>
+                            <div class="upload">
+                                <div class="song_name" id="song_file_name"></div>
+                                <div class="upload-right" id="progress"></div>
+                                <div class="clear"></div>
+                                <div class="tbar" style="display: none;">
+                                    <div id="myBar" class="uploading" style="width: 0;"></div>
+                                </div>
+                            </div>
+                            <ul class="nav nav-pills nav-wizard">
+                                <li><a href="/mass-registration">1. Import templates</a></li>
+                                <li class="active"><a href="/mass-registration-csv" >2. Export data</a></li>
+                                <li><a href="#" >3. Upload media file</a></li>
+                                <li><a href="#" >4. Preview</a></li>
+                                <li><a href="#" >5. Create wallet</a></li>
+                                <li><a href="#" >6. Deploy</a></li>
+                            </ul>
+                            <div class="clear"></div>
+                            <div class="info" id="info">
+                                <br/>
+                                <br/>
+                                <!-- <ol>  -->
+                                    <!-- <li class=""> -->
+                                    <p>Browse location of the Data for export:</p>
+                                    <!-- </li> -->
+                                    <br/>
+                                    <ol>
+                                    <div class="row">
+                                        <li>
+                                          <p> Blockchain <button id="btn_upload_blockchain" class="">Click here</button> to Browse location 
+                                          <label id="block_chain_file_name"></label></p> 
+                                          <input type="file" accept=".xlsx" name="block_chain_file" id="block_chain_file"/>
+                                        </li>
+                                        <li>
+                                          <p> Songs. 
+                                              <button id="btn_upload_song_data" class="">Click here</button>
+                                              to Browse location<label id="song_data_file_name"></label></p>
+                                          <input type="file" accept=".xlsx" name="song_data_file" id="song_data_file" />
+                                        </li>
+                                        <li>
+                                            <p> Artist
+                                                <button id="btn_upload_artist_data" class="">Click here</button>
+                                                to Browse location<label id="artist_data_file_name"></label>
+                                            </p>
+                                          <input type="file" accept=".xlsx" name="artist_data_file" id="artist_data_file"/>
+                                        </li>
+                                    </div>
+                                    </ol>
+                                    <p>When the locations are determine above, <button class="" onclick="ValidateFile();">click here</button> to export those data </p>
+                                    
+                            </div>
+                            <br/>
+                            <br/>
+                            <div id="tab-content-import" style="display: none;">
+                                <ul class="nav nav-tabs">
+                                    <li class="active" id="blockchain_tab"><a data-toggle="tab" href="#blockchain">BLOCK CHAIN</a></li>
+                                    <li class="" id="blockchain_tab"><a data-toggle="tab" href="#song_data">SONGS</a></li>
+                                    <li class="" id="blockchain_tab"><a data-toggle="tab" href="#artist_data">ARTIST</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="blockchain" class="tab-pane fade in active">
+                                        <div id="result" border></div>
+                                    </div>
+                                    <div id="song_data" class="tab-pane fade">
+                                        <div id="song_data_result" border></div>
+                                    </div>
+                                    <div id="artist_data" class="tab-pane fade">
+                                        <div id="artist_data_result" border></div>
+                                    </div>
+                                </div>     
+
+                            <button class="btn btn-default" id="upfile" onclick="saveDataToServer();">Save</button>   
+                            <button class="btn btn-default margin-right-10" id="upfile" onclick="ResetData();">Reset</button>       
+                            </div>
+                            <div class="clear"></div>
+                            <div id="loading">
+                                <img class='img-load' src="images/loading.gif">
+                                <p class='load'></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <%- include ../process/loading.ejs %>
+                </div>
+            </div>
+            <div class="right-content">
+                <%- include ../menu/right_menu_content.ejs %>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script type="text/javascript">
+        var blockChainFile;
+        var songFile;
+        var artistFile;
+        var checkCSVFileStatus;
+        var filelist = [];
+        var axcvs = [];
+        var failedlist = [];
+        var allowanced = false;
+        var countErrorRow = 0;
+
+        $('#btn_upload_blockchain').on('click', function(e) {
+            document.getElementById('block_chain_file').click();
+        });
+
+        $('#btn_upload_song_data').on('click', function(e) {
+            document.getElementById('song_data_file').click();
+        });
+
+        $('#btn_upload_artist_data').on('click', function(e) {
+            document.getElementById('artist_data_file').click();
+        });
+
+        $(document).ready(function() {
+            if (isAPIAvailable()) {
+                $('#block_chain_file').bind('change', handleFileSelect1);
+                $('#song_data_file').bind('change', handleFileSelect2);
+                $('#artist_data_file').bind('change', handleFileSelect3);
+            }
+        });
+
+        function isAPIAvailable() {
+            // Check for the various File API support.
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                // Great success! All the File APIs are supported.
+                return true;
+            } else {
+                // source: File API availability - http://caniuse.com/#feat=fileapi
+                // source: <output> availability - http://html5doctor.com/the-output-element/
+                document.writeln('The HTML5 APIs used in this form are only available in the following browsers:<br />');
+                // 6.0 File API & 13.0 <output>
+                document.writeln(' - Google Chrome: 13.0 or later<br />');
+                // 3.6 File API & 6.0 <output>
+                document.writeln(' - Mozilla Firefox: 6.0 or later<br />');
+                // 10.0 File API & 10.0 <output>
+                document.writeln(' - Internet Explorer: Not supported (partial support expected in 10.0)<br />');
+                // ? File API & 5.1 <output>
+                document.writeln(' - Safari: Not supported<br />');
+                // ? File API & 9.2 <output>
+                document.writeln(' - Opera: Not supported');
+                return false;
+            }
+        }
+
+        function ValidateFile(){
+            if(blockChainFile == undefined){
+                bootbox.alert("Please import Block Chain file");
+                return;
+            }
+            importTemplateFile();
+        }
+
+        function handleFileSelect1(evt) {
+            var files = evt.target.files;
+            console.log(files);
+            var file = files[0];
+            blockChainFile = file;
+            document.getElementById('block_chain_file_name').innerHTML = file.name;
+            console.log(file.name);
+        }
+        function handleFileSelect2(evt) {
+            var files = evt.target.files;
+            var file = files[0];
+            songFile = file;
+            document.getElementById('song_data_file_name').innerHTML = file.name;
+            console.log(file.fileName);
+        }
+        function handleFileSelect3(evt) {
+            var files = evt.target.files;
+            var file = files[0];
+            artistFile = file;
+            document.getElementById('artist_data_file_name').innerHTML = file.name;
+            console.log(file.fileName);
+        }
+
+        function loading(txt){
+            $('.load').html(txt);
+            $('#loading').show();
+        }
+        function hide(){
+           $('#loading').hide();
+        }
+
+        function showSongData(file) {
+            try{
+                checkCSVFileStatus = true;
+                var reader = new FileReader();
+                reader.onload = async function(event) {
+                    filelist = [];
+                    failedlist = [];
+                    axcvs = [];
+                    var fileData = event.target.result;
+                    var wb = XLSX.read(fileData, {type : 'binary'});
+                    wb.SheetNames.forEach(function(sheetName){
+                        var csvData = XLSX.utils.sheet_to_csv(wb.Sheets[sheetName]);
+                        console.log(csvData);
+                        var data = $.csv.toArrays(csvData);
+                        if(data.length >500){
+                            bootbox.alert("Song limit is 500.");
+                            return;
+                        }
+                        var html = "<table class='table table-hover' id='contents'>";
+                        loading('loading...');
+                        for (var row in data) {
+                            if (row < 8027) {
+                                if (row == 0) {
+                                    html += '<thead><tr>\r\n';
+                                    html += '<th>No.</th>\r\n';
+                                    for (var item in data[row]) {
+                                        // console.log(item);
+                                        if (item == 0 || item == 1 || item == 2 || item == 3 || item == 4 || item == 5 || item == 6) {
+                                            if (item <= data[row].length) {
+                                                html += '<th>' + data[row][item] + '</th>\r\n';
+                                            }
+                                        }
+                                    }
+                                    html += '<th>message</th>\r\n';
+                                    html += '</tr></thead><tbody>\r\n';
+                                } else {
+                                    var obj = {};
+                                    obj.id = row;
+                                    html += '<tr>\r\n';
+                                    html += '<th>' + row + '</th>\r\n';
+
+                                    for (var item in data[row]) {
+                                        console.log(item);
+                                        if (item <= data[row].length) {
+                                            if (item == 0) { // name
+                                                obj.songname = data[row][item].length == 0 ? '' : data[row][item];
+                                                html += '<td><input type="text" readonly="" hidden="" name="songname" id="songname' + row + '" value="' + obj.songname + '">' + obj.songname + '</td>\r\n';
+                                            } else if (item == 1) { // Song location
+                                                obj.songlocation = data[row][item].length == 0 ? '' : data[row][item];
+                                                html += '<td><input type="text" readonly="" hidden="" name="obj.song_location" id="song_location' + row + '" value="' + obj.songlocation + '">' + obj.songlocation + '</td>\r\n';
+                                            } else if (item == 2) { // singer
+                                                obj.singername = data[row][item].length == 0 ? '' : data[row][item];
+                                                html += '<td><input type="text" readonly="" hidden="" name="singername" id="singername' + row + '" value="' + obj.singername + '">' + obj.singername + '</td>\r\n';
+                                            }  else if (item == 3) { // duration
+                                                obj.duration = data[row][item].length == 0 ? '' : data[row][item];
+                                                html += '<td><input type="text" readonly="" hidden="" name="duration" id="duration' + row + '" value="' + data[row][item] + '">' + data[row][item] + '</td>\r\n';
+                                            }
+                                            else if (item == 4) { // publish date
+                                                obj.publishdate = data[row][item].length == 0 ? '' : data[row][item];
+                                                html += '<td><input type="text" readonly="" hidden="" name="publishdate" id="publishdate' + row + '" value="' + obj.publishdate + '">' + obj.publishdate + '</td>\r\n';
+                                            }
+                                        }
+                                    }
+                                    var result = validateRow(obj);
+                                    if(!result){
+                                        countErrorRow ++;
+                                        checkCSVFileStatus =false;
+                                    }
+                                    html += '<td><input type="text" readonly="" hidden="" name="errorMessage" id="errorMessage' + row + '" value="' + obj.errorMessage + '">' + obj.errorMessage + '</td>\r\n';
+                                    html += '<td name="tdpath" id="tdpath'+row+'"></td>\r\n';
+                                    html += '</tr>\r\n';
+                                    filelist.push(obj);
+                                }
+                            }
+                        }
+                        html += '</tbody></table>';
+                        // <i class="fa fa-times" aria-hidden="true" style="color: #ff0000; font-size: 1.5em;"></i>
+                        if(checkCSVFileStatus){
+                            //html += '<button class="btn btn-default" id="upfile" onclick="getListFileUpload();">Save</button>';
+                        }else{
+                            //html += '<button class="btn btn-default disabled" id="upfile">Save</button>';
+                            bootbox.alert("There are few issue with your csv file. Please correct it before upload.");
+                        }
+                    
+                        setTimeout(function(){
+                             //hidden zone
+                            var info = document.getElementById('info');
+                            info.style.display = "none";
+                            var tabContent = document.getElementById('tab-content-import');
+                            tabContent.style.display = "";
+
+                            //show sumary information
+                            var htmlInfo = "";
+                            htmlInfo +="<p>Your Songs:"+filelist.length+" - Error: "+countErrorRow+"</p>"
+                            $('#info').html(htmlInfo);
+                            $('#result').html(html);
+                            var search = '';
+                            search += "<div class='input-group search1-group'>";
+                            search += "<input type='search' id='search' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+                            search += "<div class='input-group-addon search1' data-click-state='0'></div></div>";
+
+                            $('#contents').dataTable({
+                                "scrollY": 400,
+                                "scrollCollapse": true,
+                                "jQueryUI": true,
+                                "paging": false,
+                            });
+
+                            $('#contents_filter').append(search);
+                            $('#contents_filter label').hide();
+
+                            $('#search').on('keyup', function() {
+                                var s = $('#search').val();
+                                $('#contents_filter label input[type=search]').val(s);
+                                $('#contents_filter label input[type=search]').keyup();
+                            });
+
+                        }, 1000);
+
+                        document.addEventListener('DOMSubtreeModified', hide);
+                        $('#files').on('click',function(){
+                            $('#result').html('');
+                        });
+                    });
+                };
+
+                reader.onerror = function() {
+                    alert('Unable to read ' + file.fileName);
+                };
+                reader.readAsBinaryString(file);
+            } catch(err){
+                 bootbox.alert(err);
+            }
+        }
+
+        function showBlockChainData(file) {
+            try{
+                checkCSVFileStatus = true;
+                var reader = new FileReader();
+                reader.onload = async function(event) {
+                    var fileData = event.target.result;
+                    var wb = XLSX.read(fileData, {type : 'binary'});
+                    filelist = [];
+                    failedlist = [];
+                    axcvs = [];
+                    wb.SheetNames.forEach(function(sheetName){
+                        var csvData = XLSX.utils.sheet_to_csv(wb.Sheets[sheetName]);
+                        console.log(csvData);
+                        var data = $.csv.toArrays(csvData);
+                        if(data.length >500){
+                            bootbox.alert("Song limit is 500.");
+                            return;
+                        }
+                        var html = "<table class='table table-hover' id='contents'>";
+                        loading('loading...');
+                        for (var row in data) {
+                            if (row == 0) {
+                                html += '<thead><tr>\r\n';
+                                html += '<th>No.</th>\r\n';
+                                for (var item in data[row]) {
+                                    // console.log(item);
+                                    if (item == 0 || item == 1 || item == 2 || item == 3 || item == 4 || item == 5 || item == 6) {
+                                        if (item <= data[row].length) {
+                                            html += '<th>' + data[row][item] + '</th>\r\n';
+                                        }
+                                    }
+                                }
+                                html += '<th>message</th>\r\n';
+                                html += '</tr></thead><tbody>\r\n';
+                            } else {
+                                if(data[row][0].length != undefined && data[row][0].trim().length>0){
+                                    var obj = {};
+                                    obj.id = row;
+                                    html += '<tr>\r\n';
+                                    html += '<th>' + row + '</th>\r\n';
+                                    console.log(data[row][0]);
+                                    for (var item in data[row]) {
+                                        if (item <= data[row].length) {
+                                            if (item == 0) { // name
+                                                obj.songname = data[row][item].length == 0 ? '' : data[row][item];
+                                                html += '<td><input type="text" readonly="" hidden="" name="songname" id="songname' + row + '" value="' + obj.songname + '">' + obj.songname + '</td>\r\n';
+                                            } else if (item == 1) { // Song location
+                                                obj.songlocation = data[row][item].length == 0 ? '' : data[row][item];
+                                                html += '<td><input type="text" readonly="" hidden="" name="obj.song_location" id="song_location' + row + '" value="' + obj.songlocation + '">' + obj.songlocation + '</td>\r\n';
+                                            } else if (item == 2) { // singer
+                                                obj.singername = data[row][item].length == 0 ? '' : data[row][item];
+                                                html += '<td><input type="text" readonly="" hidden="" name="singername" id="singername' + row + '" value="' + obj.singername + '">' + obj.singername + '</td>\r\n';
+                                            }  else if (item == 3) { // duration
+                                                obj.duration = data[row][item].length == 0 ? '' : data[row][item];
+                                                html += '<td><input type="text" readonly="" hidden="" name="duration" id="duration' + row + '" value="' + data[row][item] + '">' + data[row][item] + '</td>\r\n';
+                                            }
+                                            else if (item == 4) { // publish date
+                                                obj.publishdate = data[row][item].length == 0 ? '' : data[row][item];
+                                                html += '<td><input type="text" readonly="" hidden="" name="publishdate" id="publishdate' + row + '" value="' + obj.publishdate + '">' + obj.publishdate + '</td>\r\n';
+                                            }
+                                        }
+                                    }
+                                    var result = validateRow(obj);
+                                    if(!result){
+                                        countErrorRow ++;
+                                        checkCSVFileStatus =false;
+                                    }
+                                    html += '<td><input type="text" readonly="" hidden="" name="errorMessage" id="errorMessage' + row + '" value="' + obj.errorMessage + '">' + obj.errorMessage + '</td>\r\n';
+                                    html += '<td name="tdpath" id="tdpath'+row+'"></td>\r\n';
+                                    html += '</tr>\r\n';
+                                    filelist.push(obj);
+                                }
+                            }
+                        }
+                        html += '</tbody></table>';
+                        // <i class="fa fa-times" aria-hidden="true" style="color: #ff0000; font-size: 1.5em;"></i>
+                        if(checkCSVFileStatus){
+                            //html += '<button class="btn btn-default" id="upfile" onclick="getListFileUpload();">Save</button>';
+                        }else{
+                            //html += '<button class="btn btn-default disabled" id="upfile">Save</button>';
+                            bootbox.alert("There are few issue with your csv file. Please correct it before upload.");
+                        }
+                    
+                        setTimeout(function(){
+                             //hidden zone
+                            var info = document.getElementById('info');
+                            info.style.display = "none";
+                            var tabContent = document.getElementById('tab-content-import');
+                            tabContent.style.display = "";
+
+                            //show sumary information
+                            var htmlInfo = "";
+                            htmlInfo +="<p>Your Songs:"+filelist.length+" - Error: "+countErrorRow+"</p>"
+                            $('#info').html(htmlInfo);
+                            $('#result').html(html);
+                            var search = '';
+                            search += "<div class='input-group search1-group'>";
+                            search += "<input type='search' id='search' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+                            search += "<div class='input-group-addon search1' data-click-state='0'></div></div>";
+
+                            $('#contents').dataTable({
+                                "scrollY": 400,
+                                "scrollCollapse": true,
+                                "jQueryUI": true,
+                                "paging": false,
+                            });
+
+                            $('#contents_filter').append(search);
+                            $('#contents_filter label').hide();
+
+                            $('#search').on('keyup', function() {
+                                var s = $('#search').val();
+                                $('#contents_filter label input[type=search]').val(s);
+                                $('#contents_filter label input[type=search]').keyup();
+                            });
+
+                        }, 1000);
+
+                        document.addEventListener('DOMSubtreeModified', hide);
+                        $('#files').on('click',function(){
+                            $('#result').html('');
+                        });
+                    });
+                };
+
+                reader.onerror = function() {
+                    alert('Unable to read ' + file.fileName);
+                };
+                reader.readAsBinaryString(file);
+            } catch(err){
+                 bootbox.alert(err);
+            }
+        }
+
+        function validateRow(obj){
+            obj.errorMessage = "";
+            if(obj.songname.length ==0){
+                obj.errorMessage = "Please enter song name.";
+                return false;
+            }
+            if(obj.songlocation.length ==0){
+                obj.errorMessage = "Please enter song location.";
+                return false;
+            }
+            if(obj.singername.length ==0){
+                obj.errorMessage = "Please enter singer name.";
+                return false;
+            }
+            if(obj.duration.length ==0){
+                obj.errorMessage = "Please enter song duration.";
+                return false;
+            }
+            if(obj.publishdate.length ==0){
+                obj.errorMessage = "Please enter publish date.";
+                return false;
+            }
+
+            var i = 0;
+            filelist.forEach(element => {
+                i++;
+                if(element.errorMessage.length == 0){
+                if(element.songname == obj.songname && element.singername == obj.singername && element.duration ==obj.duration && element.publishdate == obj.publishdate){
+                    obj.errorMessage = "Duplicate song with row "+ i;
+                    return false;
+                }
+              }
+            });
+            return true;
+        }
+
+        function importTemplateFile() {
+            showBlockChainData(blockChainFile);
+        }
+
+        function saveDataToServer(){
+            $('html, body').animate({ scrollTop: 0 }, 600);
+            if (!checkCSVFileStatus) {
+                bootbox.alert("There are few issue with your csv file. Please correct it before upload.");
+                return;
+            }
+            uploadDataToServerToWAdminCheck();
+        }
+
+        function uploadDataToServerToWAdminCheck(){
+            loading('loading...');
+            $.ajax({
+                type: 'POST',
+                url: "/api/mass/create-multi-songs",
+                data: {
+                    songs: filelist
+                },
+                cache: false
+            }).done((res) => {
+                if(res.failedList.length >0){
+                    // bootbox.alert("Upload completed", function(){ window.location.href = '/mass-registration';});
+                    bootbox.alert({ 
+                      title: "Error",
+                      message: "There are some errors:<br/>" + res.failedList.join("<br>"), 
+                      callback: function(){  }
+                    })
+                }else{
+                    bootbox.alert("Upload completed", function(){ window.location.href = '/mass-registration-media-upload';});
+                }
+            }).fail(() => {
+                bootbox.alert("There is something wrong");
+            });
+        }
+
+    </script>
+</body>
+
+</html>

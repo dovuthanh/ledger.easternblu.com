@@ -1,0 +1,279 @@
+
+.object-fit_fill {
+  object-fit: fill
+}
+
+.object-fit_contain {
+  object-fit: contain
+}
+
+.object-fit_cover {
+  object-fit: cover
+}
+
+.object-fit_none {
+  object-fit: none
+}
+
+.object-fit_scale-down {
+  object-fit: scale-down
+}
+.text-center{
+	text-align: center;
+	font-size: 20px;
+	padding-top: 10px
+}
+
+h3 {
+	text-align: center;	
+
+}
+
+.container-fluid-demo {
+    background: #F6F6F6;
+    overflow: hidden;
+    max-height: 370px;
+}
+
+.container-fluid {
+    background: #F6F6F6;
+    overflow: hidden;
+    max-height: 316px;
+}
+
+.container-fluid-new {
+    background: #F6F6F6;
+    padding: 20px;
+}
+
+a:focus, a:hover  {
+	text-decoration: none !important;
+}
+
+hr {
+	width: 55px;
+	border-top: 1px solid #080808;
+	margin-top: 4px;
+}
+h5 {
+	color: #6081a0;
+	font-weight: bold;
+}
+.text-more {
+	margin-top: 30px;
+	float: right;
+	font-size: 15px;
+}
+.thumbnail {
+	overflow: hidden;
+	height: auto;
+	padding: 0;
+}
+.thumbnail .caption {
+	padding: 15px;
+	/*height: 80px;*/
+}
+.caption hr {
+	width: 100%;
+	border: 1px solid  #6081a0;
+	margin-left:  0px;
+}
+
+.thumbnail {
+	border: none;
+	/*max-height: 315px;*/
+	/*border: 1px solid #ddd;*/
+}
+.image-item {
+	width: auto;
+	height: 169px;
+}
+
+.image-item-home-logged{
+	width: auto;
+	max-height: 169px;
+	/*height: 130px;*/
+}
+.image-item img , .image-item-home-logged img{
+	width: 100%;
+	max-height: 169px;
+}
+#tab-content .nav-tabs {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	padding: 40px;
+	border-bottom: none;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+	border: none;
+}
+.nav-tabs>li {
+	font-size: 25px;
+}
+#tab-content .nav-tabs>li.active a {
+	color: #0a3e6d;
+	border-bottom: none;
+	font-weight: 600;
+}
+
+#tab-content .nav-tabs>li a {
+	color: #9b9b9b;
+	border-bottom: none;
+	font-weight: 600;
+	font-size: 30px;
+	padding-top: 0;
+	padding-bottom: 0;
+	background-color: #f6f6f6;
+}
+
+#tab-content .nav-tabs>li>a:focus, #tab-content .nav-tabs>li>a:hover {
+	background-color: #f6f6f6;
+}
+
+#tab-content .nav-tabs>li a:hover {
+	background: #f6f6f6;
+	border: none;
+}
+
+#tab-content .tab-content {
+    border-radius: 5px;
+     border: none;  
+}
+.lat_pop .nav-tabs {
+	width: 100%;
+}
+
+.spxtrum {
+	background: url(../../images/bg.png) no-repeat scroll center center;
+	height: 200px;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.spxtrum p, .spxtrum h3 {
+	text-align: center;
+	color: #fff;
+}
+#logo_spxtrum {
+	width: 100%;
+    text-align: center;
+    display: inline-block;
+}
+#logo_spxtrum img {
+	height: 50px;
+}
+
+#home-content {
+	overflow: hidden;
+	padding:30px 15px;
+}
+
+.caption h4 {
+	font-size: 16px;
+	line-height: 22px;
+}
+
+.logo_home a {
+	text-decoration: none;
+}
+
+#tab-content .nav-tabs>li:first-child a {
+	background: url(../../images/vertical_line.png) no-repeat right 1px center;
+}
+
+.thumbnail .caption a {
+	color: #0a3e6d;
+}
+
+@media (min-width: 1366px) {
+	.b_voucher {
+		width: 100%;
+		display: block;
+	}
+
+	.vouchers {
+		width: 65%;
+	}
+}
+
+@media (min-width: 993px) and (max-width: 1365px) {
+	.songs {
+		width: 33.3%;
+	}
+
+	.sub_user1 {
+		width: 85%;
+	}
+
+	.res {
+		padding-right: 0;
+		padding-left: 0;
+	}
+
+	.log {
+		padding-right: 0;
+	}
+
+	.b_voucher {
+		width: 100%;
+		display: block;
+	}
+
+	.vouchers {
+		width: 90%;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 992px){
+	.logo_home p {
+		width: 100%;
+	}
+
+	.vouchers a {
+		font-size: 10px;
+	}
+
+	.log_header {
+		margin-top: 10px;
+	}
+
+	.log_header a {
+		font-size: 10px;
+	}
+
+	.re_header a {
+		font-size: 10px;
+	}
+
+	.lat_pop hr {
+		display: none;
+	}
+}
+
+@media (max-width:767px){
+	#tab-content .nav-tabs>li a {
+		font-size: 22px;
+	}
+
+	.lat_pop hr {
+		display: none;
+	}
+	
+	#tab-content .nav-tabs {
+		align-items: initial;
+	}
+}
+
+@media (max-width: 320px) {
+	.re_header a {
+		font-size: 10px;
+	}
+
+	.log_header a {
+		font-size: 10px;
+	}
+}

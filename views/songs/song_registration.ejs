@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>REGISTER SONG</title>
+      <link rel="stylesheet" href="css/common/bootstrap.min.css">
+      <link rel="stylesheet" href="css/common/font-awesome.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="css/common/common.css">
+      <link rel="stylesheet" href="css/song_registration/register_songs.css">
+      <link rel="stylesheet" href="stylesheets/css/demo.css">
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+      <script src="https://checkout.stripe.com/checkout.js"></script>
+      <script type="text/javascript" src="javascripts/translator.js"></script>
+      <script type="text/javascript" src="javascripts/song.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/aws-sdk/2.404.0/aws-sdk.js"></script>
+      <script type="text/javascript" src="javascripts/awsHelper.js"></script>
+      <script src="javascripts/Mp3LameEncoder.js"></script>
+      <script src="js/jquery.min.js"></script>
+      <script src="js/bootstrap-datepicker.min.js"></script>
+      <script src="js/bootstrap-timepicker.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery-ui.js"></script>
+      <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+   </head>
+   <body>
+      <div class="song">
+         <%- include ../menu/nor_header.ejs %>
+      </div>
+      <!-- menu mobile -->
+      <nav class="navbar navbar-inverse">
+         <div class="container-fluid">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+               <ul class="nav navbar-nav">
+                  <li><a href="#">HOME</a></li>
+                  <li><a href="#">MY TALENTS</a></li>
+                  <li><a href="#">MY SONGS</a></li>
+                  <li><a href="#">LICENSING</a></li>
+                  <li class="active"><a href="#">REGISTER SONG</a></li>
+                  <li><a href="#">VERIFY</a></li>
+                  <li><a href="#">TRANSACTIONS</a></li>
+                  <li><a href="#">SETTINGS</a></li>
+               </ul>
+            </div>
+         </div>
+      </nav>
+      <div class="home_content">
+         <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+               <div class="wrap_content" id="tab-content">
+                  <div class="ic-close" style="padding-top: 10px; padding-left: 20px; position: inherit;">
+                     <a href="/"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+                  </div>
+                  <div id="regis_step_1">
+                     <div class="regis_song">
+                        <h3 style="margin-top: 0px;">Add song</h3>
+                        <span>1 OF 3</span>
+                        <p>Register song into blockchain</p>
+                        <div class="up" id="drop_zone">
+                           <div class="up1">
+                              <img src="images/upload.jpg" alt="">
+                              <p>Begin upload by dragging song here</p>
+                              <p>or</p>
+                              <input type="file" id="song_file" accept="audio/*" style="display: none;" onchange="songFileUpload(this);">
+                              <button type="button" class="btn btn-default up_button" id="btn_select_file">SELECT FILE FROM FOLDER</button>
+                           </div>
+                        </div>
+                        <div id="fap"></div>
+                     </div>
+                  </div>
+                  <div id="regis_step_2" style="display: none;">
+                     <div class="regis_song1">
+                        <div class='col-md-12 col-xs-12'>
+                           <h3>Add song</h3>
+                           <span class="tit" id="step_title">2 OF 3</span>
+                           <p>Register song into blockchain</p>
+                           <div class="upload">
+                              <div class="song_name" id="song_file_name"></div>
+                              <div class="upload-right" id="upload-loading"></div>
+                              <div class="clear"></div>
+                              <div class="tbar">
+                              	<input type="text" name="song_file_name" id="song_file_name" readonly="true" class="form-control" tabindex="0" value="" style="display: none;">
+                                 <input type="text" name="song_temp_url" id="song_temp_url" hidden="true" readonly="true">
+                                 <div id="myBar" class="uploading" style="width: 0;"></div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="clear"></div>
+                        <form id="form_register_song1" class="register_song2" action="#" onsubmit="return false;">
+                        	<div class="col-md-12 col-xs-12" hidden="true">
+                             	<input type="text" name="role" id="role" readonly="true" class="form-control" tabindex="0" value="<%=session.passport.user.userWalletAddress%>">
+                          	</div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Singer Name(*)</label>
+                              <div class="col-md-12 col-xs-12 autocomplete">
+                                 <input type="text" name="artist_name" autocomplete="off" id="artist_name" class="form-control enter" tabindex="0" value="">
+                                <!--  <div class="add" style="float: right; margin-right: 5px;" hidden="true">
+                                     <button class="add-new" type="button" onclick="addNewArtist();">+</button>
+                                 </div> -->
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Copyrights Owner Name(*) <span class="man"> * Mandatory</span></label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_owner_name" id="song_owner_name" class="form-control enter" tabindex="0" value="<%=session.passport.user.userFullName%>">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-10 control-label">Romanized Copyrights Owner Name (if any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_romanized_owner_name" id="song_romanized_owner_name" class="form-control enter" tabindex="0" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg" hidden="true">
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="artist_id" id="artist_id" class="form-control" tabindex="0" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg" hidden="true">
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="lyric_id" id="lyric_id" class="form-control" tabindex="0" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg" hidden="true">
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_id" id="composer_id" class="form-control" tabindex="0" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Lyricists Name</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_lyric_name" autocomplete="off" id="song_lyric_name" class="form-control enter" tabindex="0" value="">
+                                 <!-- <div class="add" style="float: right; margin-right: 5px;">
+                                     <button class="add-new" type="button" onclick="addNewArtist();">+</button>
+                                 </div> -->
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Composer Name</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_composer_name" autocomplete="off" id="song_composer_name" class="form-control enter" tabindex="0" value="">
+                                <!--  <div class="add" style="float: right; margin-right: 5px;">
+                                     <button class="add-new" type="button" onclick="addNewArtist();">+</button>
+                                 </div> -->
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Place of completion of work</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="place_of_work" id="place_of_work" class="form-control enter" tabindex="" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Date of completion</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="date" id="date_of_completion" name="date_of_completion" class="form-control enter" tabindex="" placeholder="DD-MM-YYYY" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <div class="col-md-8">
+                                 <label class="control-label">ISRC Number (if any)</label>
+                                 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#exampleModal">
+                                 (?)
+                                 </button>
+                              </div>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="number" name="song_isrc_number" id="song_isrc_number" class="form-control enter" tabindex="" value="">
+                              </div>
+                           </div>
+                           <div class="form-group owners">
+                              <label class="col-md-6 control-label">Royalty Distribution</label>
+                              <div class="clear"></div>
+                              <div class="col-md-12 col-xs-12 sub_own" name="sub_owner" id="sub_owner0">
+                                 <div class="col-md-4 col-xs-12 no-padding-left">
+                                    <div class="form-group">
+                                       <input type="text" name="other_owner" class="form-control enter" placeholder="Name" tabindex="" value="">
+                                    </div>
+                                 </div>
+                                 <div class="col-md-2 col-xs-12 no-padding">
+                                    <div class="form-group">
+                                       <input type="number" name="other_percent" class="form-control enter" tabindex="" placeholder="% Owned" value="">
+                                    </div>
+                                 </div>
+                                 <div class="col-md-6 col-xs-12 no-padding-right">
+                                    <div class="form-group">
+                                       <div class="col-md-10 no-padding-left">
+                                          <input type="text" name="wallet_address" class="form-control enter" tabindex="" placeholder="Account ID" value="">
+                                       </div>
+                                       <div class="no-padding-left">
+                                          <div class="add" name="add">
+                                             <button class="add-new" onclick="insertRoyalty(this);">+</button>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Country</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <div class="selectdiv">
+                                    <select id="country" class="form-control enter">
+                                      <option selected="" class="pla" hidden="">Select country</option>
+                                      <option value="China">China</option>
+                                      <option value="Hong Kong">Hong Kong</option>
+                                      <option value="India">India</option>
+                                      <option value="Indonesia">Indonesia</option>
+                                      <option value="Macao">Macao</option>
+                                      <option value="Malaysia">Malaysia</option>
+                                      <option value="Singapore">Singapore</option>
+                                      <option value="Taiwan, Province of China">Taiwan, Province of China</option>
+                                      <option value="Thailand">Thailand</option>
+                                      <option value="United Kingdom">United Kingdom</option>
+                                      <option value="United States">United States</option>
+                                      <option value="Viet Nam">Viet Nam</option>
+                                    </select>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <div class="col-md-12 col-xs-12">
+                                 <button type="button" class="btn btn-primary submit" onclick="gotoNextStep()" >NEXT</button>
+                              </div>
+                           </div>
+                        </form>
+                        <form id="form_register_song2" class="register_song2" action="#" style="display: none;" onsubmit="return false;">
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Song title (*)</span></label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_title" id="song_title" class="form-control enterPress" tabindex="1" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Romanized title (if Any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_chinese_title" id="song_chinese_title" class="form-control enterPress" tabindex="2" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">English song title(if Any)</span></label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_title_en" id="song_title_en" class="form-control enterPress" tabindex="3" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Song publish (*)</span></label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="date" name="song_publish" id="song_publish" class="form-control enterPress" tabindex="4" placeholder="DD-MM-YYYY" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Album name</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_album_name" id="song_album_name" class="form-control enterPress" tabindex="5" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Dialect</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_dialect" id="song_dialect" class="form-control enterPress" tabindex="6" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg time">
+                              <label class="col-md-12 control-label">Length of time (*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <div class="bootstrap-timepicker">
+                                    <input type="text" name="length_of_time" id="length_of_time" maxlength="5" class="form-control timepicker enterPress" placeholder="00:00" tabindex="7">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">First published or made available in which formats?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <input type="checkbox" tabindex="7" name="format_cd" id="format_cd" value="cd"> CD<br>
+                                 <input type="checkbox" tabindex="8" name="format_dvd" id="format_dvd" value="dvd"> DVD<br>
+                                 <input type="checkbox" tabindex="9" name="format_kara" id="format_kara" value="karaoke"> KARAOKE<br>
+                                 <input type="checkbox" tabindex="10" name="format_digital" id="format_digital" value="digital"> Digital<br>
+                                 <input type="checkbox" tabindex="11" name="format_social" id="format_social" value="Car"> Social Media<br>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">First published or made available in which formats?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <input type="checkbox" tabindex="12" name="version_original" id="version_original"> Original Version<br>
+                                 <input type="checkbox" tabindex="13" name="version_remixed" id="version_remixed"> Remixed Version<br>
+                                 <input type="checkbox" tabindex="14" name="version_extended" id="version_extended"> Extended Version<br>
+                                 <input type="checkbox" tabindex="15" name="version_recording" id="version_recording"> Re-recording<br>
+                              </div>
+                           </div>
+                          <!--  <div class="form-group deg">
+                              <label class="col-md-12 control-label">Price of Registration</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="price_of" id="price_of" class="form-control enterPress" value="$20" readonly="">
+                              </div>
+                           </div> -->
+                           <div class="form-group deg" style="display: none;">
+                              <label class="col-md-12 control-label">Voucher Code (If Any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="voucher_code" id="voucher_code" class="form-control enterPress" placeholder="Enter voucher code here">
+                              </div>
+                           </div>
+                           <%if(session.passport.user.userShowPrivateKeyBox == true || !walletbk){%>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Owner account(Public Key)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="public_key" value="<%=session.passport.user.userWalletAddress%>" id="public_key" class="form-control enterPress" placeholder="Enter Owner account(Public Key)">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Authorized ID(*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="private_key" value="" id="private_key" class="form-control enterPress" placeholder="Enter Authorized key here">
+                              </div>
+                           </div>
+                           <%}else{%>
+                              <div class="form-group deg" style="display: none">
+                              <label class="col-md-12 control-label">Owner account(Public Key)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="public_key" value="<%=walletbk.publicWallet%>" id="public_key" class="form-control enterPress" placeholder="Enter Owner account(Public Key)">
+                              </div>
+                           </div>
+                           <div class="form-group deg" style="display: none;">
+                              <label class="col-md-12 control-label">Authorized ID(*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="private_key" value="<%=walletbk.publicDeploySeed%>" id="private_key" class="form-control enterPress" placeholder="Enter Authorized key here">
+                              </div>
+                           </div>
+                           <%}%>
+                           <!-- <div class="form-group deg">
+                              <div class="col-md-12 col-xs-12">
+                                 <button type="submit" class="btn btn-primary submit" tabindex="17" onclick="saveSongAsDraft();">SAVE AS DRAFT</button>
+                              </div>
+                           </div> -->
+                           <div class="form-group deg">
+                              <div class="col-md-12 col-xs-12">
+                                 <button type="submit" class="btn btn-primary submit" tabindex="17" onclick="completeAddingSong();">COMPLETE</button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+
+                  <div class="clear"></div>
+                  <%- include ../process/loading.ejs %>
+               </div>
+            </div>
+            <div class="right-content">
+               <%- include ../menu/right_menu_content.ejs %>
+            </div>
+         </div>
+      </div>
+
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">ISRC - International Standard Recording Code</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              The International Standard Recording Code, abbreviated to ISRC, is an identification system for audio and music video recordings. It is standarized by the IFPI in ISO 3901:2001 and used by IFPI members to assign a unique identifier to every distinct sound recording they release. An ISRC identifies a particular sound recording, not the song itself. Therefore, different recordings, edits, remixes and remasters of the same song will each be assigned their own ISRC. However, note that same Recording should carry the same ISRC in all countries/territories. Songs are identified by analogous International Standard Musical Work Code (ISWC) codes.
+
+Note that an ISRC now is used instead of an ISAN (International Standard AudioVisual Number) for music and audio recordings, as well as for music videos, as the ISRC is more specific, and can have IPIs attached to it, whereas the ISAN was not designed for use in combination with IPIs.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+         // $("#artist_name").autocomplete({
+         //      source: "/autocomplete_artist",
+         //      minLength: 0,
+         //      select: function(event, ui) {
+         //       setTimeout(function() {
+         //          console.log(ui.item.artistProfessionName);
+         //          console.log(ui.item.artistNonRomanizedName != undefined && ui.item.artistNonRomanizedName.length != 0);
+         //          document.getElementById('artist_name').value = (ui.item.artistNonRomanizedName != undefined && ui.item.artistNonRomanizedName.length != 0) ? ui.item.artistProfessionName+' ('+ui.item.artistNonRomanizedName+ ')' : ui.item.artistProfessionName;
+         //          document.getElementById('artist_id').value = ui.item._id;
+         //       }, 2);
+         //      },
+         //      html: true, // optional (jquery.ui.autocomplete.html.js required)
+         //    // optional (if other layers overlap autocomplete list)
+         //      open: function(event, ui) {
+         //          $(".ui-autocomplete").css("z-index", 1000);
+         //      }
+         //  }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+         //    if(item.artistsPictures && item.artistsPictures.length ==0){
+         //       if (item.artistNonRomanizedName != undefined && item.artistNonRomanizedName.length != 0) {
+         //          return $( "<li>" )
+         //           .data( "ui-autocomplete-item", item )
+         //           .append( "<a>")
+         //           .append ('<img src="/images/default_avatar_medium.png" style = "height:20px"/> ')
+         //           .append ('<span>'+item.artistProfessionName+ ' ('+item.artistNonRomanizedName+ ')</span>')
+         //           .append ("</a>")
+         //           .appendTo( ul );
+         //       }else{
+         //          return $( "<li>" )
+         //           .data( "ui-autocomplete-item", item )
+         //           .append( "<a>")
+         //           .append ('<img src="/images/default_avatar_medium.png" style = "height:20px"/> ')
+         //           .append ('<span>'+item.artistProfessionName+'</span>')
+         //           .append ("</a>")
+         //           .appendTo( ul );
+         //       }
+         //    }else{
+         //       if (item.artistNonRomanizedName != undefined && item.artistNonRomanizedName.length != 0) {
+         //          return $( "<li>" )
+         //           .data( "ui-autocomplete-item", item )
+         //           .append( "<a>")
+         //           .append ('<img src="'+item.artistsPictures+'" style = "height:20px"/> ')
+         //           .append ('<span>'+item.artistProfessionName+ ' ('+item.artistNonRomanizedName+ ')</span>')
+         //           .append ("</a>")
+         //           .appendTo( ul );
+         //       }else{
+         //          return $( "<li>" )
+         //           .data( "ui-autocomplete-item", item )
+         //           .append( "<a>")
+         //           .append ('<img src="'+item.artistsPictures+'" style = "height:20px"/> ')
+         //           .append ('<span>'+item.artistProfessionName+'</span>')
+         //           .append ("</a>")
+         //           .appendTo( ul );
+         //       }
+         //    }
+         // };
+
+         // $('#artist_name').on('change', function(e) {
+         //    console.log('onchange');
+         //    var name = document.getElementById('artist_name').value;
+         //    if (name.length == 0) {
+         //       document.getElementsByClassName('ui-helper-hidden-accessible')[0].innerHTML = '';
+         //    }
+         // });
+         function autocomplete(inp, inp_id) {
+           /*the autocomplete function takes two arguments,
+           the text field element and an array of possible autocompleted values:*/
+           var currentFocus;
+           /*execute a function when someone writes in the text field:*/
+           inp.addEventListener("input", function(e) {
+               var a, b, i, val = this.value;
+               /*close any already open lists of autocompleted values*/
+               closeAllLists();
+               if (!val) { return false;}
+               currentFocus = -1;
+               /*create a DIV element that will contain the items (values):*/
+               a = document.createElement("DIV");
+               a.setAttribute("id", this.id + "autocomplete-list");
+               a.setAttribute("class", " autocomplete-items autocomplete-list");
+               /*append the DIV element as a child of the autocomplete container:*/
+               this.parentNode.appendChild(a);
+               /*for each item in the array...*/
+               // for (i = 0; i < arr.length; i++) {
+               //   /*check if the item starts with the same letters as the text field value:*/
+               //   if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+               //     /*create a DIV element for each matching element:*/
+               //     b = document.createElement("DIV");
+               //     /*make the matching letters bold:*/
+               //     b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+               //     b.innerHTML += arr[i].substr(val.length);
+               //     /*insert a input field that will hold the current array item's value:*/
+               //     b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+               //     /*execute a function when someone clicks on the item value (DIV element):*/
+               //     b.addEventListener("click", function(e) {
+               //         /*insert the value for the autocomplete text field:*/
+               //         inp.value = this.getElementsByTagName("input")[0].value;
+               //         /*close the list of autocompleted values,
+               //         (or any other open lists of autocompleted values:*/
+               //         closeAllLists();
+               //     });
+               //     a.appendChild(b);
+               //   }
+               // }
+               $.get( "/autocomplete_artist?term="+val, function( data ) {
+                 for (var i = data.length - 1; i >= 0; i--) {
+                     var artist_name = data[i].artistProfessionName;
+                     var artist_id = data[i]._id;
+                     var artist_picture = data[i].artistsPictures;
+                     var artist_non_romanize = data[i].artistNonRomanizedName;
+                     console.log(artist_name);
+                     if(artist_name.length == 0) continue;
+                     if(artist_picture && artist_picture.length ==0){
+                        if (artist_non_romanize != undefined && artist_non_romanize.length != 0) {
+                            /*create a DIV element for each matching element:*/
+                            b = document.createElement("DIV");
+                            /*make the matching letters bold:*/
+                            b.innerHTML = '<img src="/images/default_avatar_medium.png" style = "height:20px"/>  ';
+                            b.innerHTML += artist_name;
+                            /*insert a input field that will hold the current array item's value:*/
+                            b.innerHTML += "<input type='hidden' value='" + artist_name + "'>";
+                            b.innerHTML += "<input type='hidden' value='" + artist_id + "'>";
+                            /*execute a function when someone clicks on the item value (DIV element):*/
+                            b.addEventListener("click", function(e) {
+                                /*insert the value for the autocomplete text field:*/
+                                inp.value = this.getElementsByTagName("input")[0].value;
+                                inp_id.value = this.getElementsByTagName("input")[1].value;
+                                /*close the list of autocompleted values,
+                                (or any other open lists of autocompleted values:*/
+                                closeAllLists();
+                            });
+                            a.appendChild(b);
+                        }else{
+                            /*create a DIV element for each matching element:*/
+                            b = document.createElement("DIV");
+                            /*make the matching letters bold:*/
+                            b.innerHTML = '<img src="/images/default_avatar_medium.png" style = "height:20px"/>  ';
+                            b.innerHTML += artist_name;
+                            /*insert a input field that will hold the current array item's value:*/
+                            b.innerHTML += "<input type='hidden' value='" + artist_name + "'>";
+                            b.innerHTML += "<input type='hidden' value='" + artist_id + "'>";
+                            /*execute a function when someone clicks on the item value (DIV element):*/
+                            b.addEventListener("click", function(e) {
+                                /*insert the value for the autocomplete text field:*/
+                                inp.value = this.getElementsByTagName("input")[0].value;
+                                inp_id.value = this.getElementsByTagName("input")[1].value;
+                                /*close the list of autocompleted values,
+                                (or any other open lists of autocompleted values:*/
+                                closeAllLists();
+                            });
+                            a.appendChild(b);
+                        }
+                     }else{
+                        if (artist_non_romanize != undefined && artist_non_romanize.length != 0) {
+                           b = document.createElement("DIV");
+                            /*make the matching letters bold:*/
+                            b.innerHTML = '<img src="'+artist_picture+'" style = "height:20px"/>  ';
+                            b.innerHTML += artist_name;
+                            /*insert a input field that will hold the current array item's value:*/
+                            b.innerHTML += "<input type='hidden' value='" + artist_name + "'>";
+                            b.innerHTML += "<input type='hidden' value='" + artist_id + "'>";
+                            /*execute a function when someone clicks on the item value (DIV element):*/
+                            b.addEventListener("click", function(e) {
+                                /*insert the value for the autocomplete text field:*/
+                                inp.value = this.getElementsByTagName("input")[0].value;
+                                inp_id.value = this.getElementsByTagName("input")[1].value;
+                                /*close the list of autocompleted values,
+                                (or any other open lists of autocompleted values:*/
+                                closeAllLists();
+                            });
+                            a.appendChild(b);
+                        }else{
+                           b = document.createElement("DIV");
+                            /*make the matching letters bold:*/
+                            b.innerHTML = '<img src="'+artist_picture+'" style = "height:20px"/>  ';
+                            b.innerHTML += artist_name;
+                            /*insert a input field that will hold the current array item's value:*/
+                            b.innerHTML += "<input type='hidden' value='" + artist_name + "'>";
+                            b.innerHTML += "<input type='hidden' value='" + artist_id + "'>";
+                            /*execute a function when someone clicks on the item value (DIV element):*/
+                            b.addEventListener("click", function(e) {
+                                /*insert the value for the autocomplete text field:*/
+                                inp.value = this.getElementsByTagName("input")[0].value;
+                                inp_id.value = this.getElementsByTagName("input")[1].value;
+                                /*close the list of autocompleted values,
+                                (or any other open lists of autocompleted values:*/
+                                closeAllLists();
+                            });
+                            a.appendChild(b);
+                        }
+                     }
+                 }
+               });
+           });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function(e) {
+            var x = document.getElementById(this.id + " autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+              /*If the arrow DOWN key is pressed,
+              increase the currentFocus variable:*/
+              currentFocus++;
+              /*and and make the current item more visible:*/
+              addActive(x);
+            } else if (e.keyCode == 38) { //up
+              /*If the arrow UP key is pressed,
+              decrease the currentFocus variable:*/
+              currentFocus--;
+              /*and and make the current item more visible:*/
+              addActive(x);
+            } else if (e.keyCode == 13) {
+              /*If the ENTER key is pressed, prevent the form from being submitted,*/
+              e.preventDefault();
+              if (currentFocus > -1) {
+                /*and simulate a click on the "active" item:*/
+                if (x) x[currentFocus].click();
+              }
+            }
+        });
+        function addActive(x) {
+          /*a function to classify an item as "active":*/
+          if (!x) return false;
+          /*start by removing the "active" class on all items:*/
+          removeActive(x);
+          if (currentFocus >= x.length) currentFocus = 0;
+          if (currentFocus < 0) currentFocus = (x.length - 1);
+          /*add class "autocomplete-active":*/
+          x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+          /*a function to remove the "active" class from all autocomplete items:*/
+          for (var i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+          }
+        }
+        function closeAllLists(elmnt) {
+          /*close all autocomplete lists in the document,
+          except the one passed as an argument:*/
+          var x = document.getElementsByClassName("autocomplete-items");
+          for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+              x[i].parentNode.removeChild(x[i]);
+            }
+          }
+        }
+        /*execute a function when someone clicks in the document:*/
+         document.addEventListener("click", function (e) {
+               closeAllLists(e.target);
+           });
+         }
+
+         $(document).ready(function(){
+            $('#<%=menu_index%>').addClass('active');
+         });
+
+         function insertRoyalty(sub) {
+            var ownerDivs = document.getElementsByName('sub_owner');
+            var ownerDiv = ownerDivs[ownerDivs.length - 1];
+
+            $('.owners').append('<div class="col-md-12 col-xs-12 sub_own" name="sub_owner" id="sub_owner'+ownerDivs.length+'">'+ownerDiv.innerHTML+'</div>');
+
+            var addDivs = document.getElementsByName('add');
+            var addDiv = addDivs[addDivs.length - 2];
+            addDiv.innerHTML = '<button class="remove" id="remove'+(ownerDivs.length-2)+'" onclick="rejectRoyalty(this);">-</button>';
+         }
+
+         function rejectRoyalty(sub) {
+            var idx = sub.id.replace('remove', '');
+            var ownerDivs = document.getElementsByName('sub_owner');
+            var ownerDiv = ownerDivs[idx];
+            ownerDiv.innerHTML = '';
+         }
+
+         $('input').bind('keypress', function(e){
+            if(e.keyCode == 13){
+               e.preventDefault();
+            }
+         });
+
+         $('#btn_select_file').on('click', function(e){
+         	document.getElementById('song_file').click();
+         });
+
+         $('#date').datepicker({
+         	format: 'dd-mm-yyyy',
+              	autoclose: true,
+         });
+
+         $('.enter').keyup(function(e) {
+            if (e.which == 13) {
+                gotoNextStep();
+            }
+        });
+
+         $('.enterPress').keyup(function(e) {
+            if (e.which == 13) {
+                completeAddingSong();
+            }
+        });
+        autocomplete(document.getElementById("artist_name"),document.getElementById('artist_id'));//for singer 
+        autocomplete(document.getElementById("song_lyric_name"),document.getElementById('lyric_id')); //for Lyricists
+        autocomplete(document.getElementById("song_composer_name"),document.getElementById('composer_id')); //for Composer
+         var regis1 = document.getElementById('regis_step_1');
+         var regis2 = document.getElementById('regis_step_2');
+         var form_regis1 = document.getElementById('form_register_song1');
+         var form_regis2 = document.getElementById('form_register_song2');
+         var file_name = document.getElementById('song_file_name');
+         var progress = document.getElementById('myBar');
+         var width = 0;
+         var file;
+
+         function songFileUpload(file_input){
+         	// console.log(file_input.files[0]);
+         	if (file_input.files && file_input.files[0]) {
+         		file = file_input.files[0];
+         		regis1.style.display = 'none';
+         		regis2.style.display = 'block';
+         		file_name.innerHTML = file.name;
+               if(file.name.endsWith(".mp3")){
+
+               }
+         		Song.song_file_upload(file, success);
+         	}
+         }
+
+         function success(hashOfSong) {
+            Upload.upload_song(file, (err, data, songTempUrl) => {
+               if (err) {
+                  console.log(err);
+                  alert('Could not upload this song. Please try again');
+                  // window.location.reload();
+                  return;
+               }
+
+               console.log(data);
+               console.log(songTempUrl);
+               progress.style.width = 100 + '%';
+
+               document.getElementById("upload-loading").innerHTML = 'Upload successed';
+               document.getElementById('song_temp_url').value = songTempUrl;
+               document.getElementById('song_file_name').value = file.name;
+            }, progressHandler);
+         }
+
+         function progressHandler(percent){
+         		width = parseInt(percent * 100);
+               progress.style.width = width + '%';
+               document.getElementById("upload-loading").innerHTML = 'Uploading ' + width * 1  + '%';
+         }
+         function gotoNextStep(){
+         	if (!Song.validate_new_song_step1()){
+         		return;
+         	}
+         	var step_title = document.getElementById('step_title');
+         	step_title.innerHTML = '3 OF 3';
+         	form_regis1.style.display = 'none';
+         	form_regis2.style.display = 'block';
+         }
+
+         function saveSongAsDraft(){
+             if (!Song.validate_new_song_step2()) {
+               return;
+            }
+            $('.load').html('Processing...');
+            $('#loading').show();
+            Song.up_load_song_to_server(true);
+         }
+
+         function completeAddingSong(){
+            if (!Song.validate_new_song_step2()) {
+               return;
+            }
+            $('.load').html('Processing...');
+            $('#loading').show();
+            Song.registration_song();
+         }
+
+         function addNewArtist(){
+         	window.open('/create-talent', '_blank');
+         }
+
+         $('#song_owner_name').on('change', function(e){
+            var song_title = document.getElementById('song_owner_name').value;
+            var song_chinese_title = document.getElementById('song_romanized_owner_name').value;
+            Translator.detect_non_romanized(song_title, song_chinese_title, res => {
+               document.getElementById('song_romanized_owner_name').value = res;
+            });
+         });
+
+         $('#song_title').on('change', function(e){
+            var song_title = document.getElementById('song_title').value;
+            var song_chinese_title = document.getElementById('song_chinese_title').value;
+            Translator.detect_non_romanized(song_title, song_chinese_title, res => {
+               document.getElementById('song_chinese_title').value = res;
+            });
+         });
+
+        var OneSignal = OneSignal || [];
+          OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+              disable: true,
+            },
+            notifyButton: {
+              enable: true,
+              prenotify: true,
+              position: 'bottom-left',
+              size: 'medium',
+              showCredit: false
+            }
+          }]);
+
+        function handleFileSelect(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          var files = evt.dataTransfer;
+          var check = evt.dataTransfer.files[0].type;
+          if(check == 'audio/mp3') {
+            songFileUpload(files);
+          }
+          else {
+            alert('file is not formatted correctly');
+          }
+        }
+
+        function handleDragOver(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
+      </script>
+
+   </body>
+</html>

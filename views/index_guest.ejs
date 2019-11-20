@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Index</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/home/common.css">
+	<link rel="stylesheet" href="css/home/home.css">
+	<link rel="stylesheet" href="css/square/blue.css">
+	<link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+	<link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/iscroll-infinite.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+</head>
+<body>
+	<!-- header-slider -->
+	<div class="slider">
+		<div class="header">
+			<div class="col-md-3 col-sm-3">
+				<div class="logo_home">
+					<a href="/">
+						<img src="images/logo_home.png" alt="">
+						<!--<p>The Registry of Sound</p>-->
+					</a>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6">
+				<div class="search">
+					<form action="#" onsubmit="return false;">
+						<div class="input-group" id="group">
+							<input type="text" <%if( typeof key!='undefined'){%> value="<%=key%> <%}%>"  name="key" class="form-control" placeholder="SEARCH" id="search-input" onchange="search();"">
+							<input type="text" name="search-type" id="search-type" value="song" hidden="">
+							<div class="input-group-btn">
+								<div class="btn-group">
+								  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="search-select">IN SONGS<i class="fa fa-chevron-down"></i>
+								  </button>
+								</div>
+								<button type="submit" class="btn btn-default" aria-label="Help" id="search-icon" onclick="searchDemoClick();"></button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12 header_right" style="margin-top: 25px;">
+				<div class="col-md-5 col-sm-12 col-xs-6 res">
+					<div class="log_header">
+						<a href="/sign-in">SIGN IN</a>
+					</div>
+				</div>
+				<div class="col-md-7 col-sm-12 col-xs-6 log">
+					<div class="log_header">
+						<a href="/sign-up-info">SIGN UP</a>
+					</div>
+					<br/>
+					<!-- <div class="log_header">
+						<a href="/mass-registration">REGISTRATION</a>
+					</div> -->
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+	  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+	    <!-- Indicators -->
+	    <ol class="carousel-indicators">
+	    <%for(var i=0;i<banners.length;i++){%>
+	    	<%if (i==0){%>
+	      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+	  		<%}else{%>
+	      <li data-target="#myCarousel" data-slide-to="<%=i%>"></li>
+	      <%}%>
+	     <%}%>
+	    </ol>
+
+	    <!-- Wrapper for slides -->
+	    <div class="carousel-inner" >
+
+	      <%for(var i=0;i<banners.length;i++){%>
+		      <%if(i==0){%>
+		      <div class="item active">
+		      <%}else{%>
+		      <div class="item">
+		      <%}%>
+		        <img src="<%=banners[i].image.url%>" alt="Los Angeles" style="width:100%;">
+		        <div class="carousel-caption slider_text" >
+		          <h3><%-banners[i].title%></h3>
+		          <p><%-banners[i].brief%></p>
+		        </div>
+		      </div>
+	      <%}%>
+	    </div>
+	    <div class="col-md-5"></div>
+	  </div>
+	</div>
+	<!-- endheader-slider -->
+	<!-- content -->
+	<div class="wrap_home">
+		<!-- spxtrum -->
+		<div class="spxtrum">
+			<div class="">
+				<div id="logo_spxtrum">
+					<img src="images/logo_home.png" alt="">
+				</div>
+				<h3>LEDGER.EASTERNBLU.COM</h3>
+				<!--<p>The Registry of Sound</p>-->
+			</div>
+		</div>
+		<!-- end spxtrum -->
+
+		<!--&lt;!&ndash; lat_pop &ndash;&gt;-->
+		<!--<div class="lat_pop">-->
+			<!--<div class=" container-fluid-demo text-center" id="tab-content">-->
+				<!--<div class="col-md-12 col-sm-12">-->
+					<!--<h3>TESTNET REGISTRATION - FOR DEMO PURPOSE ONLY</h3>-->
+				<!--<div class="col-md-12 col-sm-6">-->
+					<!--<div class="col-md-3 col-sm-6">-->
+					<!--</div>-->
+					<!--<div class="search col-md-6 col-sm-6">-->
+						<!--<form action="#" onsubmit="return false;">-->
+							<!--<div class="input-group" id="group">-->
+								<!--<input type="text" <%if( typeof key!='undefined'){%> value="<%=key%> <%}%>"  name="key" class="form-control" placeholder="SEARCH" id="search-input-demo" onchange="search();"">-->
+								<!--<input type="text" name="search-type" id="search-type" value="song" hidden="">-->
+								<!--<div class="input-group-btn"> -->
+									<!--<div class="btn-group">-->
+									  <!--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="search-select">-->
+									    <!--<%if(typeof type!= 'undefined' && type == 'work'){%> -->
+										<!--IN WORKS-->
+										<!--<%}else{%>-->
+										<!--IN SONGS-->
+										<!--<%}%>-->
+									    <!--<i class="fa fa-chevron-down"></i>-->
+									  <!--</button>-->
+									  <!--<ul class="dropdown-menu">-->
+									  	<!--<%if(session.passport){%>-->
+									  		<!--<%if(session.passport.user) {%>-->
+									  			<!--<li><a href="#" onclick="switchType('song');">IN SONGS</a></li>-->
+								  				<!--<li><a href="#" onclick="switchType('work');">IN WORKS</a></li>-->
+									  		<!--<%}else{%>-->
+									  			<!--<li><a href="#" onclick="switchType('song');">IN SONGS</a></li>-->
+									  		<!--<%}%>-->
+									  	<!--<%}else{%>-->
+									  		<!--<li><a href="#" onclick="switchType('song');">IN SONGS</a></li>-->
+									  	<!--<%}%>-->
+									  <!--</ul>-->
+									<!--</div>-->
+									<!--<button type="submit" class="btn btn-default" aria-label="Help" id="search-icon" onclick="searchDemoClick();"></button> -->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</form>-->
+					<!--</div>-->
+					<!--<div class="col-md-3 col-sm-6">-->
+					<!--</div>-->
+				<!--</div>-->
+				<!--<br/>-->
+				<!--<br/>-->
+				<!--<br/>-->
+				<!--<div class="col-md-12 col-sm-12">-->
+					<!--<div id="home">-->
+						<!---->
+					<!--</div>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+
+			<div class=" container-fluid text-center" id="tab-content">
+				<h3>LASTEST SONG REGISTERED </h3>
+				<div id="home">
+					<%
+					var count = songs.length;
+					if (count >18){
+						count = 18;
+					}
+					var c = 0;
+					for(var i=0;i<count;i++){
+						var item = songs[i];
+						c++;
+					%>
+					<div class="col-sm-6 col-md-2">
+						<div class="thumbnail">
+						<%if(item.songArtistRefer && item.songArtistRefer.artistsPictures && item.songArtistRefer.artistsPictures.length >0){%>
+							<div class="image-item">
+								<img class="object-fit_cover" src="<%=item.songArtistRefer.artistsPictures%>" alt="...">
+							</div>
+						<%}else{%>
+						<div class="image-item">
+							<img class="object-fit_cover" src="images/song_default.jpg" alt="...">
+						</div>
+						<%}%>
+							<div class="caption">
+								<h4><a href="/search?key=<%=item.songTitle%>&type=song"><%=item.songTitle%></a></h4>
+								<h4><a href="/search?key=<%=item.songTitle%>&type=song"></a></h4>
+							</div>
+						</div>
+					</div>
+					<%if(c % 6 == 0) {%>
+		              	<div class="clear"></div>
+		            <%}%>
+					<%}%>
+				</div>
+			</div>
+
+		<div class=" container-fluid text-center" id="tab-content">
+			<h3>LASTEST SONG LICENSED </h3>
+			<div id="home">
+				<%
+				var count = itemLicensed.length;
+				if (count >18){
+					count = 18;
+				}
+				for(var i=0;i<itemLicensed.length;i++){
+					var item = itemLicensed[i];
+				%>
+				<div class="col-sm-6 col-md-2">
+					<div class="thumbnail">
+						<%if(item.orderSongRefer.songArtistRefer
+								&& item.orderSongRefer.songArtistRefer.artistsPictures
+								&& item.orderSongRefer.songArtistRefer.artistsPictures.length >0){%>
+						<div class="image-item">
+							<img class="object-fit_cover" src="<%=item.orderSongRefer.songArtistRefer.artistsPictures%>" alt="...">
+						</div>
+						<%}else{%>
+						<div class="image-item">
+							<img class="object-fit_cover" src="images/song_default.jpg" alt="...">
+						</div>
+						<%}%>
+						<div class="caption">
+							<h4><a href="/search?key=<%=item.orderSongRefer.songTitle%>&type=song"><%=item.orderSongRefer.songTitle%></a></h4>
+							<h4><a href="/search?key=<%=item.orderSongRefer.songTitle%>&type=song"></a></h4>
+						</div>
+					</div>
+				</div>
+				<%if(c % 6 == 0) {%>
+				<div class="clear"></div>
+				<%}%>
+				<%}%>
+			</div>
+		</div>
+		</div>
+		<!-- end lat_pop -->
+
+		<!--&lt;!&ndash; lat_new &ndash;&gt;-->
+		<!--<div class="lat_news">-->
+			<!--<div class="container-fluid-new " id="scroller">-->
+				<!--<h3>LASTEST NEWS</h3>-->
+				<!--<hr>-->
+				<!--<div class="row">-->
+				<!--<%for(var i=0;i<posts.length;i++){%>-->
+					<!--<div class="col-md-4">-->
+						<!--<div class="thumbnail">-->
+							<!--<img src="<%=posts[i].image.secure_url%>" alt="Lights" style="width:100%">-->
+							<!--<div class="caption">-->
+							<!--<a href="#"><h5><%=posts[i].title%></h5></a>-->
+								<!--<hr>-->
+								<!--<%- posts[i].content.brief%>-->
+								<!--<div class="text-more"><a href="/post-detail?id=<%=posts[i]._id%>"><h5>READ MORE</h5></a></div>-->
+							<!--</div>-->
+							<!--</a>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--<%}%>-->
+				<!--</div>-->
+				<!--<div style="margin-left: 40%;">-->
+					<!--<a href="/post-list"><button style="padding: 15px 60px 15px 60px; font-weight: bold;" type="button" class="btn btn-primary">SHOW MORE ARTICLES</button></a>-->
+				<!--</div>-->
+			<!--</div>-->
+		<!--</div>-->
+		<!-- end lat_new -->
+		<div class="clear"></div>
+
+	</div>
+	<!-- end content -->
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="container-fluid" style="background: #232323">
+			<div class="images_footer">
+				<div class="col-md-3">
+					<img src="images/logo_home.png"><br>
+				</div>
+				<div class="col-md-9"></div>
+			</div>
+			<div class="clear"></div>
+			<div class="row_footer">
+				<div class="col-md-4">
+					<div class="col_footer">
+						<a href="">MAIN</a><br>
+						<hr>
+						<a href=/">HOME</a><br>
+						<a href="/sign-in">SIGN IN</a><br>
+						<a href="/sign-up-step-1">SIGN UP</a><br>
+					</div>
+				</div>
+				<!-- <div class="col-md-3">
+					<div class="col_footer">
+						<hr>
+						<a href="">MY TALENTS</a><br>
+						<a href="">MY SONGS</a><br>
+						<a href="">LICENSING</a><br>
+						<a href="">REGISTER SONGS</a><br>
+						<a href="">BOOKMARKED</a><br>
+						<a href="/verification-and-authentication">VERIFY</a><br>
+						<a href="">SETTINGS</a><br>
+					</div>
+				</div> -->
+				<div class="col-md-4">
+					<div class="col_footer">
+						<a href="">CUSTOMER SERVICE</a><br>
+						<hr>
+						<a href="">FAQ</a><br>
+						<a href="">CONTACT US</a><br>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="col_footer">
+						<a href="">JOIN OUR COMMUNITY</a><br>
+						<hr>
+						<input type="" placeholder="YOUREMAIL@DOMAIN.COM" class="form-control" id="join"><br>
+						<hr>
+						<a href="">FOLLOW US</a><br>
+						<div class="icon_footer">
+							<a href=""><img src="images/ft_fb.png"></a>
+							<a href=""><img src="images/ft_tw.png"></a>
+							<a href=""><img src="images/ft_itg.png"></a>
+							<a href=""><img src="images/ft_wifi.png"></a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="clear"></div>
+			<div class="content_footer">
+				<p>Copyright 2018. ©Spxtrum Pte Ltd. All rights reserved. All trademarks. pictures and brands are the property of their respective owners. Use of this Web site constitutes acceptance of the Spextrum's Terms of Use and Privacy Policy </p>
+			</div>
+			<div class="music-player has-player">
+			</div>
+		</div>
+	</div>
+	<!-- end footer -->
+
+	<script type="text/javascript" src="js/jquery.migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile.customized.min.js"></script>
+	<script type="text/javascript" src="js/wait.js"></script>
+	<script type="text/javascript" src="js/jquery.parallax.min.js"></script>
+
+	<script type="text/javascript" src="js/jquery.tweet.js"></script>
+	<script type="text/javascript" src="js/jquery.scrollTo.js"></script>
+
+
+	<!-- <script type="text/javascript" src="js/camera.js"></script> -->
+
+	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+
+	<!-- Player -->
+
+
+	<script type="text/javascript" src="js/player/soundmanager2-nodebug-jsmin.js"></script>
+	<script type="text/javascript" src="https://connect.soundcloud.com/sdk.js"></script>
+	<script type="text/javascript" src="js/player/amplify.min.js"></script>
+	<script type="text/javascript" src="js/player/jquery.fullwidthAudioPlayer.min.js"></script>
+
+	<!-- Custom Js -->
+
+	<script type="text/javascript" src="js/custom.js"></script>
+	<script src="js/icheck.min.js"></script>
+	<script src="js/jquery.touchSwipe.min.js"></script>
+
+	<script type="text/javascript">
+	function searchClick() {
+		search();
+	}
+
+	function searchDemoClick() {
+		var key = document.getElementById('search-input-demo').value;
+        if (key.length == 0) {
+        	return;
+        }
+        window.location.href = '/search-demo?key=' + key + '&type=song';
+	}
+
+	function search() {
+		var key = document.getElementById('search-input').value;
+        if (key.length == 0) {
+        	return;
+        }
+        window.location.href = '/search?key=' + key + '&type=song';
+	}
+</script>
+
+<script>
+	$(".carousel").swipe({
+
+	  swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
+
+	    if (direction == 'left') $(this).carousel('next');
+	    if (direction == 'right') $(this).carousel('prev');
+
+	  },
+	  allowPageScroll:"vertical"
+
+	});
+</script>
+
+<script>
+    function setHeightSong(){
+      w = $(window).width();
+      var max = $(".thumbnail .caption:first").height();
+       if (w >= 768) {
+          $(".thumbnail .caption").each(function() {
+            var h = $(this).height();
+            if ( h > max ) {
+              max = $(this).height();
+            }
+          });
+          $(".thumbnail .caption").each(function() {
+            $(this).height(max);
+          });
+      }
+    }
+
+  $(document).ready(function(){
+    // setHeightSong();
+    $.ajax({
+	  url: 'https://spectrumledger-stg.tk/api/get-demo-song',
+	  type: 'GET',
+	  success: function success(response) {
+	  	var html='';
+	    for (var i = 0; i < response.data.length; i++) {
+			var song = response.data[i];
+			console.log(song['songTitle']);
+			html +='<div class="col-sm-6 col-md-2">';
+			html +='<div class="image-item">';
+			html +='<img class="object-fit_fill" src="images/song_default.jpg" alt="...">';
+			html += '</div>'
+			html += '<div class="caption">';
+			html += '<h4><a href="https://spectrumledger-stg.tk/search?key='+song['songTitle']+'&type=song" target="_blank">'+song.songTitle+'</a></h4>';
+			html += '<h4><a href="https://spectrumledger-stg.tk/search?key='+song.songTitle+'&type=song" target="_blank"></a></h4>';
+			html += '</div>';
+			html += '</div>';
+			html += '</div>';
+		}
+		document.getElementById('home').innerHTML = html;
+	  }
+	});
+  });
+
+  // Rotate screen:
+  $(window).on( "orientationchange", function( event ) {
+    setHeightSong();
+  });
+
+function underDeveloper() {
+	// bootbox.alert({
+	//     message: "This function is only for developer",
+	//     backdrop: true
+	// });
+	alert('This function is only for developer');
+}
+/******************************************************************************
+ *
+ * For the sake of keeping the script dependecy free I'm including a custom
+ * AJAX function. You should probably use a third party plugin
+ *
+ */
+function ajax (url, parms) {
+	parms = parms || {};
+	var req = new XMLHttpRequest(),
+		post = parms.post || null,
+		callback = parms.callback || null,
+		timeout = parms.timeout || null;
+
+	req.onreadystatechange = function () {
+		if ( req.readyState != 4 ) return;
+
+		// Error
+		if ( req.status != 200 && req.status != 304 ) {
+			if ( callback ) callback(false);
+			return;
+		}
+
+		if ( callback ) callback(req.responseText);
+	};
+
+	if ( post ) {
+		req.open('POST', url, true);
+		req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	} else {
+		req.open('GET', url, true);
+	}
+
+	req.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+	req.send(post);
+
+	if ( timeout ) {
+		setTimeout(function () {
+			req.onreadystatechange = function () {};
+			req.abort();
+			if ( callback ) callback(false);
+		}, timeout);
+	}
+}
+/*
+ *****************************************************************************/
+
+var myScroll;
+
+function loaded () {
+	myScroll = new IScroll('#wrapper', {
+		mouseWheel: true,
+		infiniteElements: '#scroller .row',
+		//infiniteLimit: 2000,
+		dataset: requestData,
+		dataFiller: updateContent,
+		cacheSize: 1000
+	});
+}
+
+function requestData (start, count) {
+	ajax('dataset.php?start=' + +start + '&count=' + +count, {
+		callback: function (data) {
+			data = JSON.parse(data);
+			myScroll.updateCache(start, data);
+		}
+	});
+}
+
+function updateContent (el, data) {
+	el.innerHTML = data;
+}
+
+document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
+	capture: false,
+	passive: false
+} : false);
+
+</script>
+
+</body>
+</html>

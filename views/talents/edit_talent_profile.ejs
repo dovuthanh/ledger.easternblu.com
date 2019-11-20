@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Talent</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/my_artists/create_artist_step_1.css">
+    <link rel="stylesheet" href="css/my_artists/create_artist_step_2.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+
+    <div class="clear"></div>
+
+    <!-- menu mobile -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">MY ACCOUNT</a></li>
+                    <li><a href="#">USER MANAGEMENT</a></li>
+                    <li><a href="#">REGISTER</a></li>
+                    <li><a href="#">VERYFY</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="title">
+                                <div class="ic-close" style="position: inherit;">
+                                    <a href="/"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+                                </div>
+                                <h4>Edit Profile</h4>
+                            </div>
+
+                            <div id="form_step_1">
+                                <div class="form_login col-md-5">
+                                    <div class="form-group" hidden="true">
+                                        <input type="text" class="form-control" id="artist_id" name="artist_id" readonly="true" value="<%=talent._id%>">
+                                    </div>
+                                    <div class="form-group" style="overflow: hidden;">
+                                        <div class="col-md-4">
+                                            <%if(talent.artistType == 'Artist'){%>
+                                                <input type="radio" name="talent_type" id="type_artist" value="Artist" checked="checked">
+                                            <%}else{%>
+                                                <input type="radio" name="talent_type" id="type_artist" value="Artist">
+                                            <%}%>
+                                            <label class="lbl-talents" for="type_artist">Artist</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <%if(talent.artistType == 'Composer'){%>
+                                                <input type="radio" class="rd rd-primary" name="talent_type" id="type_composer" value="Composer" checked="checked">
+                                            <%}else{%>
+                                                <input type="radio" class="rd rd-primary" name="talent_type" id="type_composer" value="Composer">
+                                            <%}%>
+                                            <label class="lbl-talents" for="type_composer">Composer</label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <%if(talent.artistType == 'Lyricist'){%>
+                                                <input type="radio" class="rd rd-primary" name="talent_type" id="type_lyricist" value="Lyricist" checked="checked">
+                                            <%}else{%>
+                                                <input type="radio" class="rd rd-primary" name="talent_type" id="type_lyricist" value="Lyricist">
+                                            <%}%>
+                                            <label class="lbl-talents" for="type_lyricist">Lyricist</label>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                    <div class="up">
+                                        <div class="up1">
+                                            <label class="lbl-talents" for="type_lyricist">Talent Profile Picture</label>
+                                            <%if(talent.artistsPictures && talent.artistsPictures.length > 0){%>
+                                                <img src="<%=talent.artistsPictures%>" alt="" id="artist_file_avatar">
+                                            <%}else{%>
+                                                <img src="images/upload.jpg" alt="" id="artist_file_avatar">
+                                            <%}%>
+                                            <p>Begin upload by dragging image here</p>
+                                            <p>or</p>
+                                            <input type="file" id="image_file" accept="image/*" style="display: none;" onchange="imageUpload(this);">
+                                            <button type="button" class="btn btn-default up_button" id="btn_select_file" name="btn_select_file" onclick="">SELECT FILE FROM FOLDER</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 20px;">
+                                        <label for="passports">Professional name (*)</label>
+                                        <input type="text" class="form-control" id="artist_profession_name" name="artist_profession_name" value="<%=talent.artistProfessionName%>">
+                                    </div>
+                                    <div class="form-group" style="margin-top: 20px;">
+                                        <label for="passports">Romanized Name</label>
+                                        <input type="text" class="form-control" id="artist_romanized_name" name="artist_romanized_name" value="<%=talent.artistNonRomanizedName%>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="comment">Profile (*)</label>
+                                        <textarea class="form-control" rows="5" id="artist_profile" name="artist_profile" placeholder="Write a few sentences about the artist"><%=talent.artistProfile?talent.artistProfile:''%></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="passports">Name in Passports (*)</label>
+                                        <input type="text" class="form-control" id="artist_name_passport" name="artist_name_passport" placeholder="Name" value="<%=talent.artistNameInPassportOfficialIdentificationCard%>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email (*)</label>
+                                        <input type="email" class="form-control" id="artist_email" name="artist_email" placeholder="email@domain.com" value="<%=talent.artistEmail?talent.artistEmail:''%>">
+                                    </div>
+                                    <div class="form-group" style="overflow: hidden;">
+                                        <label for="passports">Mobile</label>
+                                        <div class="clear"></div>
+                                        <div class="col-md-3" style="padding-left: 0px;">
+                                            <input type="number" value="<%=talent.artistCountryCode?talent.artistCountryCode:''%>" class="form-control" id="artist_code" name="artist_code" placeholder="+65" >
+                                        </div>
+                                        <div class="col-md-9" style="padding-right: 0px;">
+                                            <input type="number" class="form-control" value="<%=talent.artistPhone?talent.artistPhone:''%>" id="artist_phone" name="artist_phone" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <div id="form_step_2" style="padding: 0px 15px;">
+                                <div class="form">
+                                    <div class="padding-button col-md-4">
+                                        <label for="question">Social media links</label>
+                                        <div class="item-input">
+                                            <div class="input-group" id="groupbt">
+                                                <div class="input-group-btn">
+                                                    <button type="submit" class="btn btn-default" aria-label="Help" id="wechat-icon"></button>
+                                                </div>
+                                                <input type="text" class="form-control icon-social" placeholder="Wechat Profile Link" id="artist_wechat_link" value="<%=talent.artistWechat%>">
+                                            </div>
+                                        </div>
+                                        <div class="item-input">
+                                            <div class="input-group" id="groupbt">
+                                                <div class="input-group-btn">
+                                                    <button type="submit" class="btn btn-default" aria-label="Help" id="fb-icon"></button>
+                                                </div>
+                                                <input type="text" class="form-control icon-social" placeholder="Facebook Profile Link" id="artist_facebook_link" value="<%=talent.artistFaceBook%>">
+                                            </div>
+                                        </div>
+
+                                        <div class="item-input">
+                                            <div class="input-group" id="groupbt">
+                                                <div class="input-group-btn">
+                                                    <button type="submit" class="btn btn-default" aria-label="Help" id="linkendin-icon"></button>
+                                                </div>
+                                                <input type="text" class="form-control icon-social" placeholder="Linkedin Profile Link" id="artist_linked_link" value="<%=talent.artistLinkedIn%>">
+                                            </div>
+                                        </div>
+                                        <div class="item-input">
+                                            <div class="input-group" id="groupbt">
+                                                <div class="input-group-btn">
+                                                    <button type="submit" class="btn btn-default" aria-label="Help" id="twitter-icon"></button>
+                                                </div>
+                                                <input type="text" class="form-control icon-social" placeholder="Twitter Profile Link" id="artist_twitter_link" value="<%=talent.artistTwitter%>">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form">
+                                    <div class="padding-form col-md-8">
+                                        <label for="question">Are you a freelancer? </label>
+                                        <%if(talent.artistCurrrentFreelancer){%>
+                                            <div class="form-check">
+                                                <input class="form-check-input check" type="radio" name="artist_freelancer" id="freelancer_true" value="true" checked>
+                                                <label class="form-check-label" for="freelancer_true">Yes</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input check" type="radio" name="artist_freelancer" id="freelancer_false" value="false">
+                                                <label class="form-check-label" for="freelancer_false">No</label>
+                                            </div>
+                                        <%}else{%>
+                                            <div class="form-check">
+                                                <input class="form-check-input check" type="radio" name="artist_freelancer" id="freelancer_true" value="true">
+                                                <label class="form-check-label" for="freelancer_true">Yes</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input check" type="radio" name="artist_freelancer" id="freelancer_false" value="false" checked>
+                                                <label class="form-check-label" for="freelancer_false">No</label>
+                                            </div>
+                                        <%}%>
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                </div>
+                                <div class="form">
+                                    <div class="form-checktext col-md-4" id="">
+                                        <label for="question">I am currently in contract with:</label>
+
+                                        <div class="form-check">
+                                            <div class="round">
+                                                <%if(talent.artistCurrrentContractRecordLabel != undefined && talent.artistCurrrentContractRecordLabel.length != 0){%>
+                                                    <input type="radio" name="contract_type" value="record_label" id="record_label" checked="checked" />
+                                                <%}else{%>
+                                                    <input type="radio" name="contract_type" value="record_label" id="record_label" />
+                                                <%}%>
+                                                <label for="record_label"></label>
+                                            </div>
+                                            <input type="text" class="form-control input-text" id="artist_record_label" aria-describedby="emailHelp" placeholder="Record Label" value="<%=talent.artistCurrrentContractRecordLabel%>">
+
+                                        </div>
+                                        <div class="form-check">
+                                            <div class="round">
+                                                <%if(talent.artistCurrrentContractProductionCompany != undefined && talent.artistCurrrentContractProductionCompany.length != 0){%>
+                                                    <input type="radio" name="contract_type" id="product_company" value="product_company" checked="checked" />
+                                                <%}else{%>
+                                                    <input type="radio" name="contract_type" id="product_company" value="product_company" />
+                                                <%}%>
+                                                <label for="product_company"></label>
+                                            </div>
+                                            <input type="text" class="form-control input-text" id="artist_product_company" aria-describedby="emailHelp" placeholder="Production company">
+
+                                        </div>
+                                        <div class="form-check">
+                                            <div class="round">
+                                                <%if(talent.artistCurrrentContractArtistManagementCompany != undefined && talent.artistCurrrentContractArtistManagementCompany.length != 0){%>
+                                                    <input type="radio" name="contract_type" id="management_company" value="management_company" checked="checked" />
+                                                <%}else{%>
+                                                    <input type="radio" name="contract_type" id="management_company" value="management_company" />
+                                                <%}%>
+                                                <label for="management_company"></label>
+                                            </div>
+                                            <input type="text" class="form-control input-text" id="artist_management_company" aria-describedby="emailHelp" placeholder="Artist management company">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form">
+                                    <div class="padding-form col-md-10">
+                                        <label for="question">What are the professional services do you intend to provide? </label>
+                                        <div class="form-check">
+                                            <%if(talent.artistRecordNewSongsWithANewRecordLabel){%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_record_new_song" checked="checked">
+                                            <%}else{%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_record_new_song">
+                                            <%}%>
+                                            <label class="form-check-label" for="defaultCheck1" id="check-label1">
+                                                Record new songs with a record label
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <%if(talent.artistPerformInATicketedSoloConcert){%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_solo_concert" checked="checked">
+                                            <%}else{%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_solo_concert">
+                                            <%}%>
+                                            <label class="form-check-label" for="defaultCheck1" id="check-label1">
+                                                Perform in a ticketed solo concert
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <%if(talent.artistPerformInEventsSuchAsMusicFestivalAndMusicConcerts){%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_events" checked="checked">
+                                            <%}else{%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_events">
+                                            <%}%>
+                                            <label class="form-check-label" for="defaultCheck1" id="check-label1">
+                                                Perform in events such as Music Festival & Music Concerts
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <%if(talent.artistPerformInPrivatelyOrganizedEvents){%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_private_organised" checked="checked">
+                                            <%}else{%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_private_organised">
+                                            <%}%>
+                                            <label class="form-check-label" for="defaultCheck1" id="check-label1">
+                                                Performed in private organised events such as Weddingds, Company Dinners & Function etc
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <%if(talent.artistToAppearInCommercials){%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_appear_commericals" checked="checked">
+                                            <%}else{%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_appear_commericals">
+                                            <%}%>
+                                            <label class="form-check-label" for="defaultCheck1" id="check-label1">
+                                                To appear in commercials
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <%if(talent.artistToSeekCooperationWithCommercial){%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_seek_cooperations" checked="checked">
+                                            <%}else{%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_is_seek_cooperations">
+                                            <%}%>
+                                            <label class="form-check-label" for="defaultCheck1" id="check-label1">
+                                                To seek cooperations with commerical entitied to realease self- sound recoredings/music video not under contract
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <%if(talent.artistToSellSoundRecordingsAndMusicVideosDirectlyToConsumers){%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_id_sell_sound" checked="checked">
+                                            <%}else{%>
+                                                <input class="form-check-input check-ip1" type="checkbox" value="" id="artist_id_sell_sound">
+                                            <%}%>
+                                            <label class="form-check-label" for="defaultCheck1" id="check-label1">
+                                                To sell sound recording and music video directly to consumers
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form">
+                                <div class="padding-button col-md-8">
+                                    <div class="form-group" style="width: 80%;">
+                                        <button type="button" class="btn btn-primary" onclick="editProfile();">EDIT PROFILE</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </form> -->
+                    </div>
+                </div>
+            </div>
+            <dir class="right-content">
+      				<%- include ../menu/right_menu_content.ejs %>
+      			</dir>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('.check').on('change', function() {
+                $('.check').not(this).prop('checked', false);
+            });
+
+            $('.btn_cancel').on('click', function() {
+                $('#popup').removeClass('show');
+                $('body').toggleClass('modal-open');
+            });
+
+			$('.search1').on('click',function(e){
+				e.preventDefault();
+				if( $(this).attr('data-click-state') == 1) {
+					$(this).attr('data-click-state', 0);
+					$('#a').removeClass('search2').addClass("search2_active");
+				}
+				else {
+					$(this).attr('data-click-state', 1);
+					$('#a').addClass('search2').removeClass("search2_active");
+				}
+			});
+
+            $('#<%=menu_index%>').addClass('active');
+		});
+
+        $('.dropdown-menu li a').click(function() {
+            $('#search').val($(this).text());
+            $('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+        });
+
+		$('#btn_select_file').on('click', function(e){
+         	document.getElementById('image_file').click();
+         });
+    </script>
+    <script type="text/javascript" src="javascripts/talent.js"></script>
+    <script>
+    	function editProfile(){
+    		if(!Talent.validate_talent_step_1()){
+    			return;
+            }
+            if(!Talent.validate_talent_step_2()){
+                return;
+            }
+            Talent.edit_talent_profile();
+    	}
+
+        function disableSong(id){
+            var html = "<p class='w_logout'>Are you sure disable talent ?</p>";
+            bootbox.dialog({
+              message: html,
+              closeButton: true,
+              size: 'normal',
+              buttons: {
+                 cancel: {
+                         label: '<i class="fa fa-times"></i> No',
+                         className: 'btn-default',
+                         callback: () => {
+                             
+                         }
+                     },
+                  continute: {
+                      label: '<i class="fa fa-check"></i> Yes',
+                      className: 'btn-danger',
+                      callback: () => {
+                          Song.activate_song(id, 1);
+                      }
+                  }            
+              }
+            });
+         }
+         function enableSong(id){
+            var html = "<p class='w_logout'>Are you sure enable talent ?</p>";
+            bootbox.dialog({
+              message: html,
+              closeButton: true,
+              size: 'normal',
+              buttons: {
+                 cancel: {
+                         label: '<i class="fa fa-times"></i> No',
+                         className: 'btn-default',
+                         callback: () => {
+                             
+                         }
+                     },
+                  continute: {
+                      label: '<i class="fa fa-check"></i> Yes',
+                      className: 'btn-danger',
+                      callback: () => {
+                          Song.activate_song(id, 0);
+                      }
+                  }            
+              }
+            });
+         }
+
+    	function imageUpload(file_input){
+    		var file = file_input.files[0];
+    		console.log(file);
+    		if (file) {
+    			var formData = new FormData();
+    			formData.append('uploads', file, file.name);
+    			$.ajax({
+    				method: 'POST',
+    				url: '/upload',
+    				data: formData,
+    				processData: false,
+    				contentType: false,
+    				success: function(data){
+    					$('#artist_file_avatar').attr('src', data.url).width(150).height(150);
+                        document.getElementById('btn_select_file').innerHTML = 'SELECT OTHER FILE FROM FOLDER'
+    				}
+    			});
+    		}
+    	}
+    </script>
+</body>
+
+</html>

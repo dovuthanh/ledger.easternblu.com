@@ -1,0 +1,108 @@
+<div class="header">
+    <div class="col-md-3 col-sm-3"></div>
+    <div class="col-md-6 col-sm-6">
+        <div class="logo_home">
+            <img src="../images/logo_home.png" alt="">
+        </div>
+        <div class="search">
+            <form action="/search" method="get">
+				<input type="hidden" name="search" id="search">
+				<div class="input-group" id="group">
+					<input type="text" <%if( typeof key!='undefined'){%> value="<%=key%> <%}%>"  name="key" class="form-control" placeholder="SEARCH" id="search-input">
+					<input type="hidden" name="type" id="search-type" value="song">
+					<div class="input-group-btn"> 
+						<div class="btn-group">
+						  <button type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="search-select">
+							IN VOUCHERS
+						  </button>
+						</div>
+						<button type="submit" class="btn btn-default" aria-label="Help" id="search-icon"></button> 
+					</div>
+				</div>
+			</form>
+        </div>
+    </div>
+    <%if(session.userVoucher) {%>
+        <div class="col-md-3 col-sm-3 col-xs-12 header_right">
+            <div class="col-md-6 col-sm-12 col-xs-6">
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-6">
+                <div class="log_header">
+                    <input type="text" hidden="true" readonly="true" name="user_id_header" id="user_id_header" value="<%=session.userVoucher._id%>">
+                    
+                    <dir class="header-text-overflow">
+                        <a href="javascripts: return void(0);"><span><%=session.userVoucher.email%>&nbsp;</span></a>
+                    </dir>
+                </div>          
+            </div>
+        </div>
+    <%}else{%>
+        <div class="col-md-3 col-sm-3 col-xs-12 header_right">
+            <div class="col-md-6 col-sm-12 col-xs-6">
+                <div class="re_header">
+                    <a href="/vouchers/register">SIGN UP</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-6">
+                <div class="log_header">
+                    <a href="/vouchers/sign-in">SIGN IN</a>
+                </div>
+            </div>
+        </div>
+    <%}%>
+    <div class="clear"></div>
+    <!-- menu mobile -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>                        
+	      </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">HOME</a></li>
+                    <li><a href="#">SIGN IN</a></li>
+                    <li><a href="#">SIGN UP</a></li>
+                    <li><a href="#">VERYFY</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<script>
+    function search_click() {
+        w = $(window).width();
+        if( w > 768 ){
+            $('.search1').on('click',function(e){
+                e.preventDefault();
+                if( $(this).attr('data-click-state') == 1) {
+                    $(this).attr('data-click-state', 0);
+                    $('#a').removeClass('search2').addClass("search2_active");
+                }
+                else {
+                    $(this).attr('data-click-state', 1);
+                    $('#a').addClass('search2').removeClass("search2_active");
+                }
+            });
+        }
+        else {
+            $('#a').removeClass('search2').addClass("search2_active");
+        }
+    }
+
+    $(window).resize(function(){
+        search_click();
+    });
+
+    $( window ).on( "orientationchange", function( event ) {
+        search_click();
+    });
+
+    $(document).ready(function(){
+        search_click();
+    });
+</script>

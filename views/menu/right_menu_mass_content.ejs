@@ -1,0 +1,54 @@
+<div class="right_content col-md-2 col-sm-3">
+	<div class="right_sidebar">
+		<ul>
+			<li id="list-song"><a href="/mass-registration">HOME</a></li>
+			<li id="history"><a href="/mass-registration-history">HISTORY</a></li>
+			<li id="logout"><a href="#">LOGOUT</a></li>
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
+<script>
+	function logout(txt){
+		bootbox.dialog({
+        message: txt,
+        closeButton: true,
+        size: 'normal',
+        buttons: {
+	        cancel: {
+	                label: '<i class="fa fa-times"></i> No',
+	                className: 'btn-default',
+	                callback: () => {
+	                    
+	                }
+	            },
+            continute: {
+                label: '<i class="fa fa-check"></i> Yes',
+                className: 'btn-primary',
+                callback: () => {
+                    window.location.href = '/logout-mass';
+                }
+            }            
+        }
+    	});
+	}
+
+	function underDeveloper() {
+		// bootbox.alert({
+		//     message: "This function is only for developer",
+		//     backdrop: true
+		// });
+		alert('This function is only for developer');
+	}
+
+	$(document).ready(function(){
+		var html = "<p class='w_logout'>Do you want logout ?</p>";
+		$('#logout a').on('click',function(e){
+			e.preventDefault;
+			logout(html);
+		});
+	});
+	
+</script>

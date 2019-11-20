@@ -1,0 +1,69 @@
+.header{
+	position: relative;
+	width: 100%;
+	background: linear-gradient(to right, rgb(1, 15, 82), rgb(20, 131, 226));
+}
+
+.header-text-overflow{
+	margin: 0px auto;
+}
+
+.logo #tab-content {
+	margin: 0px 30px !important;
+}
+
+#tab-content .nav-tabs {
+	background: #fff;
+}
+
+.management {
+	float: right;
+	margin: 0px 10px;
+}
+
+.btn-standard {
+	padding: 0px 15px;
+	border-radius: 25px;
+    background: #0A3E6D;
+    border: none;
+    color: #fff;
+    height: 30px;
+    letter-spacing: 2px;
+    outline: none;
+}
+.search_left h3{
+	text-align: left;
+}
+
+.add-new {
+    width: 100%;
+    font-size: 25px;
+    color: #0a3e6d;
+    border-radius: 25px;
+    border: 1px solid #0a3e6d;
+    background: #fff;
+}
+
+.remove {
+	width: 100%;
+    font-size: 25px;
+    color: #ff0000;
+    border-radius: 25px;
+    border: 1px solid #ff0000;
+    background: #fff;
+}
+
+.style_colorth {
+     color: #168f4f;
+     text-align: center;
+}
+
+.style_color {
+     color: #3f60a6;
+     text-align: center;
+     padding-right: 10px;
+}
+
+.balance {
+    padding: 0px 15px;
+}

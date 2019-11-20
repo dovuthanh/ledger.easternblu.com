@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REQUEST VOUCHERS</title>
+    <link rel="stylesheet" href="../../css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../css/common/common.css">
+    <link rel="stylesheet" href="../../css/song_registration/register_songs.css">
+    <link rel="stylesheet" href="../../css/vouchers/voucher.css">
+    <script src="../../js/jquery.min.js"></script>
+    <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/jquery-ui.js"></script>
+</head>
+
+<body>
+    <div class="song">
+        <div class="header">
+            <div class="col-md-3 col-sm-3"></div>
+            <div class="col-md-6 col-sm-6">
+                <div class="logo_home">
+                    <img src="../../images/logo_home.png" alt="">
+                </div>
+                <div class="search">
+                    <form action="/search" method="get">
+                        <input type="hidden" name="search" id="search">
+                        <div class="input-group" id="group">
+                            <input type="text" <%if( typeof key!='undefined'){%> value="<%=key%> <%}%>"  name="key" class="form-control" placeholder="SEARCH" id="search-input">
+                            <input type="hidden" name="type" id="search-type" value="song">
+                            <div class="input-group-btn"> 
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="search-select">
+                                    IN VOUCHERS
+                                  </button>Voucher
+                                </div>
+                                <button type="submit" class="btn btn-default" aria-label="Help" id="search-icon"></button> 
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <%if(userVoucher) {%>
+                <div class="col-md-3 col-sm-3 col-xs-12 header_right">
+                    <div class="col-md-6 col-sm-12 col-xs-6">
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-6">
+                        <div class="log_header">
+                            <input type="text" hidden="true" readonly="true" name="user_id_header" id="user_id_header" value="<%=userVoucher._id%>">
+                            
+                            <dir class="header-text-overflow">
+                                <a href="javascripts: return void(0);"><span><%=userVoucher.email%>&nbsp;</span></a>
+                            </dir>
+                        </div>          
+                    </div>
+                </div>
+            <%}else{%>
+                <div class="col-md-3 col-sm-3 col-xs-12 header_right">
+                    <div class="col-md-6 col-sm-12 col-xs-6">
+                        <div class="re_header">
+                            <a href="/vouchers/register">REGISTER</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-6">
+                        <div class="log_header">
+                            <a href="/vouchers/sign-in">LOGIN</a>
+                        </div>
+                    </div>
+                </div>
+            <%}%>
+            <div class="clear"></div>
+            <!-- menu mobile -->
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                  </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#">HOME</a></li>
+                            <li><a href="#">LOGIN</a></li>
+                            <li><a href="#">REGISTER</a></li>
+                            <li><a href="#">VERYFY</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div id="regis_step_2">
+                        <div class="regis_song1">
+                            <div class='col-md-12 col-xs-12'>
+                                <h3>Request Vouchers</h3>
+                                <p>Please select vouchers to request</p>
+                            </div>
+                            <div class="form-group deg balance">
+                              <table class="table table-bordered table-curved">
+                                  <tr>
+                                      <th colspan="2">Curent Balance:</th>
+                                  </tr>
+                                  <tr>
+                                      <th class="style_colorth" id="sp8_balance">0.0 SP8</th>
+                                      <th class="style_color" id="eth_balance">0.0 ETH</th>
+                                  </tr>
+                              </table>
+                            </div>
+                            <div class="clear"></div>
+                            <form id="form_register_song1" class="register_song2" action="#" onsubmit="return false;">
+                                <div class="form-group">
+                                    <div class="clear"></div>
+                                    <div class="col-md-10 col-xs-10">
+                                        <div class="col-md-5 col-xs-12 no-padding-left">
+                                            <label>Voucher Type</label>
+                                        </div>
+                                        <div class="col-md-2 col-xs-12 no-padding">
+                                            <label>Amount</label>
+                                        </div>
+                                        <div class="col-md-5 col-xs-12 no-padding-right">
+                                            <label>Quantity</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group owners">
+                                    <div class="clear"></div>
+                                    <div class="col-md-10 col-xs-10 sub_own">
+                                        <div class="col-md-5 col-xs-12 no-padding-left">
+                                            <div class="form-group">
+                                                <select class="form-control" name="type_voucher">
+                                                  <option>Select type</option>
+                                                  <option value="Registration">Registration</option>
+                                                  <option value="Licensing">Licensing</option>
+                                                  <option value="Others">Others</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 col-xs-12 no-padding">
+                                            <div class="form-group">
+                                                <select class="form-control" name="amount_voucher" onchange="caculateTokens()">
+                                                  <option>Select amount</option>
+                                                  <option value="50">$ 50</option>
+                                                  <option value="20">$ 20</option>
+                                                  <option value="10">$ 10</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-xs-12 no-padding-right">
+                                            <div class="form-group">
+                                                <div class="col-md-8 no-padding-left">
+                                                    <input type="number" name="quantity_voucher" class="form-control" tabindex="" placeholder="quantity" value="" onchange="caculateTokens();">
+                                                </div>
+                                                <div class="col-md-4 no-padding-left">
+                                                    <div class="add">
+                                                        <button class="add-new">+</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group deg" hidden="">
+                                    <label class="col-md-12 control-label">role</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <input type="text" name="role" id="role" class="form-control" readonly="" tabindex="" value="<%=userVoucher.role%>">
+                                    </div>
+                                </div>
+                                <div class="form-group deg">
+                                    <label class="col-md-12 control-label">Authorized ID(*)</label>
+                                    <div class="col-md-12 col-xs-12">
+                                        <input type="text" name="private_key" id="private_key" class="form-control" tabindex="" value="" placeholder="private key">
+                                    </div>
+                                </div>
+                                <div class="form-group deg">
+                                    <label class="col-md-12 control-label" id="total_tokens">Total tokens: 0 SP8</label>
+                                </div>
+                                <div class="form-group deg">
+                                    <div class="col-md-12 col-xs-12">
+                                        <button type="button" class="btn btn-primary submit" onclick="requestVouchers()">REQUEST VOUCHERS</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="right_content col-md-2 col-sm-3">
+                    <div class="right_sidebar">
+                        <ul>
+                        <%if(userVoucher){%>
+                            <%if(userVoucher.type == 'admin') {%>
+                                <li id="voucher-index"><a href="/vouchers/voucher-index">HOME</a></li>
+                                <li id="management-vouchers"><a href="/vouchers/mamagement-vouchers">MANAGERMENT VOUCHERS</a></li>
+                                <li id="transaction-history"><a href="/vouchers/transaction-history">HISTORY</a></li>
+                                <li id="voucher-settings"><a href="/vouchers/settings">SETTINGS</a></li>
+                                <li id="my-account"><a href="/vouchers/my-account">MY ACCOUNT</a></li>
+                                <li id="voucher-logout"><a href="/vouchers/logout">LOGOUT</a></li>
+                            <%}else if(userVoucher.type == 'investor'){%>
+                                <li id="voucher-index"><a href="/vouchers/voucher-index">HOME</a></li>
+                                <li id="management-vouchers"><a href="/vouchers/mamagement-vouchers">MY VOUCHERS</a></li>
+                                <li id="request-vouchers"><a href="/vouchers/request-vouchers">REQUEST VOUCHERS</a></li>
+                                <li id="transaction-history"><a href="/vouchers/transaction-history">HISTORY</a></li>
+                                <li id="my-account"><a href="/vouchers/my-account">MY ACCOUNT</a></li>
+                                <li id="voucher-logout"><a href="/vouchers/logout">LOGOUT</a></li>
+                            <%}else{%>
+                                <li id="voucher-index"><a href="/vouchers/voucher-index">HOME</a></li>
+                                <li id="management-vouchers"><a href="/vouchers/mamagement-vouchers">MY VOUCHERS</a></li>
+                                <li id="shop-cart"><a href="/vouchers/shop-cart">SHOP CART</a></li>
+                                <li id="my-account"><a href="/vouchers/my-account">MY ACCOUNT</a></li>
+                                <li id="voucher-logout"><a href="/vouchers/logout">LOGOUT</a></li>
+                            <%}%>
+                        <%}else{%>
+                            <li id="voucher-index"><a href="/vouchers/voucher-index">HOME</a></li>
+                            <li><a href="/vouchers/sign-in">LOGIN</a></li>
+                            <li><a href="/vouchers/register">REGISTER</a></li>
+                        <%}%>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="../../javascripts/vouchers.js"></script>
+    <script type="text/javascript">
+        $(document).ready(() => {
+          Voucher.vouchers_get_balances('<%=userVoucher._id%>');
+
+          $('#<%=menu_index%>').addClass('active');
+        });
+
+        $("body").on('click', '.add-new', function(e){
+            e.preventDefault();
+            var own = $(this).closest('.sub_own');
+            $('.owners').append('<div class="col-md-10 col-xs-10 sub_own">'+own.html()+'</div>');
+            own.find('.add').append('<button class="remove">-</button>');
+            own.find('.add-new').remove();
+        });
+
+        $("body").on('click', '.remove', function(e){
+            e.preventDefault();
+            var own = $(this).closest('.sub_own');
+            own.innerHTML = '';
+        });
+    </script>
+
+    <script type="text/javascript">
+        function requestVouchers(){
+            Voucher.vouchers_request_vouchers();
+        }
+
+        function caculateTokens() {
+            var amounts = document.getElementsByName('amount_voucher');
+            var quantities = document.getElementsByName('quantity_voucher');
+            var totalToken = 0;
+            for (var i = 0; i < amounts.length; i++) {
+                var amount = amounts[i].options[amounts[i].selectedIndex].value;
+                var quantity = quantities[i].value;
+                totalToken += amount * quantity;
+            }
+            document.getElementById('total_tokens').innerHTML = 'Total tokens: '+totalToken+' SP8';
+        }
+    </script>
+</body>
+
+</html>

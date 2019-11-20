@@ -1,0 +1,15 @@
+.wallet {
+	padding: 50px 0;
+}
+
+.wallet p {
+	text-align: center;
+	font-size: 18px;
+	margin-bottom: 0;
+}
+
+.qr {
+	width: 80%;
+	display: block;
+	margin: 0 auto;
+}

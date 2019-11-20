@@ -1,0 +1,88 @@
+.form_login {
+	width: 60%;
+	margin: 100px auto;
+}
+
+.form_login .form-group {
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
+.form_login label {
+	font-size: 15px;
+	margin-left: 10px;
+}
+
+.form_login .form-control {
+	border-radius: 25px;
+	height: 40px;
+	outline: none;
+}
+
+.form_login .form-control:focus, .form_login .form-control:hover{
+	outline: none;
+	border-color: #ccc;
+	box-shadow: none;
+} 
+
+.form_login .submit {
+	width: 100%;
+	border-radius: 25px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	background: #0a3e6d;
+	outline: none !important;
+	height: 40px;
+}
+
+.form_login button:hover, .form_login button:focus {
+	outline: none !important;
+	border: none;
+}
+
+.account_id {
+	border-right: 0;
+}
+
+.group_cam {
+	padding: 0 25px 0 0;
+    border-radius: 0 25px 25px 0;
+    background: #fff;
+    border-left: 0;
+}
+
+.cam {
+	background: url(../../images/camera.png) no-repeat top left;
+	padding: 2px 8px;
+	width: 40px;
+	height: 28px;
+	border: none;
+}
+
+@media (width: 1024px) {
+	.register .wrap {
+		min-height: 1366px;
+	}
+
+	.account_id {
+		background: url(../../images/camera.png) no-repeat scroll 344px 5px;
+	}
+}
+
+@media (min-width:768px) and (max-width: 992px) {
+	.account_id {
+	    background: url(../../images/camera.png) no-repeat scroll 325px 5px;
+	    padding-right: 67px;
+	}
+}
+
+@media (max-width: 767px) {
+	.form_login {
+		width: 100%;
+	}
+
+	.account_id {
+	    background: url(../../images/camera.png) no-repeat scroll 230px 5px;
+	    padding-right: 67px;
+	}
+}

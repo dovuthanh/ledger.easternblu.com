@@ -1,0 +1,124 @@
+.des h4 {
+	text-align: center;
+	font-size: 20px;
+	margin-bottom: 0;
+	font-weight: 600;
+	color: #858585;
+} 
+
+.regis {
+	display: block;
+	margin: 0 auto;
+	width: 70%;
+}
+
+.tcheck, .mlabel {
+	padding:0 15px;
+}
+
+.account {
+	margin: 50px auto;
+}
+
+.account .form-group {
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
+.account label {
+	font-size: 15px;
+	margin-left: 10px;
+}
+
+.account .form-control {
+	border-radius: 25px;
+	height: 40px;
+}
+
+.account button {
+	width: 100%;
+	border-radius: 25px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	background: #0a3e6d;
+	outline: none !important;
+	height: 40px;
+}
+
+.account button:hover, .account button:focus {
+	outline: none !important;
+	border: none;
+}
+
+.txt_check {
+	margin-bottom: 0;
+}
+
+.country_code, .country_code:hover, .country_code:focus {
+	display: inline-block;
+	float:left;
+    outline: none !important;
+    -webkit-box-shadow:none !important;
+    box-shadow: none !important;
+
+}
+
+.plus {
+	background: #fff;
+	border-top-left-radius: 25px;
+	border-bottom-left-radius: 25px;
+	padding-right: 0;
+}
+
+#code, #code:hover, #code:focus {
+	border-left: 0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-color: #ccc !important;
+	outline: none !important;
+	padding-left: 0;
+}
+
+.sphone {
+	padding-right: 5px;
+}
+
+@media ( max-width: 767px) {
+	.regis{
+		width: 100%;
+	}
+
+
+}
+
+.selectdiv {
+  position: relative;         
+  width: 100%;
+  overflow: hidden;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+}
+
+.selectdiv:after {
+    content: '\f078';
+    font: normal normal normal 12px/1 FontAwesome;
+    color: #0a3e6d;
+    right: 23px;
+    top: 0;
+    padding: 15px 0px 0px 8px;
+    position: absolute;
+    pointer-events: none;
+}
+
+.selectdiv select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      display: block;
+      width: 100%;
+      background-color: #ffffff;
+      background-image: none;
+      -ms-word-break: normal;
+      word-break: normal;
+      border: none;
+}

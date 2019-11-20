@@ -1,0 +1,77 @@
+.form-group input {
+    border-radius: 1cm;
+
+}
+#bt1 {
+    width: 100%;
+    border-radius: 25px;
+    font-weight: 600;
+    background: #ffffff;
+    height: 40px;
+    color: #0a3e6d;
+}
+.input-mobile{
+    padding: 0px;
+}
+
+
+.form-group button {
+    width: 100%;
+    border-radius: 25px;
+    font-weight: 600;
+    background: #0a3e6d;
+    height: 40px;
+}
+.btn {
+
+     padding: 0px;
+ 
+}
+
+.Mobile {
+	overflow: hidden;
+}
+.wrap_content{
+	overflow: hidden;
+}
+@media only screen and (max-width: 767px) {
+#ip-mobile1{
+    width: 20%;
+    float: left;
+}
+#ip-mobile2{
+    width: 80%;
+
+}
+.button{
+    padding: 3px;
+}
+.input-mobile{
+    padding: 0px;
+}
+
+}
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+#ip-mobile1{
+    width: 20%;
+    float: left;
+}
+#ip-mobile2{
+    width: 80%;
+
+}
+.button{
+    padding: 3px;
+}
+.input-mobile{
+    padding: 0px;
+}
+
+}
+@media (min-width: 1024px) {
+  .button{
+    padding-left: 0px;
+  }
+  
+  
+}

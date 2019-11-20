@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Register Choose Walle</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="css/register/register_choose_walle.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="javascripts/profile.js"></script>
+</head>
+<body>
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="col-md-12 col-xs-12">
+					<img class="img_logo" src="images/logo_1.jpg" alt="">
+					<!-- <h3>KEEP PRIVATE KEY</h3>
+					<h4>1 OF 1</h4>
+					<div class="rcw">
+						<p>You need to create a wallet or link in order to complete the process. Please choose one of the options.</p>
+					</div> -->
+
+					<div class="rcw_content">
+						<div class="keep_kp">
+							<!-- <h1>I do not have an existing wallet</h1> -->
+							<div class="create1">
+								<div class="create2">
+									<a href="/sign-up-step-2?id=<%=user_id%>">
+										<img src="images/create_wallet.png" alt="">
+										<p>ETHEREUM ACCOUNT</p>
+									</a>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="private_key">
+							<h1>l have an existing wallet</h1>
+							<div class="create1 col-md-12">
+								<div class="col-md-6">
+									<div class="create3">
+										<a id="sign_up_metamask" href="">
+											<img src="images/create_wallet_cao.png" alt="">
+											<p>CONNECT TO WALLET IN METAMASK</p>
+										</a>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="create3">
+										<a id="sign_up_metamask" href="">
+											<img src="images/create_wallet_blue.png" alt="">
+											<p>CONNECT TO WALLET IN LIGHTWALLET</p>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div> -->
+					</div>
+					<div class="clear"></div>
+
+				</div>
+				<div class="ic-close">
+					<a href="/"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+				</div>
+
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$("a#sign_up_metamask").click(function(){
+			bootbox.alert('Comming soon');
+			return false;
+			Profile.sign_up_metamask();
+			return false;
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>SONG INFORMATION</title>
+      <link rel="stylesheet" href="css/common/bootstrap.min.css">
+      <link rel="stylesheet" href="css/common/font-awesome.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="css/common/common.css">
+      <link rel="stylesheet" href="css/song_registration/register_songs.css">
+      <script src="js/jquery.min.js"></script>
+      <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery-ui.js"></script>
+   </head>
+   <body>
+      <div class="song">
+         <%- include ../menu/nor_header.ejs %>
+      </div>
+      <!-- menu mobile -->
+      <nav class="navbar navbar-inverse">
+         <div class="container-fluid">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+               <ul class="nav navbar-nav">
+                  <li><a href="#">HOME</a></li>
+                  <li><a href="#">MY TALENTS</a></li>
+                  <li><a href="#">MY SONGS</a></li>
+                  <li><a href="#">LICENSING</a></li>
+                  <li class="active"><a href="#">REGISTER SONG</a></li>
+                  <li><a href="#">VERIFY</a></li>
+                  <li><a href="#">TRANSACTIONS</a></li>
+                  <li><a href="#">SETTINGS</a></li>
+               </ul>
+            </div>
+         </div>
+      </nav>
+      <div class="home_content">
+         <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+               <div class="wrap_content" id="tab-content">
+                  <div class="ic-close" style="padding-top: 10px; padding-left: 20px; position: inherit;">
+                     <a href="/"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+                  </div>
+                  <div id="regis_step_2">
+                     <div class="regis_song1">
+                        <form class="register_song2" action="#" onsubmit="return false;">
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label"><%=song.songTitle%></label>
+                           </div>
+                           <div class="form-group deg">
+                              <audio controls style="width: 100%; padding: 0px 15px;">
+                                 <%if(song.songUrl == undefined) {%>
+                                    <source src="<%=song.songTempUrl%>" type="audio/mp3">
+                                 <%}else{%>
+                                    <source src="<%=song.songUrl%>" type="audio/mp3">
+                                 <%}%>
+                              </audio>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Copyrights Owner Name(*) <span class="man"> * Mandatory</span></label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_owner_name" id="song_owner_name" class="form-control" tabindex="0" value="<%=song.songOwnerName%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-10 control-label">Romanized Copyrights Owner Name (if any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_romanized_owner_name" id="song_romanized_owner_name" class="form-control" tabindex="0" value="<%=song.songOwnerRomanizedName%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-4 control-label">Singer Name(*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_artist_name" id="song_artist_name" class="form-control" tabindex="0" value="<%=song.songArtistRefer ? song.songArtistRefer.artistProfessionName : ''%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Lyricists Name</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_lyric_name" id="song_lyric_name" class="form-control" tabindex="" value="<%=song.songLyricName%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Composer Name</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_composer_name" id="song_composer_name" class="form-control" tabindex="" value="<%=song.songComposerName%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Place of completion of work</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="place_of_work" id="place_of_work" class="form-control" tabindex="" value="<%=song.songPlaceOfWork%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Date of completion</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="date" id="date_of_completion" name="date_of_completion" class="form-control" tabindex="" placeholder="DD-MM-YYYY" value="" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">ISRC Number (if any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="number" name="song_isrc_number" id="song_isrc_number" class="form-control" tabindex="" value="<%=song.songISRCNumber%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Royalty Distribution</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <table class="table table-curved">
+                                    <thead>
+                                       <tr>
+                                          <th style="width: 40%">UserID</th>
+                                          <th style="width: 40%">AccountID</th>
+                                          <th style="width: 20%">Percent(%)</th>
+                                       </tr>
+                                    </thead>
+                                    <tbody>
+                                       <tr>
+                                          <td><%=session.passport.user.userAccountName%>(Registrant)</td>
+                                          <td><%=session.passport.user.userWalletAddress%></td>
+                                          <td><%=ownerTotalPercent%>%</td>
+                                       </tr>
+                                       <%
+                                          royalties.forEach(function(owner){
+                                       %>
+                                          <tr>
+                                             <td><%=owner.royaltyUserID%></td>
+                                             <td><%=owner.royaltyPartnerAddress%></td>
+                                             <td><%=owner.percentAfter%>%</td>
+                                          </tr>
+                                       <%});%>
+                                    </tbody>
+                                 </table>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Country</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <div class="selectdiv">
+                                    <select id="country" class="form-control" disabled="true">
+                                       <option selected="" class="pla" hidden="">Select country</option>
+                                       <%
+                                          countries.forEach(function(country){
+                                       %>
+                                          <%if(country.countryName == song.songCountry){%>
+                                             <option class="pla" selected="" value="<%=country.countryName%>"><%=country.countryName%></option>
+                                          <%}else{%>
+                                             <option class="pla" value="<%=country.countryName%>"><%=country.countryName%></option>
+                                          <%}%>
+                                       <%});%>
+                                    </select>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Song title (*)</span></label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_title" id="song_title" class="form-control" tabindex="0" value="<%=song.songTitle%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Romanized title (if Any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_chinese_title" id="song_chinese_title" class="form-control" tabindex="1" value="<%=song.songChineseTitle%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Song publish (*)</span></label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="date" name="song_publish" id="song_publish" class="form-control" tabindex="0" placeholder="DD-MM-YYYY" value="" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Album name</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_album_name" id="song_album_name" class="form-control" tabindex="" value="<%=song.songAlbumName%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Dialect</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="song_dialect" id="song_dialect" class="form-control" tabindex="" value="<%=song.songDialect%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg time">
+                              <label class="col-md-12 control-label">Length of time (*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <div class="bootstrap-timepicker">
+                                    <input type="text" name="length_of_time" id="length_of_time" readonly="true" class="form-control timepicker" placeholder="00:00" value="<%=song.songDuration%>" readonly="true">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">First published or made available in which formats?</label>
+                              <div class="col-md-12 col-xs-12 check">
+                                 <%if(song.songFormatCD){%>
+                                    <input type="checkbox" name="format_cd" id="format_cd" value="cd" checked="" disabled=""> CD<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="format_cd" id="format_cd" value="cd" disabled=""> CD<br>
+                                 <%}%>
+
+                                 <%if(song.songFormatDVD){%>
+                                    <input type="checkbox" name="format_dvd" id="format_dvd" value="dvd" checked="" disabled=""> DVD<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="format_dvd" id="format_dvd" value="dvd" disabled=""> DVD<br>
+                                 <%}%>
+
+                                 <%if(song.songFormatKaraoke){%>
+                                    <input type="checkbox" name="format_kara" id="format_kara" value="karaoke" checked="" disabled=""> KARAOKE<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="format_kara" id="format_kara" value="karaoke" disabled=""> KARAOKE<br>
+                                 <%}%>
+
+                                 <%if(song.songFormatDigital){%>
+                                    <input type="checkbox" name="format_digital" id="format_digital" value="digital" checked="" disabled=""> Digital<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="format_digital" id="format_digital" value="digital" disabled=""> Digital<br>
+                                 <%}%>
+
+                                 <%if(song.songFormatSocialMedia){%>
+                                    <input type="checkbox" name="format_social" id="format_social" value="Car" checked="" disabled=""> Social Media<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="format_social" id="format_social" value="Car" disabled=""> Social Media<br>
+                                 <%}%>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">First published or made available in which formats?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <%if(song.songOriginalVersion){%>
+                                    <input type="checkbox" name="version_original" id="version_original" disabled=""> Original Version<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="version_original" id="version_original" disabled=""> Original Version<br>
+                                 <%}%>
+
+                                 <%if(song.songRemixVersion){%>
+                                    <input type="checkbox" name="version_remixed" id="version_remixed" disabled=""> Remixed Version<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="version_remixed" id="version_remixed" disabled=""> Remixed Version<br>
+                                 <%}%>
+
+                                 <%if(song.songExtendVersion){%>
+                                    <input type="checkbox" name="version_extended" id="version_extended" disabled=""> Extended Version<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="version_extended" id="version_extended" disabled=""> Extended Version<br>
+                                 <%}%>
+
+                                 <%if(song.songReRecordingVersion){%>
+                                    <input type="checkbox" name="version_recording" id="version_recording" disabled=""> Re-recording<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="version_recording" id="version_recording" disabled=""> Re-recording<br>
+                                 <%}%>
+                              </div>
+                           </div>
+                           <%if(session.passport.user.userWalletAddress == song.songOwnerContractAddress){%>
+                           <div class="form-group deg">
+                              <div class="col-md-12 col-xs-12">
+                                 <button type="button" class="btn btn-primary submit" onclick="editSong('<%=song._id%>');">UPDATE</button>
+                              </div>
+                           </div>
+                           <%}%>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="right-content">
+               <%- include ../menu/right_menu_content.ejs %>
+            </div>
+         </div>
+      </div>
+      </div>
+      <script src="js/bootstrap-datepicker.min.js"></script>
+      <script src="js/bootstrap-timepicker.min.js"></script>
+      <script>
+         $(document).ready(function(){
+            $('.btn_cancel').on('click', function() {
+                $('#popup').removeClass('show');
+                $('body').toggleClass('modal-open');
+            });
+         	$('#<%=menu_index%>').addClass('active');
+         });
+
+         $('#btn_select_file').on('click', function(e){
+         	document.getElementById('song_file').click();
+         });
+
+         $('#date').datepicker({
+         	format: 'dd-mm-yyyy',
+              	autoclose: true,
+         });
+      </script>
+
+      <script src="javascripts/song.js"></script>
+      <script type="text/javascript">
+         function editSong(id){
+            window.location.href = "/update-song-info?id="+id;
+         }
+      </script>
+
+      <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+      <script>
+        var OneSignal = OneSignal || [];
+          OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+              disable: true,
+            },
+            notifyButton: {
+              enable: true,
+              prenotify: true,
+              position: 'bottom-left',
+              size: 'medium',
+              showCredit: false
+            }
+          }]);
+      </script>
+   </body>
+</html>

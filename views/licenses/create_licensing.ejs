@@ -1,0 +1,376 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="ie9">    <![endif]-->
+<head>
+	<meta charset="utf-8">
+	<title>Encore demo</title>
+	<!-- Mobile viewport optimized: h5bp.com/viewport -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="robots" content="noindex">
+	<!-- Style Sheet-->
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/licensing/licensing.css">
+    <link rel="stylesheet" href="css/licensing/accept_license.css">
+	<!-- favicon -->
+	<link rel="shortcut icon" href="/favicon.ico">
+	<script src="js/jquery-3.2.1.min.js"></script>
+  	<script src="js/bootstrap.min.js"></script>
+  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
+	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+	<script>
+		var OneSignal = OneSignal || [];
+			OneSignal.push(["init", {
+				appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+				// appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+				autoRegister: true,
+				safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+				welcomeNotification: {
+					disable: true,
+				},
+				notifyButton: {
+					enable: true,
+					prenotify: true,
+					position: 'bottom-left',
+					size: 'medium',
+					showCredit: false
+				}
+			}]);
+	</script>
+
+</head>
+
+<!-- BODY -->
+
+<body id="body" class="has-slider">
+
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="col-md-12 col-xs-12">
+					<img class="img_logo" src="images/logo_1.jpg" alt="">
+					<h3>CREATE LICENSE</h3>
+					<div class="form_login">
+						<%if(song != undefined) {%>
+							<form action=""onsubmit="return false;">
+								<div class="form-group" hidden="true">
+									<div class="col-md-12 col-xs-12">
+										<input type="text" id="license_type" readonly="true" value="<%=type%>" placeholder="">
+										<input type="text" name="buyer_address" id="buyer_address" readonly="true" value="<%=session.passport.user.userWalletAddress%>">
+										<input type="text" name="owner_address" id="owner_address" readonly="true" value="<%=song.songOwnerContractAddress%>">
+										<input type="text" name="license_song_id" id="license_song_id" readonly="true" value="<%=song._id%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">Song title</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" class="form-control" id="song_title" name="song_title" readonly="true" value="<%=song.songTitle%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">Registration address</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" class="form-control" id="song_address" name="song_address" readonly="true" value="<%=song.songContractAddress%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">Hash of song(*)</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" class="form-control" id="hash_of_song" name="hash_of_song" readonly="true" value="<%=song.songHash%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">License from(*)</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" class="form-control" id="license_from" name="license_from" value="<%=session.passport.user.userFullName%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">License to(*)</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" class="form-control" id="license_to" name="license_to" value="<%=song.songOwnerName%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">Territories(*)</label>
+									<div class="col-md-12 col-xs-12">
+										<div class="selectdiv">
+											<select class="form-control" id="territories">
+												<%
+													var i=0;
+													countries.forEach(function(country){
+														i++;
+												%>
+													<option value="<%=country.countryName%>"><%=country.countryName%></option>
+												<%});%>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">License right(*)</label>
+									<div class="col-md-12 col-xs-12">
+										<div class="selectdiv">
+											<select id="license_right" class="form-control">
+												<option value="Digital" selected="selected">Digital</option>
+												<option value="Physical">Physical</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-xs-12" hidden="true">
+	                             	<input type="text" name="role" id="role" readonly="true" class="form-control" tabindex="0" value="<%=session.passport.user.userWalletAddress%>">
+	                          	</div>
+	                          	<%if(!licensed){%>
+									<div class="form-group">
+										<label class="col-md-4 control-label">Peroid(months)(*)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="number" class="form-control" id="license_peroid" name="license_peroid" value="">
+										</div>
+									</div>
+									<div class="form-group" style="display: none">
+		                              	<label class="col-md-12 control-label">Price of Licensing</label>
+		                              	<div class="col-md-12 col-xs-12">
+		                                 	<input type="text" name="price_of" id="price_of" class="form-control" value="$20" readonly="">
+		                              	</div>
+		                           	</div>
+									<div class="form-group" style="display: none">
+										<label class="col-md-4 control-label">Voucher Code (If Any)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="number" class="form-control" id="voucher_code" name="voucher_code" value="">
+										</div>
+									</div>
+									<%if(session.passport.user.userShowPrivateKeyBox == true || !walletbk){%>
+									<div class="form-group" style="display: none;">
+										<label class="col-md-8 control-label">Owner account(Public Key) (*)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" value="<%=session.passport.user.userWalletAddress%>" class="form-control" id="public_key" name="public_key">
+										</div>
+		                           </div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">Authorized ID(*)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" class="form-control" value="" id="private_key" name="private_key">
+										</div>
+									</div>
+									<%}else{%>
+									<div class="form-group" style="display: none;">
+										<label class="col-md-8 control-label">Owner account(Public Key) (*)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" value="<%=walletbk.publicWallet%>" class="form-control" id="public_key" name="public_key">
+										</div>
+		                           </div>
+									<div class="form-group" style="display: none;">
+										<label class="col-md-4 control-label">Authorized ID(*)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" class="form-control" value="<%=walletbk.publicDeploySeed%>" id="private_key" name="private_key">
+										</div>
+									</div>
+									<%}%>
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<button type="button" id="contact_button" onclick="createLicense();" class="btn btn-primary">LICENSING</button>
+										</div>
+									</div>
+								<%}else{%>
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<%if(licensed.status == 0 || licensed.status==1){%>
+												<button type="button" id="contact_button" onclick="" class="btn btn-primary">YOU HAVE PENDING REQUEST.</button>
+											<%}else{%>
+												<button type="button" id="contact_button" onclick="" class="btn btn-primary">YOU HAVE LICENSED.</button>
+											<%}%>
+										</div>
+									</div>
+								<%}%>
+							</form>
+						<%}else{%>
+							<form action=""onsubmit="return false;">
+								<div class="form-group" hidden="true">
+									<div class="col-md-12 col-xs-12">
+										<input type="text" id="license_type" readonly="true" value="<%=type%>" placeholder="">
+										<input type="text" name="buyer_address" id="buyer_address" readonly="true" value="<%=session.passport.user.userWalletAddress%>">
+										<input type="text" name="owner_address" id="owner_address" readonly="true" value="<%=work.composerOwnerAddress%>">
+										<input type="text" name="license_song_id" id="license_song_id" readonly="true" value="<%=work._id%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">Song title</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" class="form-control" id="song_title" name="song_title" readonly="true" value="<%=work.composerSongTitle%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">Registration address</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" class="form-control" id="song_address" name="song_address" readonly="true" value="<%=work.composerContractAddress%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">Hash of song</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" class="form-control" id="hash_of_song" name="hash_of_song" readonly="true" value="<%=work.composerHashOfSong%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">License from</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" class="form-control" id="license_from" name="license_from" value="<%=session.passport.user.userFullName%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">License to</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" class="form-control" id="license_to" name="license_to" value="<%=work.composerName%>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">Territories</label>
+									<div class="col-md-12 col-xs-12">
+										<div class="selectdiv">
+											<select class="form-control" id="territories">
+												<%
+													var i=0;
+													countries.forEach(function(country){
+														i++;
+												%>
+													<option value="<%=country.countryName%>"><%=country.countryName%></option>
+												<%});%>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">License right</label>
+									<div class="col-md-12 col-xs-12">
+										<div class="selectdiv">
+											<select id="license_right" class="form-control">
+												<option value="Digital" selected="selected">Digital</option>
+												<option value="Physical">Physical</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-xs-12" hidden="true">
+	                             	<input type="text" name="role" id="role" readonly="true" class="form-control" tabindex="0" value="<%=session.passport.user.userWalletAddress%>">
+	                          	</div>
+	                          	<%if(!licensed){%>
+									<div class="form-group">
+										<label class="col-md-4 control-label">Peroid</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="number" class="form-control" id="license_peroid" name="license_peroid" value="">
+										</div>
+									</div>
+									<div class="form-group" style="display: none;">
+		                              	<label class="col-md-12 control-label">Price of Licensing</label>
+		                              	<div class="col-md-12 col-xs-12">
+		                                 	<input type="text" name="price_of" id="price_of" class="form-control" value="$20" readonly="">
+		                              	</div>
+		                           	</div>
+									<div class="form-group" style="display: none;">
+										<label class="col-md-4 control-label">Voucher Code (If Any)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="number" class="form-control" id="voucher_code" name="voucher_code" value="">
+										</div>
+									</div>
+									<%if(session.passport.user.userShowPrivateKeyBox == true || !walletbk){%>
+									<div class="form-group" style="display: none;">
+										<label class="col-md-4 control-label">Owner account(Public Key)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" class="form-control" value="<%=session.passport.user.userWalletAddress%>" id="public_key" name="public_key">
+										</div>
+		                           </div>
+									<div class="form-group" >
+										<label class="col-md-4 control-label">Authorized ID(*)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" class="form-control" value="" id="private_key" name="private_key">
+										</div>
+									</div>
+									<%}else{%>
+									<div class="form-group" style="display: none;">
+										<label class="col-md-4 control-label">Owner account(Public Key)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" class="form-control" value="<%=walletbk.publicWallet%>" id="public_key" name="public_key">
+										</div>
+		                           </div>
+									<div class="form-group" style="display: none;">
+										<label class="col-md-4 control-label">Authorized ID(*)</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" class="form-control" value="<%=walletbk.publicDeploySeed%>" id="private_key" name="private_key">
+										</div>
+									</div>
+									<%}%>
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<button type="button" id="contact_button" onclick="createLicense();" class="btn btn-primary">LICENSING</button>
+										</div>
+									</div>
+								<%}else{%>
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<%if(licensed.status == 0 || licensed.status==1){%>
+												<button type="button" id="contact_button" onclick="" class="btn btn-primary">YOU HAVE PENDING REQUEST.</button>
+											<%}else{%>
+												<button type="button" id="contact_button" onclick="" class="btn btn-primary">YOU HAVE LICENSED.</button>
+											<%}%>
+										</div>
+									</div>
+								<%}%>
+							</form>
+						<%}%>
+					</div>
+				</div>
+				<div class="ic-close">
+					<a href="/my-licensings"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+				</div>
+				<div class="clear"></div>
+                <%- include ../process/loading.ejs %>
+			</div>
+		</div>
+	</div>
+	<!-- ATTACHMENTS -->
+	<script src="https://checkout.stripe.com/checkout.js"></script>
+	<script src="javascripts/license.js"></script>
+	<script type="text/javascript">
+		function createLicense() {
+		  	if(!License.validate_license()){
+  				return;
+			}
+			License.checking_voucher_if_any('licensing', openStripe);
+		}
+
+		var priceOf = 0;
+        function openStripe(payPrice) {
+            priceOf = payPrice;
+            var checkout = StripeCheckout.configure({
+                 key: 'pk_test_ywev9rlXeo2eMcddrx8aSgVW',
+                 token: onReceiveToken,
+                 image: '/images/logo-spx-stripe.png',
+                 name: '<%=session.passport.user ? session.passport.user.email : ''%>',
+                 description: 'Payment to create license',
+                 amount: payPrice,
+                 billingAddress: true
+            });
+
+            checkout.open();
+        }
+
+        function onReceiveToken(token, args) {
+            console.log(token.id);
+            if (priceOf == 0) {
+               alert('Could not payment');
+               return;
+            }
+            License.license_charge('licensing', token.id, priceOf);
+        }
+    </script>
+</body>
+
+<!-- /BODY -->
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>ROYALTY PARTNER</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<!-- <link rel="stylesheet" href="css/home/home_loggedin.css"> -->
+	<link rel="stylesheet" href="css/search_results/search_results.css">
+	<link rel="stylesheet" href="css/royalty_partner/royalty_partner.css">
+	<link rel="stylesheet" href="css/my_songs/my_songs.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+	<link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+  	<script src="js/jquery.min.js"></script>
+  	<script type="text/javascript" src="javascripts/royalty.js"></script>
+  	<script src="js/bootstrap.min.js"></script>
+  	<script src="js/jquery-ui.js"></script>
+  	<script src="js/bootstrap-datepicker.min.js"></script>
+  	<script src="js/bootstrap-timepicker.min.js"></script>
+  	<script src="https://checkout.stripe.com/checkout.js"></script>
+  	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+</head>
+<body>
+	<div class="song">
+		<%- include ../menu/nor_header.ejs %>
+	</div>
+	<div class="home_content">
+		<div class="center_home">
+			<div class="left_content col-md-10 col-sm-9">
+				<div class="wrap_content" id="tab-content">
+					<ul class="nav nav-tabs">
+						<li style="width: 50px; height: 30px;">
+							<div class="ic-close" style="top: 5px; right: 10px;">
+								<a href="/" style="background: transparent; border: none;"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+							</div>
+						</li>
+						<li class="active" id="song_tab"><a data-toggle="tab" href="#home">ROYALTY PARTNER</a></li>
+						<li><a data-toggle="tab" data-target="#confirmation">WAITING CONFIRMATION(<%=confirmation.length%>)</a></li>
+					</ul>
+					<div class="tab-content">
+						  	<div id="home" class="tab-pane fade in active search_results">
+						  		<div class="col-md-12 col-xs-12" hidden="true">
+	                             	<input type="text" name="role" id="role" readonly="true" class="form-control" tabindex="0" value="<%=session.passport.user.userWalletAddress%>">
+	                          	</div>
+							   	<div class="clear"></div>
+							    <div class="table-responsive" id="table_search">
+							    	<table class="table table-curved">
+							    		<tr>
+							    			<td><p>Song Info</p></td>
+							    			<!--<td><p>Percent Before(%)</p></td>-->
+							    			<td><p>Percent (%)</p></td>
+							    			<td><p></p></td>
+							    		</tr>
+							            <%songs.forEach(function(song) {%>
+						            	<tr>
+					    					<td>
+				    							<p><strong>Registrant: <%=song.songUserRefer==null? "Unknow" :song.songUserRefer.userAccountName%></strong></p>
+				    							<p><strong>Song title: <%=song.songTitle%></strong></p>
+				    							<p>Song hash: <%=song.songHash%></p>
+					    						<p>Song address: <%=song.songContractAddress%></p>
+												<%if(song.songDateIssueRoyalty){%>
+					    						<p>Created: <%=song.songDateIssueRoyalty%></p>
+												<%}%>
+												<%if(song.royalties.length > 0){%>
+													<p>Other Owners:</p>
+													<ul>
+													<%song.royalties.forEach(function(royalty) {%>
+														<li style="text-align: left;"><b><%=royalty.percentAfter%>%: <%=royalty.partnerUserRefer.userWalletAddress%> - <%=royalty.partnerUserRefer.userFullName%></b></li>
+													<%})%>
+													</ul>
+												<%}%>
+					    					</td>
+						    				<!--<td><strong><p style="text-align: center;"><%=song.songRoyaltyPercentBefore%></p></strong></td>-->
+						    				<td><strong><p style="text-align: center;"><%=song.songRoyaltyPercentAfter%></p></strong></td>
+						    				<td><p>Confirmed</p></td>
+					            		</tr>
+						    			<%})%>
+							    	</table>
+							    </div>
+
+							    <!-- pagination -->
+							  	<nav aria-label="Page navigation example" id="pagination">
+								  	<ul class="pagination">
+								  		<%if (currentPage != 1) {%>
+								  			<li class="page-item"><a class="page-link" href="/royalties?page=<%=currentPage-1%>&limit=<%=pages.length%>">PREV</a></li>
+								  		<%}else{%>
+									    	<li class="page-item"><a class="page-link" href="/royalties?page=1&limit=<%=pages.length%>">PREV</a></li>
+									    <%}%>
+									    <%
+									    pages.forEach(function(page){
+										    if (currentPage == page.number) {%>
+										    	<li class="page-item"><a class="page-link" href="<%=page.url%>"><%=page.number%></a></li>
+											<%}else{%>
+												<li class="page-item"><a class="page-link" href="<%=page.url%>"><%=page.number%></a></li>
+											<%}
+									    })%>
+
+									    <%if (currentPage != pages.length) {%>
+									    	<li class="page-item"><a class="page-link" href="/royalties?page=<%=currentPage+1%>&limit=<%=pages.length%>">NEXT</a></li>
+										<%}else{%>
+											<li class="page-item"><a class="page-link" href="/royalties?page=<%=pages.length%>&limit=<%=pages.length%>">NEXT</a></li>
+										<%}%>
+								  	</ul>
+								</nav>
+							</div>
+							<div id="confirmation" class="tab-pane fade search_results">
+					  		<div class="search_left">
+					  		 	<h3>Royalty Partner Waiting Confirmation</h3>
+						  	</div>
+						  	
+							<div class="clear"></div>
+						    <div class="table-responsive" id="table_search">
+						    	<table class="table table-curved">
+						    		<tr>
+						    			<td><p>User ID</p></td>
+						    			<td><p>Account ID</p></td>
+						    			<td><p>Percent(%)</p></td>
+						    			<td><p>Status</p></td>
+						    		</tr>
+
+						    		<%confirmation.forEach(function(confirm) {%>
+						    			<%if(confirm.status == 0 || confirm.status == 1){%>
+						    				<tr>
+								    			<td><p><%=confirm.royaltyName%></p></td>
+							    				<td><p><%=confirm.royaltyPartnerAddress%></p></td>
+							    				<td><p><%=confirm.percentAfter%>%</p></td>
+							    				<%if(confirm.status == 0) {%>
+							    					<td><p>Deploying</p></td>
+							    				<%}else if (confirm.status == 1 && confirm.ownerUserRefer == session.passport.user._id) {%>
+							    					<td><p>Waitting Confirmation</p></td>
+							    				<%}else if (confirm.status == 1) {%>
+							    					<%if(confirm.deployStatus){%>
+							    					<td>
+							    						<button class="btn btn-success" onclick="accept('<%=confirm._id%>', '<%=confirm.royaltyPartnerAddress%>');">Accept</button>
+							                            </br>
+							                            <br/>
+							                            <button class="btn btn-danger" onclick="deny('<%=confirm._id%>','<%=confirm.royaltyPartnerAddress%>');">Deny</button>
+							                            </br>
+							    					</td>
+							    					<%}else{%>
+							    						<td>Processing</td>
+							    					<%}%>
+						    					<%}%>
+								            </tr>
+						    			<%}%>
+					    			<%})%>
+						    	</table>
+						    </div>
+					  	</div>
+					</div>
+				</div>
+			</div>
+			<dir class="right-content">
+				<%- include ../menu/right_menu_content.ejs %>
+			</dir>
+			<div class="clear"></div>
+            <%- include ../process/loading.ejs %>
+		</div>
+
+		<div class="music-player has-player"></div>
+	</div>
+	<script>
+		var public_key = '<%=walletbk.publicWallet%>';
+		var private_key = '<%=walletbk.publicDeploySeed%>';
+		$('.dropdown-menu li a').click(function() {
+			$('#search').val($(this).text());
+			$('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+		});
+		$(document).ready(function(){
+			$('#<%=menu_index%>').addClass('active');
+		});
+
+		function accept(royalty_id, public_key) {
+			if(private_key.length==0){
+				bootbox.prompt("Enter your Authorized ID", function(result){ 
+					if (result == undefined || result.length == 0) {
+						bootbox.alert('Please enter Authorized ID');
+						return;
+					}
+					Royalty.royalty_confirmed(royalty_id, result, public_key);
+				});
+			}else{
+				Royalty.royalty_confirmed(royalty_id, private_key, public_key);
+			}
+		}
+
+		function deny(royalty_id, public_key) {
+			bootbox.prompt("Enter your Authorized ID", function(result){ 
+				if (result == undefined || result.length == 0) {
+					bootbox.alert('Please enter Authorized ID');
+					return;
+				}
+				Royalty.royalty_rejected(royalty_id, result, public_key);
+			});
+		}
+
+		function openDialog(status){}
+
+        var OneSignal = OneSignal || [];
+          OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+              disable: true,
+            },
+            notifyButton: {
+              enable: true,
+              prenotify: true,
+              position: 'bottom-left',
+              size: 'medium',
+              showCredit: false
+            }
+          }]);
+    </script>
+</body>
+</html>

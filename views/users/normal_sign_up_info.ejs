@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Register</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="css/register/register.css">
+    <link rel="stylesheet" href="css/my_artists/create_artist_step_1.css">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+	<script src="javascripts/profile.js"></script>
+	<script src="javascripts/common.js"></script>
+	<link type="text/css" rel="stylesheet" href="js/password-strength-meter/password.min.css" />
+    <script type="text/javascript" src="js/password-strength-meter/password.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          // Showing the progress bar since the first moment.
+          $('#password').password({
+            animate: false,
+            enterPass: 'Password strength:',
+            shortPass: 'Password strength: Too short',
+            badPass: 'Password strength: Weak',
+            goodPass: 'Password strength: Good',
+            strongPass: 'Password strength: Strong'
+          });
+          $('#confirm_password').password({
+          	animate: false,
+          	enterPass: 'Password strength:',
+            shortPass: 'Password strength: Too short',
+            badPass: 'Password strength: Weak',
+            goodPass: 'Password strength: Good',
+            strongPass: 'Password strength: Strong'
+          });
+        });
+    </script>
+</head>
+<body>
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="des">
+					<div class="col-md-12 col-xs-12">
+						<img class="img_logo" src="images/logo_1.jpg" alt="">
+						<h3>Create Account</h3>
+						<!-- <h4>4 OF 5</h4> -->
+						<%if (message.length >0){ %>
+							<div class="alert alert-danger" style="margin-top: 20px;"><%= message%></div>	
+						<%}%>
+						<div class="regis">
+							<%if (formData != undefined) {%>
+								<form class="account" id="sign_up_form" action="/normal-sign-up-info" method="post" onsubmit="return Profile.validateInfomation()">
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12 hidden">
+											<div class="tcheck">
+												<p class="txt_check">I am a...</p>
+												<%if (formData.user_is_company == 'true'){%>
+													<input type="radio" name="user_is_company" tabindex="0" value="true" checked="true"> Record Company<br>
+													<input type="radio" name="user_is_company" tabindex="1" value="false"> Individual Artist. Lyricist or Composer
+												<%}else{%>
+													<input type="radio" name="user_is_company" tabindex="0" value="true"> Record Company<br>
+													<input type="radio" name="user_is_company" tabindex="1" value="false" checked="true"> Individual Artist. Lyricist or Composer
+												<%}%>
+											</div>									
+										</div>
+									</div>
+									<div class="form-group" hidden="true">
+										<label class="col-md-4 control-label">account id</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="role" id="role" class="form-control" tabindex="2" readonly="true" value="<%=wallet%>">
+										</div>
+									</div>
+									<div class="form-group" hidden="true">
+										<label class="col-md-4 control-label">key</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="key" id="key" class="form-control" tabindex="2" readonly="true" value="<%=key%>">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">user id</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="account_id" value="" id="account_id" required="true" class="form-control" tabindex="2" value="<%=formData.account_id%>">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">national id - passport </label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="national_id" id="national_id" required="true" class="form-control" tabindex="2" value="<%=formData.natioall_id%>">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">email</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="email" name="email" id="email" required="true" class="form-control" tabindex="2" value="<%=formData.email%>">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label" id="fullname_or_companyname">company name</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="user_name" class="form-control" id="user_name" required="true" tabindex="3" value="<%=formData.user_name%>">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">address line 1</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="user_address" class="form-control" id="user_address" required="true" tabindex="3" value="<%=formData.user_address%>">
+										</div>
+									</div>
+									<div class="form-group">									
+										<div class="col-md-6 col-xs-12 city1">
+											<label class="control-label">city</label>
+											<input type="text" name="user_city" id="user_city" required="true" class="form-control" tabindex="4" value="<%=formData.user_city%>">
+										</div>								
+										
+										<div class="col-md-6 col-xs-12">
+											<label class="control-label">postal/zip</label>
+											<input type="number" name="user_postal" id="user_postal" required="true" class="form-control" tabindex="5" value="<%=formData.user_postal%>">
+										</div>
+									</div>
+									<div class="form-group">
+                                        <label for="user_country" class="col-md-4 control-label">country</label>
+                                        <div class="col-md-12 col-xs-12">
+                                        	<div class="selectdiv">
+	                                        	<select id="user_country" class="form-control">
+				                                    <option selected="" class="pla" hidden="">Select country</option>
+				                                    <%
+				                                    	countries.forEach(function(country){
+				                                    %>
+				                                    	<option class="pla" id="<%=country.countryName%>"><%=country.countryName%></option>
+				                                    <%});%>
+			                                    </select>
+	                                        </div>
+                                        </div>
+                                    </div>
+									<div class="form-group">
+										<label class="control-label mlabel">mobile</label>	
+										<div class="clear"></div>								
+										<div class="col-md-2 col-xs-4 no-padding-right">
+											<div class="input-group sphone">
+												<div class="input-group-addon plus">+</div>
+												<input type="number" pattern="\d*" maxlength="4" name="user_code" id="user_code" required="true" class="country_code form-control" tabindex="7" value="<%=formData.user_code%>">
+											</div>
+										</div>								
+										
+										<div class="col-md-10 col-xs-8 no-padding-left">
+											<input type="number" name="user_phone" id="user_phone" required="true" class="form-control" tabindex="8" value="<%=formData.user_phone%>">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-4 control-label">password</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="password" name="password" id="password" required="true" class="form-control" tabindex="9" value="">
+										</div>
+										<h6 style="margin-left: 10px;">(Use 8 or more characters with a mix of letters, numbers & symbols)</h6>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">confirm password</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="password" name="confirm_password" id="confirm_password" required="true" class="form-control" tabindex="10" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<div class=" up" id="drop_zone">
+		                                        <div class="up1">
+		                                            <label class="lbl-talents" for="type_lyricist">Your Passport</label>
+		                                            <img src="<%=formData.image_file%>" alt="" id="user_image">
+		                                            <p>Begin upload by dragging image here</p>
+		                                            <p>or</p>
+		                                            <input type="file" id="image_file" name="image_file" accept="image/*" style="display: none;" onchange="imageUpload (this);">
+		                                            <button type="button" style="width: 50%;" class="btn btn-primary" id="btn_select_file" name="btn_select_file" onclick="">SELECT FILE FROM FOLDER</button>
+		                                        </div>
+		                                    </div>
+	                                	</div>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<div class=" up" id="drop_zone">
+		                                        <div class="up1">
+		                                            <label class="lbl-talents" for="type_lyricist">Address - proof of address - bank statement, Utilities Bill</label>
+		                                            <img src="<%=formData.address_file%>" alt="" id="address_image">
+		                                            <p>Begin upload by dragging image here</p>
+		                                            <p>or</p>
+		                                            <input type="file" id="address_file" name="address_file" accept="image/*" style="display: none;" onchange="addressUpload (this);">
+		                                            <button type="button" style="width: 50%;" class="btn btn-primary" id="btn_address_select_file" name="btn_address_select_file" onclick="">SELECT FILE FROM FOLDER</button>
+		                                        </div>
+		                                    </div>
+	                                	</div>
+                                    </div>
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<button type="button" onclick="submit_form()" class="btn btn-primary">NEXT</button>
+										</div>
+									</div>
+								</form>
+							<%}else{%>
+								<form class="account" id="sign_up_form" action="/normal-sign-up-info" method="post" onsubmit="return Profile.validateInfomation()">								
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<div class="tcheck">
+												<p class="txt_check">I am a...</p>
+												<input type="radio" name="user_is_company" tabindex="0" checked="true" value="true"> Record Company<br>
+												<input type="radio" name="user_is_company" tabindex="1" value="false" >
+												Individual Artist. Lyricist or Composer
+											</div>									
+										</div>
+									</div>
+									<div class="form-group" hidden="true">
+										<label class="col-md-4 control-label">account id</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="role" id="role" class="form-control" tabindex="2" readonly="true" value="<%=wallet%>">
+										</div>
+									</div>
+									<div class="form-group" hidden="true">
+										<label class="col-md-4 control-label">key</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="key" id="key" class="form-control" tabindex="2" readonly="true" value="<%=key%>">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">user id</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="account_id" id="account_id" required="true" class="form-control" tabindex="2" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">national id - passport </label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="national_id" id="national_id" required="true" class="form-control" tabindex="2" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">email</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="email" name="email" id="email" required="true" class="form-control" tabindex="2" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label" id="fullname_or_companyname">company name</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="user_name" class="form-control" id="user_name" required="true" tabindex="3" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">address line 1</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="text" name="user_address" id="user_address" required="true" class="form-control" tabindex="3" value="">
+										</div>
+									</div>
+									<div class="form-group">									
+										<div class="col-md-6 col-xs-12 city1">
+											<label class="control-label">city</label>
+											<input type="text" name="user_city" id="user_city" required="true" class="form-control" tabindex="4" value="">
+										</div>								
+										
+										<div class="col-md-6 col-xs-12">
+											<label class="control-label">postal/zip</label>
+											<input type="number" name="user_postal" id="user_postal" required="true" class="form-control" tabindex="5" value="">
+										</div>
+									</div>
+
+									<div class="form-group">
+                                        <label for="user_country" class="col-md-4 control-label">country</label>
+                                        <div class="col-md-12 col-xs-12">
+                                        	<div class="selectdiv">
+	                                        	<select id="user_country" class="form-control">
+				                                    <option selected="" class="pla" hidden="" value="">Select country</option>
+				                                    <%
+				                                    	countries.forEach(function(country){
+				                                    %>
+				                                    	<option class="pla" id="<%=country.countryName%>" value="<%=country.countryName%>"><%=country.countryName%></option>
+				                                    <%});%>
+			                                    </select>
+	                                        </div>
+                                        </div>
+                                    </div>
+									
+									<div class="form-group">
+										<label class="control-label mlabel">mobile</label>	
+										<div class="clear"></div>								
+										<div class="col-md-2 col-xs-4 no-padding-right">
+											<div class="input-group sphone">
+												<div class="input-group-addon plus">+</div>
+												<input type="number" pattern="\d*" maxlength="4" name="user_code" id="user_code" required="true" class="country_code form-control" tabindex="6" value="">
+											</div>
+											
+										</div>								
+										
+										<div class="col-md-10 col-xs-8 no-padding-left">
+											<input type="number" name="user_phone" id="user_phone" required="true" class="form-control" tabindex="7" value="">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="col-md-4 control-label">password</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="password" name="password" id="password" required="true" class="form-control" tabindex="8" value="">
+											<h6 style="margin-left: 10px;">(Use 8 or more characters with a mix of letters, numbers & symbols)</h6>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-4 control-label">confirm password</label>
+										<div class="col-md-12 col-xs-12">
+											<input type="password" name="confirm_password" id="confirm_password" required="true" class="form-control" tabindex="" value="">
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<div class=" up" id="drop_zone">
+		                                        <div class="up1">
+		                                            <label class="lbl-talents" for="type_lyricist">Your Passport</label>
+		                                            <img src="images/upload.jpg" alt="" id="user_image">
+		                                            <p>Begin upload by dragging image here</p>
+		                                            <p>or</p>
+		                                            <input type="hidden" name="image_file_url" id="image_file_url">
+		                                            <input type="file" id="image_file" name="image_file" accept="image/*" style="display: none;" onchange="imageUpload (this);">
+		                                            <button type="button" style="width: 50%;" class="btn btn-primary" id="btn_select_file" name="btn_select_file" onclick="">SELECT FILE FROM FOLDER</button>
+		                                        </div>
+		                                    </div>
+	                                	</div>
+                                    </div>
+                                    <br/>
+                                    <br/>
+                                    <div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<div class=" up" id="drop_zone">
+		                                        <div class="up1">
+		                                            <label class="lbl-talents" for="type_lyricist">Address - proof of address - bank statement, Utilities Bill</label>
+		                                            <img src="images/upload.jpg" alt="" id="address_image">
+		                                            <p>Begin upload by dragging image here</p>
+		                                            <p>or</p>
+		                                            <input type="hidden" name="address_file_url" id="address_file_url">
+		                                            <input type="file" id="address_file" name="address_file" accept="image/*" style="display: none;" onchange="addressUpload (this);">
+		                                            <button type="button" style="width: 50%;" class="btn btn-primary" id="btn_address_select_file" name="btn_address_select_file" onclick="">SELECT FILE FROM FOLDER</button>
+		                                        </div>
+		                                    </div>
+	                                	</div>
+                                    </div>
+									<div class="form-group">
+										<div class="col-md-12 col-xs-12">
+											<button type="button" onclick="submit_form()" class="btn btn-primary">NEXT</button>
+										</div>
+									</div>
+								</form>
+							<%}%>
+						</div>			
+					</div>
+					<div class="ic-close">
+						<a href="/"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+					</div>
+					<div class="clear"></div>		
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var test_mode = '<%=test_mode%>'
+		var user_image = '';
+		var address_image = '';
+		function submit_form(){
+			if(!test_mode){
+				var user_image = document.getElementById("image_file").value;
+				if (user_image.length == 0) {
+			      bootbox.alert('Please upload you passport');
+			      return false;
+			    }
+			    // var address_image = document.getElementById("address_image").value;
+				if (address_image.length == 0) {
+			      bootbox.alert('Please upload you bank statement, Utilities Bill');
+			      return false;
+			    }
+			}
+			$('#sign_up_form').submit();
+		}
+		$('#btn_select_file').on('click', function(e){
+         	document.getElementById('image_file').click();
+        });
+        $('#btn_address_select_file').on('click', function(e){
+         	document.getElementById('address_file').click();
+        });
+        var national_id = document.getElementById('national_id');
+		var user_name = document.getElementById('user_name');
+		var email = document.getElementById('email');
+		var user_address = document.getElementById('user_address');
+		var user_city = document.getElementById('user_city');
+		var user_postal = document.getElementById('user_postal');
+		var user_code = document.getElementById('user_code');
+		var user_phone = document.getElementById('user_phone');
+		var password = document.getElementById('password');
+		var confirm_password = document.getElementById('confirm_password');
+
+		if (user_name.value.length == 0) {
+			user_name.setCustomValidity('Please enter name');
+		}
+		if (national_id.value.length == 0) {
+			national_id.setCustomValidity('Please enter national id - passport');
+		}
+		if (email.value.length == 0) {
+			email.setCustomValidity('Please enter email');
+		}
+		if (user_address.value.length == 0) {
+			user_address.setCustomValidity('Please enter address');
+		}
+		if (user_city.value.length == 0) {
+			user_city.setCustomValidity('Please enter city');
+		}
+		if (user_postal.value.length == 0) {
+			user_postal.setCustomValidity('Please enter postal/zip');
+		}
+		if (user_code.value.length == 0) {
+			user_code.setCustomValidity('Please enter Country code');
+		}
+		if (user_phone.value.length == 0) {
+			user_phone.setCustomValidity('Please enter phone number');
+		}
+		if (password.value.length == 0) {
+			password.setCustomValidity('Please enter password');
+		}
+		if (confirm_password.value.length == 0) {
+			confirm_password.setCustomValidity('Please enter confirm password');
+		}
+
+		user_name.addEventListener('input', function(){
+			user_name.setCustomValidity('');
+		}, false);
+		national_id.addEventListener('input', function(){
+			national_id.setCustomValidity('');
+		}, false);
+		email.addEventListener('input', function(){
+			email.setCustomValidity('');
+		}, false);
+		user_address.addEventListener('input', function(){
+			user_address.setCustomValidity('');
+		});
+		user_city.addEventListener('input', function(){
+			user_city.setCustomValidity('');
+		});
+		user_postal.addEventListener('input', function(){
+			user_postal.setCustomValidity('');
+		});
+		user_code.addEventListener('input', function(){
+			user_code.setCustomValidity('');
+		}, false);
+		user_phone.addEventListener('input', function(){
+			user_phone.setCustomValidity('');
+		}, false);
+		password.addEventListener('input', function(){
+			password.setCustomValidity('');
+		}, false);
+		confirm_password.addEventListener('input', function(){
+			confirm_password.setCustomValidity('');
+		}, false);
+
+		function imageUpload(file_input){
+    		var file = file_input.files[0];
+    		console.log(file);
+    		if (file) {
+    			var formData = new FormData();
+    			formData.append('uploads', file, file.name);
+    			$.ajax({
+    				method: 'POST',
+    				url: '/upload',
+    				data: formData,
+    				processData: false,
+    				contentType: false,
+    				success: function(data){
+    					$('#user_image').attr('src', data.url).width(150).height('auto');
+                        document.getElementById('btn_select_file').innerHTML = 'SELECT OTHER FILE FROM FOLDER';
+                        document.getElementById('image_file_url').value = data.url;
+                        user_image = data.url;
+    				}
+    			});
+    		}
+    	}
+
+    	function addressUpload(file_input){
+    		var file = file_input.files[0];
+    		console.log(file);
+    		if (file) {
+    			var formData = new FormData();
+    			formData.append('uploads', file, file.name);
+    			$.ajax({
+    				method: 'POST',
+    				url: '/upload',
+    				data: formData,
+    				processData: false,
+    				contentType: false,
+    				success: function(data){
+    					$('#address_image').attr('src', data.url).width(150).height('auto');
+                        document.getElementById('btn_select_file').innerHTML = 'SELECT OTHER FILE FROM FOLDER';
+                        document.getElementById('address_file_url').value = data.url;
+                        address_image = data.url;
+    				}
+    			});
+    		}
+    	}
+
+		$('input[type=radio][name=user_is_company]').change(function() {
+		    if (this.value == 'true') {
+		        document.getElementById('fullname_or_companyname').innerHTML = '';
+		        document.getElementById('fullname_or_companyname').innerHTML = 'company name';
+		    }
+		    else if (this.value == 'false') {
+		        document.getElementById('fullname_or_companyname').innerHTML = '';
+		        document.getElementById('fullname_or_companyname').innerHTML = 'full name';
+		    }
+		});
+
+		function handleFileSelect(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          var files = evt.dataTransfer;
+          var check = evt.dataTransfer.files[0].type;
+          if(check == 'audio/mp3') {
+            imageUpload(files);
+          }
+          else {
+            alert('file is not formatted correctly');
+          }
+        }
+
+        function handleDragOver(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
+
+	</script>
+</body>
+</html>
+

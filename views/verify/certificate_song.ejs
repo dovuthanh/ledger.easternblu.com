@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Certificate</title>
+      <link rel="stylesheet" href="css/common/bootstrap.min.css">
+      <link rel="stylesheet" href="css/common/font-awesome.min.css">
+      <link rel="stylesheet" href="css/common/common.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <script src="js/jquery-3.2.1.min.js"></script>
+      <script src="js/jquery.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery-ui.js"></script>
+      <script src="javascripts/qrcode.min.js"></script>
+      <style type="text/css">
+				body{
+					color: #000;
+					font-weight: bold;
+				}
+
+				.mt-10{
+					margin-top: 10px;
+				}
+				.mr-35{
+					margin: 35px 0;
+				}
+				.mr-35 .item{
+					display: flex;
+					justify-content: space-between;
+				}
+				.mr-35 .item span {
+					width: 65%;
+				    word-wrap: break-word;
+				}
+				.logo_app	{
+					width: 20%;
+				}
+				.logo_app img {
+					width: 150px;
+					margin-top: -22px;
+				}
+				.pl-10{
+					padding-left: 10px;
+				}
+				.wrapp{
+					width: 70%;
+					margin: 0 auto;
+				}
+				.text-left{
+					text-align: left;
+				}
+				.text-right{
+					text-align: right;
+				}
+				.header-cert{
+					padding: 10px 0 15px 0;
+				}
+				.header-cert .left{
+					float: left;
+				}
+				.header-cert .left{
+					width: 75%;
+				}
+				.header-cert h1{
+					padding: 5px 0;
+					margin: 10px 0;
+					font-size: 35px;
+				}
+				.section {
+					width: 100%;
+					float: left;
+				}
+				.section h1{
+				    font-size: 28px;
+					margin: 10px 0px;
+				}
+				.right {
+					 width: 25%;
+    				float: left;
+				}
+				.header-cert .right img{
+					width: 60%;
+				}
+			</style>
+   </head>
+   <body>
+      <div class="song">
+         <%- include ../menu/big_header.ejs %>
+      </div>
+      <div class="home_content">
+         <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+               <div class="wrapp">
+                  <div class="header-cert">
+						<div class="left">
+							<h1 class="title">Certificate of Registration</h1>
+							<h1 class="title">注册证明书</h1>
+							<%if(song.songRegisterDate){%>
+							<span>Date: <%=song.songRegisterDate.toDateString()%></span><br>
+							<%}%>
+							<span>日期</span><br/>
+							<span>Owner Name: <%=song.ownerName%></span><br/>
+							<%if(song.songUserRefer  && song.songUserRefer.userCountryCode!=undefined){%>
+							<span>Phone: <%=(song.songUserRefer.userCountryCode +" "+ song.songUserRefer.userPhone)%></span>
+							<%}%>
+						</div>
+						<div class="right">
+							<div class="text-right pd-0" id="qrcode">
+							</div>
+							<br>
+							<div class="text-left">
+								<span>Registration Address</span><br>
+								<span>注册地址</span><br>
+							</div>
+							<div class="text-left">
+								<span><a href="<%=url%><%=song.songContractAddress%>"><img src="/<%=song.qrcodeImage%>"/></a></span>
+							</div>
+							<div class="text-left">
+								<a href="/verification-and-authentication?id=<%=song._id%>&type=song" style="margin: 10px 10px 0px 0px;" class="button-small skin-background-color1 skin-font-color3 skin-background-hover3">Authenticate</a>
+							</div>
+						</div>
+					</div>
+					<div class="content-cert">
+						<div class="item">
+							<input type="text" id="address_owner_of_song" name="address_owner_of_song" hidden="true" value="<%=song.songOwnerContractAddress%>" readonly="true" placeholder="">
+							<input type="text" id="hash_of_song" name="hash_of_song" hidden="true" value="<%=song.songHash%>" readonly="true" placeholder="">
+							<input type="text" id="digital_signatures" name="digital_signatures" hidden="true" value="<%=song.songDigitalSignature%>" readonly="true" placeholder="">
+					    </div>
+					    <%if(song.songArtistRefer && song.songArtistRefer.artistsPictures && song.songArtistRefer.artistsPictures.length >0){%>
+						<img src="<%=song.songArtistRefer.artistsPictures%>" style="float:left;margin: 4px 30px 20px 0px;" width="165">
+						<%}else{%>
+						<img src="images/song_default.jpg" style="float:left;margin: 4px 30px 20px 0px;" width="165">
+						<%}%>
+						<table>
+							<tbody>
+								<tr>
+									<td><span>Title</span><br><span>标题</span></td>
+									<td class="pl-10"><span><%=song.songTitle%></span><br><span><%=song.songChineseTitle%></span></td>
+								</tr>
+								<tr>
+									<td><span>Singer</span><br><span>歌手</span></td>
+									<td class="pl-10"><span>
+										<%if(song.songArtistRefer){%>
+											<%=song.songArtistRefer.artistProfessionName%>
+										<%}%>
+									</span><br><span>
+										<%if(song.songArtistRefer){%>
+											<%=song.songArtistRefer.artistNonRomanizedName%>
+										<%}%>
+									</span></td>
+								</tr>
+								<tr>
+									<td><span>Copyrights Owner</span><br><span>版权所有者</span></td>
+									<td class="pl-10"><span><%=song.songOwnerName%></span></td>
+								</tr>
+								<tr>
+									<td><span>Duration</span><br><span>喜欢</span></td>
+									<td class="pl-10"><span><%=song.songDuration%></span></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="section mt-10">
+							<h1>Provenance / Licensing history</h1>
+							<h1>种源/授权历史记录</h1>
+							<%if(song.songMerkleRoot){%>
+								<span>Merkle root <%=song.songMerkleRoot%></span><br/>
+							<%}%>
+							<span>Hash<%=song.songHash%></span><br/>
+							<span>Owner address</span><br/>
+							<span>Registered <%=song.songRegisterDate ? song.songRegisterDate.toDateString() : ''%></span>&nbsp;
+							<%if(song.songDateFirstPublish){%>
+								<span>First Release <%=song.songDateFirstPublish.toDateString()%></span><br>
+							<%}%>
+							<%transactions.forEach(function(transaction){%>
+								<%if(transaction.peroid < 12){%>
+									<span>Liscense Address <%=song.songContractAddress%> </span>&nbsp;<span>Date <%=transaction.dateCreated ? transaction.dateCreated.toDateString() : ''%>  <%=transaction.peroid%> months <%=transaction.licenseTo%> <%=transaction.right%></span><br>
+								<%}else{ var years = transaction.peroid/12;%>
+									<span>Liscense Address <%=song.songContractAddress%> </span>&nbsp;<span>Date <%=transaction.dateCreated ? transaction.dateCreated.toDateString() : ''%>  <%=years%> years <%=transaction.licenseTo%> <%=transaction.right%></span><br>
+								<%}%>
+							<%})%>
+						</div>
+						<div class="section mr-35">
+							<h1>Royalty Distribution</h1>
+							<h1>版税分配</h1>
+							<span><%=song.songUserRefer.userFullName%> - <%=song.songOwnerContractAddress%> - <%=ownerTotalPercent%> %</span>
+                            <br/>
+							<%
+                              royalties.forEach(function(owner){
+                           %>
+                             <span><%=owner.partnerUserRefer.userFullName%> - <%=owner.royaltyPartnerAddress%> - <%=owner.percentAfter%> %</span>
+                             <br/>
+                           <%});%>
+							<div class="logo_app">
+								<!-- <img src="/images/logo_app.jpg" alt=""> -->
+							</div>
+						</div>
+						<div class="section mr-35">
+							<h1>Digital Signature</h1>
+							<h1>数字签名</h1>
+							<div class="item">
+								<span><%=song.songDigitalSignature%></span>
+								<div class="logo_app">
+									<!-- <img src="/images/logo_app.jpg" alt=""> -->
+								</div>
+							</div>
+
+						</div>
+					</div>
+               </div>
+            </div>
+            <div class="right-content">
+               <%- include ../menu/right_menu_content.ejs %>
+            </div>
+         </div>
+      </div>
+      <script>
+         $('.dropdown-menu li a').click(function() {
+         	$('#search').val($(this).text());
+         	$('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+         });
+         $(document).ready(function(){
+         	$('#<%=menu_index%>').addClass('active');
+         });
+		var qrcode = new QRCode("qrcode");
+		function makeCode () {
+			// var url = new URL(window.location.href);
+			var song_address = <%=song.songContractAddress%>
+			qrcode.makeCode(song_address);
+			// App.getlicense_from_block_chain(song_address);
+		}
+		makeCode();
+      </script>
+   </body>
+</html>

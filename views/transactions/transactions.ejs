@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TRANSACTIONS</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/transaction/transaction.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <!-- menu mobile -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">HOME</a></li>
+                    <li><a href="#">MY TALENTS</a></li>
+                    <li><a href="#">MY SONGS</a></li>
+                    <li><a href="#">LICENSING</a></li>
+                    <li><a href="#">REGISTER SONG</a></li>
+                    <li><a href="#">VERIFY</a></li>
+                    <li><a href="#">TRANSACTIONS</a></li>
+                    <li><a href="#">SETTINGS</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <ul class="nav nav-tabs">
+                        <li style="width: 50px; height: 30px;">
+                            <div class="ic-close" style="top: 5px; right: 10px;">
+                                <a href="/" style="background: transparent; border: none;"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+                            </div>
+                        </li>
+                        <li class="active"><a data-toggle="tab" href="#home">PAST TRANSACTION</a></li>
+                        <li><a data-toggle="tab" href="#menu1">BUY & SELL SP8</a></li>
+                        <li><a data-toggle="tab" href="#menu2">EXTERNAL WALLET</a></li>
+                        <li><a data-toggle="tab" href="#menu3">WITHDRAW</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="text-button"><b>Past Transaction</b><a href="/transfer"><button>Transfer</button></a></div>
+                            <div class="col-md-6">
+                                <div>
+                                    <table class="table table-bordered table-curved">
+                                        <tr>
+                                            <th colspan="2">Curent Balance:</th>
+                                        </tr>
+                                        <tr>
+                                            <th class="style_colorth" id="balance_enc_tab1">0.0 SP8</th>
+                                            <th class="style_color" id="balance_eth_tab1">0.0 ETH</th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-12">
+                                <div class='table-responsive'>
+                                    <table class="table table-bordered table-curved transaction">
+                                        <thead>
+                                            <tr class="color_tr">
+                                                <th class="col-md-2">Date</th>
+                                                <th class="col-md-2">Txhash</th>
+                                                <th class="col-md-3">To Address</th>
+                                                <th class="col-md-3">Status</th>
+                                                <th class="col-md-2">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+    											var i=0;
+    											transactions.forEach(function(transaction){
+    												i++;
+    										%>
+    											<tr>
+    												<td class="table-td-date"><%=transaction.datetime%></td>
+    												<td><%=transaction.txHash%></td>
+    												<td><%=transaction.toAddress%></td>
+    												<%if (transaction.status == 1){%>
+    													<td class="table-td-status">Processing</td>
+    												<%}else if (transaction.status == 2){%>
+    													<td class="table-td-status">Successed</td>
+    												<%}else{%>
+    													<td class="table-td-status">Failed</td>
+    												<%}%>
+    												<td><%=transaction.amount%>(<%=transaction.unit%>)</td>
+    											</tr>
+    										<%});%>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="menu1" class="tab-pane fade">
+                        	<input type="number" name="rate" id="rate" readonly="true" hidden="true">
+                            <div class="col-md-6">
+                                <table class="table table-bordered table-curved">
+                                    <tr>
+                                        <th colspan="2">Curent Balance:</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="style_colorth" id="balance_enc_tab2">0.0 SP8</th>
+                                        <th class="style_color" id="balance_eth_tab2">0.0 ETH</th>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-12">Buy SP8 (from ETH)</div>
+                            <div class="col-md-12">
+                                <span class="style_colorth">1 SP8</span> to <span id="rate1">0.0</span> <span class="style_color">ETH</span>
+                            </div>
+                            <div class="col-md-6">
+                            	<table id="table-first" class="table table-bordered table-curved buy_sp8">
+	                                <tr>
+	                                    <th colspan="2">
+	                                        <input type="number" class="input-typeip" id="ip_buy_enc" name="ip_buy_enc">
+	                                        <label class="input-type">SP8</label>
+	                                        <div class="div-img">
+	                                        	<img src="/images/muiten.jpg" class="btn-img">
+	                                        </div>
+	                                        <button class="input-type-c">
+                                            	<span class="style_standard" id="op_buy_enc">0.0</span> <span class="style_color1">ETH</span>
+                                            </button>
+	                                    </th>
+	                                </tr>
+	                                <tr>
+	                                    <th colspan="2" class="button-m"><button onclick="buyTokens();">BUY</button></th>
+	                                </tr>
+	                            </table>
+                            </div>
+
+                            <div class="col-md-12">Sell SP8 (to ETH)</div>
+                            <div class="col-md-12">
+                                <span class="style_colorth">1 SP8</span> to <span id="rate2">0.0</span> <span class="style_color">ETH</span>
+                            </div>
+
+                            <div class="col-md-6">
+                            	<table id="table-first" class="table table-bordered table-curved buy_sp8">
+	                                <tr>
+	                                    <th colspan="2">
+	                                        <div>
+	                                            <input type="number" class="input-typeip" id="ip_sell_enc" name="ip_sell_enc">
+	                                            <label class="input-type">SP8</label>
+	                                            <div class="div-img">
+		                                        	<img src="/images/muiten.jpg" class="btn-img">
+		                                        </div>
+	                                            <button class="input-type-c">
+			                                        <span class="style_standard" id="op_sell_enc">0.0</span><span class="style_color1">ETH</span>
+			                                    </button>
+			                                </div>
+	                                    </th>
+	                                </tr>
+	                                <tr>
+	                                    <th colspan="2" class="button-m"><button onclick="sellTokens();">SELL</button></th>
+	                                </tr>
+	                            </table>
+                            </div>
+                        </div>
+
+                        <div id="menu2" class="tab-pane fade">
+                            <h3>How to transfer currency here:</h3>
+                            <p>Buy it from an exchange and transfer It to the adcrcss here: <b>sdasdolrcwrzmzunzwzsmzatwtzsmcsd.</b></p>
+                            </br>
+                            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut preﬁum preﬁum temper. Ut eget imperdiet neque. ln volutpat ante semper diam molestie. et aliquam erat laoreeL
+							Scd sit amet arcu allqucL moiestic justo aL auctor nunc. Phascllus ligula ipsum. volutpat cget semper id. viverra cgct nibh. Suspendissc luctus mattis cursus. Nam consectctur
+							ante at nisl hcndrerlt gravida. Doncc vehicula rhoncus mattis. Mauris dignlsslm semper mattis. Fuscc porm’tor a ml at susciplt. Pmcsent faciﬁsis dolor sapien. vel sodales augue
+							mollis ut. Mauris venenaﬁs magna eu tortor posuere luctus. Aenean tincidunt turpis sed dui aliquam vehicuh. Praesent nec elit non dolor consectetur tincidunt sed in felis
+						Doncc clcmcntum. lacus at mattis tincidunt, cros magna faucibus 5cm. in condimentum cst auguc tristiquc risus.</span>
+                            <h3>How to transfer your currency out</h3>
+                            <p>Transfer here <a href="/transfer"><button class="btn btn-primary" style="width: 100px; margin-top: 0px;">Transfer</button></a></p>
+                            <span>
+							Lorem Ipsum dolor sit amet. consectetur adiplsclng elit. Ut predum pretium tempor. Ut eget imperdiet neque. In volutpat ante semper diam molestie. ct aliquam erat boreet.
+							Sod sit amet arcu aliquet, molesﬁe iusto at. auctor nunc. Phasellus ligula ipsum, volutpat eget semper id. viverra eget nibh. Suspendisse Iuctus mattis cursus Nam consectetur
+							ante at nisl hcndrcrit gravida. Doncc vehicula rhoncus mattis. Mauris dignissim semper mattis. Fuscc portn'tor a mi at susu'pit. Pracsent facilisis dolor sapien. vel sodales auguc
+							mollis ut. Mauris vencnatis magna cu tortor posucre luctus. Aenean tincldunt turpls sed dui aliquam vehicula. Praescnt nec elit non dolor consectctur tincidunt sod in tens.
+						Donec elementum, lacus at mattis tincidunt, eros magma faucibus sem. in concﬁmentum est augue tristique n'sus.</span>
+                        </div>t
+                        <div id="menu3" class="tab-pane fade in active">
+                            <div class="form-group">
+                                <label class="col-md-12 col-xs-12 control-label">Bank Name</label>
+                                <input type="text" class="form-control transfer" name="bank_name" id="bank_name">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 col-xs-12 control-label">Account No</label>
+                                <input type="text" class="form-control transfer" name="account_number" id="account_number">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 col-xs-12 control-label">Account Name</label>
+                                <input type="text" class="form-control transfer" name="account_name" id="account_name">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 col-xs-12 control-label">Bank Swift Code</label>
+                                <input type="text" class="form-control transfer" name="swift_code" id="swift_code">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 col-xs-12 control-label">Bank Address</label>
+                                <input type="text" class="form-control transfer" name="bank_address" id="bank_address">
+                            </div>
+                            <div class="form-group">
+                            <label class="col-md-12 col-xs-12">Authorized ID(*)</label>
+                            <input type="text" class="form-control" name="private_key" id="private_key" placeholder="Enter your private key">
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-transfer" onclick="transfer();">Transfer</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <dir class="right-content">
+      				<%- include ../menu/right_menu_content.ejs %>
+      			</dir>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="javascripts/transaction.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.btn_cancel').on('click', function() {
+                $('#popup').removeClass('show');
+                $('body').toggleClass('modal-open');
+            });
+
+      		document.getElementById('ip_buy_enc').value = 0.0;
+      		document.getElementById('ip_sell_enc').value = 0.0;
+      		document.getElementById('op_buy_enc').innerHTML = '0.0';
+      		document.getElementById('op_sell_enc').innerHTML = '0.0';
+      		$('#<%=menu_index%>').addClass('active');
+      		Transaction.loadBalanceWallet();
+    	});
+
+        var opBuyENC = document.getElementById('op_buy_enc');
+        var opSellENC = document.getElementById('op_sell_enc');
+    	$('input[name="ip_buy_enc"]').on('keyup', function(e){
+    		var rate = parseFloat(document.getElementById('rate1').innerHTML);
+    		console.log(e.target.value);
+    		if (e.target.value == '') {
+    			opBuyENC.innerHTML = '0.0';
+    		}else{
+    			var amount = parseFloat(e.target.value);
+	    		if (amount <= 0){
+	    			opBuyENC.innerHTML = '0.0';
+	    		}else{
+	    			console.log(amount, rate, amount * rate);
+	    			opBuyENC.innerHTML = amount * rate;
+	    		}
+    		}
+    	});
+
+    	$('input[name="ip_sell_enc"]').on('keyup', function(e){
+    		var rate = parseFloat(document.getElementById('rate1').innerHTML);
+    		console.log(e.target.value);
+    		if (e.target.value == '') {
+    			opSellENC.innerHTML = '0.0';
+    		}else{
+    			var amount = parseFloat(e.target.value);
+	    		if (amount <= 0){
+	    			opSellENC.innerHTML = '0.0';
+	    		}else{
+	    			console.log(amount, rate, amount * rate);
+	    			opSellENC.innerHTML = amount * rate;
+	    		}
+    		}
+    	});
+    </script>
+
+    <script type="text/javascript">
+        function buyTokens(){
+        	if (!Transaction.validate_buy_tokens()) {
+        		return;
+        	}
+        	Transaction.deploy_buy_tokens();
+        }
+
+    	function sellTokens(){
+    		if (!Transaction.validate_sell_tokens()) {
+        		return;
+        	}
+        	Transaction.deploy_sell_tokens();
+    	}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+.form-group input {
+    border-radius: 1cm;
+}
+
+#bt1 {
+    width: 100%;
+    border-radius: 25px;
+    font-weight: 600;
+    background: #ffffff;
+    height: 40px;
+    color: #0a3e6d;
+}
+
+.form-group button {
+    width: 100%;
+    border-radius: 25px;
+    font-weight: 600;
+    background: #0a3e6d;
+    height: 40px;
+}
+
+.Mobile {
+	overflow: hidden;
+}
+
+.wrap_content{
+	overflow: hidden;
+}
+
+.up {
+    border: 3px dashed #e3e3e3 ;
+    /*height: 350px;*/
+    border-radius: 5px;
+}
+
+.up1 {
+    display: block;
+    margin: 35px auto;
+    text-align: center;
+}
+
+.up1 img {
+    width: 200px;
+    display: block;
+    margin: 15px auto;
+} 
+
+.up1 p{
+    font-size: 22px;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.image img{
+    margin: 50px auto;
+}
+
+.up_button {
+    border-radius: 25px;
+    color: #0a3e6d;
+    border: 1px solid #0a3e6d;
+    outline: none !important;
+    font-weight: 600;
+    padding: 5px 20px;
+}
+
+.col-md-5 input[type="radio"]{
+    opacity: 0 !important;
+}
+
+.col-md-5 input[type="radio"] + label{
+    cursor: pointer;
+    height: 34px;
+    padding: 5px 20px;
+    border-radius: 25px;
+    background: #fff;
+    color: #0a3e6d;
+    border: 1px solid #0a3e6d;
+}
+
+.col-md-5 input[type="radio"]:checked + label{
+    background: #0a3e6d;
+    color: #fff;
+}
+
+.col-md-5 input[type="radio"]:hover + label{
+    background: #0a3e6d;
+    color: #fff;
+}
+
+.lbl-talents{
+    width: 100%;
+    font-size: 16px;
+    text-align: center;
+}
+
+@media (width: 1366px) {
+    .add_talent {
+        width: 60%;
+    }
+}
+
+@media (width: 1024px) {
+    .add_talent {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767px) {
+    .right {
+        padding-right: 0;
+    }
+}

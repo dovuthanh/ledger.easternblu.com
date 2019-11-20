@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SETTINGS</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/register/register.css">
+    <link rel="stylesheet" href="css/settings/settings.css">
+    <link rel="stylesheet" href="css/settings/settings_add_sub_user.css">
+    <link rel="stylesheet" href="css/settings/setting_edit_account.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="javascripts/profile.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="js/password-strength-meter/password.min.css" />
+    <script type="text/javascript" src="js/password-strength-meter/password.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+          // Showing the progress bar since the first moment.
+          $('#crt_pwd').password({
+            animate: false,
+            enterPass: 'Password strength:',
+            shortPass: 'Password strength: Too short',
+            badPass: 'Password strength: Weak',
+            goodPass: 'Password strength: Good',
+            strongPass: 'Password strength: Strong'
+          });
+          $('#crt_confirm_pwd').password({
+          	animate: false,
+          	enterPass: 'Password strength:',
+            shortPass: 'Password strength: Too short',
+            badPass: 'Password strength: Weak',
+            goodPass: 'Password strength: Good',
+            strongPass: 'Password strength: Strong'
+          });
+          $('#pwd_new').password({
+          	animate: false,
+          	enterPass: 'Password strength:',
+            shortPass: 'Password strength: Too short',
+            badPass: 'Password strength: Weak',
+            goodPass: 'Password strength: Good',
+            strongPass: 'Password strength: Strong'
+          });
+          $('#pwd_confirm_new').password({
+          	animate: false,
+          	enterPass: 'Password strength:',
+            shortPass: 'Password strength: Too short',
+            badPass: 'Password strength: Weak',
+            goodPass: 'Password strength: Good',
+            strongPass: 'Password strength: Strong'
+          });
+        });
+    </script>
+
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <div class="clear"></div>
+    <!-- menu mobile -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">MY ACCOUNT</a></li>
+                    <li><a href="#">USER MANAGEMENT</a></li>
+                    <li><a href="#">REGISTER</a></li>
+                    <li><a href="#">VERYFY</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <ul class="nav nav-tabs">
+                        <li style="width: 50px; height: 30px;">
+                            <div class="ic-close" style="top: 5px; right: 10px;">
+                                <a href="/" style="background: transparent; border: none;"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+                            </div>
+                        </li>
+                        <li class="active"><a data-toggle="tab" href="#account">MY ACCOUNT</a></li>
+                        <!-- <li><a data-toggle="tab" href="#account_management">USER MANAGEMENT</a></li> -->
+                    </ul>
+
+                    <div class="tab-content" style="height: 573px">
+                    	<%if (message.length >0){ %>
+							<div class="alert alert-danger" style="margin-top: 20px;" id="flashmessage"><%=message%></div>
+						<%}%>
+						<div class="form-group" hidden="true">
+				            <input type="text" class="form-control" id="usr_id" readonly="true" value="<%=_id%>">
+				        </div>
+                        <div id="account" class="tab-pane fade in active">
+
+                        </div>
+
+                        <!-- <div id="account_management" class="tab-pane fade">
+
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <dir class="right-content">
+      				<%- include ../menu/right_menu_content.ejs %>
+      			</dir>
+        </div>
+    </div>
+
+    <script>
+        $('.dropdown-menu li a').click(function() {
+    			$('#search').val($(this).text());
+    			$('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+    		});
+
+    		$(document).ready(function(){
+    			$('#<%=menu_index%>').addClass('active');
+    			$('#account').load('/my-account');
+    			$('#account_management').load('/account-management');
+    		});
+
+    		function changePassword(){
+    			$('#account').load('/change-password');
+    		}
+
+    		function gotoEditProfile(){
+    			var _id = document.getElementById('usr_id').value;
+    			$('#account').load('/edit-account?id=' + _id + '&type=account');
+    		}
+
+    		function changeMobile(){
+    			$('#account').load('/change-mobile');
+    		}
+
+    		function createSubUser(){
+    			$('#account_management').load('/create-sub-user');
+    		}
+
+    		function gotoMyAccount(){
+    			var type = document.getElementById('type');
+    			if (type == undefined || type.value == 'account') {
+    				$('#account').load('/my-account');
+    			}else{
+    				$('#account_management').load('/account-management');
+    			}
+    		}
+
+    		function gotoAccountManagement(){
+    			$('#account_management').load('/account-management');
+    		}
+
+    		function gotoEditSubUser(_id){
+    			$('#account_management').load('/edit-account?id=' + _id + '&type=management');
+    		}
+    </script>
+
+    <script src="https://sdk.accountkit.com/en_US/sdk.js"></script>
+    <script type="text/javascript">
+    	// initialize Account Kit with CSRF protection
+    	var appId = <%- JSON.stringify(app_id) %>;
+		var csrf = <%- JSON.stringify(csrf) %>;
+		var version = <%- JSON.stringify(version) %>;
+		AccountKit_OnInteractive = function(){
+		    AccountKit.init({
+		        appId:appId,
+		        state:csrf,
+		        version:version,
+		        fbAppEventsEnabled:true,
+		        redirect: '/settings'
+		    });
+		};
+
+		// login callback
+		function loginCallback(response) {
+		  	console.log(response);
+		    if (response.status === "PARTIALLY_AUTHENTICATED") {
+		      Profile.change_mobile();
+		    }
+		    else if (response.status === "NOT_AUTHENTICATED") {
+		      alert('Error! Try again later');
+		    }
+		    else if (response.status === "BAD_PARAMS") {
+		      alert('Error! Your phone number is not correct');
+		    }
+		}
+
+		function btn_phone_click(){
+		  	var countryCode = document.getElementById('user_code').value;
+		    var phoneNumber = document.getElementById('user_phone').value;
+		    AccountKit.login('PHONE',{
+		    	countryCode: '+' + countryCode,
+		    	phoneNumber: phoneNumber
+		    }, loginCallback);
+		}
+    </script>
+</body>
+
+</html>

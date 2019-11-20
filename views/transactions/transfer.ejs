@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Transfer Currency</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/transaction/transaction.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+</head>
+
+<body>
+    <div class="song_header">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+
+    <!-- menu mobile -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">HOME</a></li>
+                    <li><a href="#">MY TALENTS</a></li>
+                    <li><a href="#">MY SONGS</a></li>
+                    <li><a href="#">LICENSING</a></li>
+                    <li><a href="#">REGISTER SONG</a></li>
+                    <li><a href="#">VERIFY</a></li>
+                    <li><a href="#">TRANSACTIONS</a></li>
+                    <li><a href="#">SETTINGS</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div class="tab-content">
+                        <div style="height: 120px;">
+                            <div class="text-button"><b>Transfer Currency</b> </div>
+                            <div id="table-first" class="table-transfer">
+                                <table class="table table-bordered table-curved">
+                                    <tr>
+                                        <th colspan="2">Curent Balance:</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="style_colorth" id="balance_enc_tab1">0.0 SP8</th>
+                                        <th class="style_color" id="balance_eth_tab1">0.0 ETH</th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                        	<label class="col-md-12 col-xs-12 control-label">To Address</label>
+                        	<input type="text" name="role" id="role" readonly="true" hidden="true" value="<%=session.passport.user.userWalletAddress%>">
+                        	<input type="text" class="form-control transfer" name="transfer_to" id="transfer_to">
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                        	<label class="col-xs-12 col-md-12">Amount</label>
+                        	<input type="number" class="form-control form-transfer amount" style="padding-right: 80px;" name="receive_amount" id="receive_amount">
+                        	<select id="currency_type">
+								<option value="ENC" selected="selected"><p>SP8</p></option>
+								<option value="ETH"><p>ETH</p></option>
+							</select>
+							<div class="text-m">
+                                <p>Approx: US$1212812</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="height: 80px;">
+                        	<label class="col-md-12">Transaction Speed</label>
+
+                        	<div class="col-md-4 col-xs-12 trans_speed" style="padding-left: 0px;">
+                        		<div class="col-md-4 col-xs-12 no-padding-right">
+	                                <input type="radio" name="transfer_speed" id="transfer_fast" value="Fast">
+	                                <label for="transfer_fast">Fast</label>
+	                            </div>
+	                            <div class="col-md-4 col-xs-12 no-padding-right">
+	                                <input type="radio" name="transfer_speed" id="transfer_normal" value="Normal" checked="checked">
+	                                <label for="transfer_normal">Normal</label>
+	                            </div>
+	                            <div class="col-md-4 col-xs-12 no-padding-right">
+	                                <input type="radio" name="transfer_speed" id="transfer_slow" value="Slow">
+	                                <label for="transfer_slow">Slow</label>
+	                            </div>
+                        	</div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="text-m-a">
+                            <p>Transaction fee <span class="style_color" style="padding-right: 0px;" id="transaction_fee">0.000000004 ETH</span></p>
+                        </div>
+
+                        <div class="form-group">
+                        	<label class="col-md-12 col-xs-12">Authorized ID(*)</label>
+                        	<input type="text" class="form-control" name="private_key" id="private_key" placeholder="Enter your private key">
+                        </div>
+
+                        <div class="form-group">
+                        	<button type="submit" class="btn btn-primary btn-transfer" onclick="transfer();">Transfer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <dir class="right-content">
+      				<%- include ../menu/right_menu_content.ejs %>
+      			</dir>
+        </div>
+    </div>
+
+    </div>
+
+    <script src="javascripts/transaction.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.btn_cancel').on('click', function() {
+                $('#popup').removeClass('show');
+                $('body').toggleClass('modal-open');
+            });
+
+    		$('#<%=menu_index%>').addClass('active');
+    		Transaction.loadBalanceWallet();
+    	});
+
+    	var transfer_fee = document.getElementById('transaction_fee');
+    	var rate = 1000000000;
+    	$('input[name="transfer_speed"]').on('change', function(e){
+    		var speed = e.target.value;
+    		var fee = 0;
+    		if(speed == 'Fast'){
+    			fee = 10/rate;
+    		}else if (speed == 'Normal'){
+    			fee = 4/rate;
+    		}else{
+    			fee = 1/rate;
+    		}
+    		transfer_fee.innerHTML = fee.toFixed(9).toString() + ' ETH';
+    	});
+    </script>
+
+    <script type="text/javascript">
+        function transfer(){
+        	if (!Transaction.validate_transfer_currency()) {
+        		return;
+        	}
+        	Transaction.deploy_transfer_currency();
+        }
+    </script>
+</body>
+
+</html>

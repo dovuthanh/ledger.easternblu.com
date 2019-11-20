@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Login</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="css/login/login.css">
+</head>
+<body>
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="logo">
+					<div class="col-md-12 col-xs-12">
+						<img class="img_logo" src="images/logo_1.jpg" alt="">
+						<h3>Registration system login</h3>
+						<% if (message.length > 0) { %>
+							<div class="alert alert-danger" style="margin-top: 20px;"><%=message%></div>
+						<% } %>
+						<div class="form_login">
+							<form action="/mass-migration-sign-in" method="post">
+								<!-- <div class="form-group">
+									<div class="col-md-offset-4 col-md-6 col-xs-12">
+										<a href="/sign-up-info">Don't have account?</a>
+									</div>
+								</div> -->
+								<div class="form-group">
+									<label class="col-md-4 control-label">user id</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" name="email" id="email" class="form-control" tabindex="1" value="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">password</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="password" name="password" id="password" class="form-control" tabindex="2" value="">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12 col-xs-12">
+										<button type="submit" class="btn btn-primary submit">LOGIN</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="ic-close">
+						<a href="/"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+
+	<script type="text/javascript">
+		function openWalletScan(){
+			location.href = '/scan-access-wallet?type=sign-in';
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Login</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="css/login/login.css">
+</head>
+<body>
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="logo">
+					<div class="col-md-12 col-xs-12">
+						<img class="img_logo" src="images/logo_1.jpg" alt="">
+						<h3>login</h3>
+						<% if (message.length > 0) { %>
+							<div class="alert alert-danger" style="margin-top: 20px;"><%=message%></div>
+						<% } %>
+						<div class="form_login">
+							<form action="/sign-in" method="post">
+								<div class="form-group">
+									<label class="col-md-4 control-label">user id</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" name="role" id="role" class="form-control account_id" tabindex="1"  value="">
+									</div>
+									<!-- <div class="col-md-12 col-xs-12"> -->
+										<!-- <div class="input-group"> -->
+											<!-- <input type="text" name="role" id="role" class="form-control account_id" tabindex="1"  value="<%=wallet%>"> -->
+											<!-- <div class="input-group-addon ">
+												<button class="cam" type="button" onclick="openWalletScan()"></button>
+											</div>
+											<div class="input-group-addon "> -->
+												<!-- <button class="cam" type="button" onclick="openWalletScan()"></button> -->
+											<!-- </div> -->
+										<!-- </div> -->
+									<!-- </div> -->
+								</div>
+								<div class="form-group" hidden="true">
+									<label class="col-md-4 control-label">email</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" name="email" value="demo@gmail.com" id="email" class="form-control" tabindex="2" value="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">password</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="password" name="password" id="password" class="form-control" tabindex="3" value="">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12 col-xs-12">
+										<button type="submit" class="btn btn-primary submit">LOGIN</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="ic-close">
+						<a href="/"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+
+	<script type="text/javascript">
+		function openWalletScan(){
+			location.href = '/scan-access-wallet?type=sign-in';
+		}
+	</script>
+</body>
+</html>

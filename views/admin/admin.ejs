@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/admin_user/admin_user.css">
+    <link rel="stylesheet" href="css/square/blue.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="javascripts/profile.js"></script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/big_header_admin.ejs %>
+    </div>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active search_results">
+                            <div class="search_left">
+                                <h3>Users</h3>
+
+                            </div>
+                            <div class="filter" style="display: none">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        FILTER
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="dropdown-ul">
+                                        <li class="has-child">
+                                            <a href="#">FILTER 1</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="">OPSTION 1</a></li>
+                                                <li><a href="">OPSTION 2</a></li>
+                                                <li><a href="">OPSTION 3</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="has-child">
+                                            <a href="#">FILTER 2</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="">OPSTION 1</a></li>
+                                                <li><a href="">OPSTION 2</a></li>
+                                                <li><a href="">OPSTION 3</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="clear"></div>
+                            <div class="table-responsive" id="table_search">
+                                <table class="table table-curved">
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <p>User information</p>
+                                        </td>
+                                        <td>
+                                            <p>Passsport</p>
+                                        </td>
+                                        <td>
+                                            <p>Proof of address</p>
+                                        </td>
+                                        <td>
+                                            <p>Action</p>
+                                        </td>
+                                    </tr>
+                                    <% users.forEach(function(user){%>
+                                        <tr>
+                                            <td>
+                                                <%if(user.userAvartar.length>0){%>
+                                                    <img src="/<%=user.userAvartar%>" />
+                                                <%}else{%>
+                                                    <img src="/images/default_avatar_medium.png" />
+                                                <%}%>
+                                            </td>
+                                            <td>
+                                                <p>ID: <%=user._id%></p>
+                                                <p>User ID: <%=user.userAccountName%></p>
+                                                <%if(!user.userIsCompany){%>
+                                                    <p>Full Name: <%=user.userFullName%></p>
+                                                <%}else{%>
+                                                    <p>Company Name: <%=user.userFullName%></p>
+                                                <%}%>
+                                                <p>Email: <%=user.userEmail%></p>
+                                                <p>Country: <%=user.userCountry%></p>
+                                                <p>City: <%=user.userCity%></p>
+                                                <p>Address: <%=user.userAddress%></p>
+                                                <p>Phone: <%=user.userCountryCode%> <%=user.userPhone%></p>
+                                                <%if(!user.userWalletAddress){%>
+                                                    <p><strong>Public key: Not Created Yet</strong></p>
+                                                <%}else{%>
+                                                    <p><strong>Public key: <%=user.userWalletAddress%></strong></p>
+                                                <%}%>
+                                                <%if(user.userCanDeployMassMigration){%>
+                                                    <p><strong>Deploy Type: Can deploy Merkle root</strong></p>
+                                                <%}else{%>
+                                                    <p><strong>Deploy Type: Can deploy single song</strong></p>
+                                                <%}%>
+                                                <%if(user.userApproved){%>
+                                                    <p>Status: Enable</p>
+                                                <%}else{%>
+                                                    <p>Status: Disable</p>
+                                                <%}%>
+                                                <p>Created: <%=user.userCreated%></p>
+                                            </td>
+                                            <td>
+                                                <%if(user.userPassportImage && user.userPassportImage.length>0){%>
+                                                    <img src="/<%=user.userPassportImage%>" onclick = "showFullImage(this)">
+                                                <%}else{%>
+                                                    <img src="/images/picture-frame-with-mountain-image_318-40293.jpg" onclick = "showFullImage(this)"/>
+                                                <%}%>
+                                            </td>
+                                            <td>
+                                                <%if(user.userAddresProof && user.userAddresProof.length>0){%>
+                                                    <img src="/<%=user.userAddresProof%>" onclick = "showFullImage(this)">
+                                                <%}else{%>
+                                                    <img src="/images/picture-frame-with-mountain-image_318-40293.jpg" onclick = "showFullImage(this)"/>
+                                                <%}%>
+                                            </td>
+                                            <td>
+                                                <%if(user.userApproved){%>
+                                                <button class="btn_mass_migration_disable_red" onclick="Profile.toggle_user_status('<%=user._id%>','<%=user.userWalletAddress%>',<%=user.userApproved%>)">
+                                                    Disable
+                                                </button>
+                                                <%}else{%>
+                                                <button class="btn_mass_migration" onclick="Profile.toggle_user_status('<%=user._id%>','<%=user.userWalletAddress%>', <%=user.userApproved%>)">
+                                                    Enable
+                                                </button>
+                                                <%}%>
+                                                <br>
+                                                <br>
+                                                <%if(!user.userWalletAddress){%>
+                                                <a href="/sign-up-step-1?id=<%=user._id%>">
+                                                    <button class="btn_mass_migration">
+                                                        Create Wallet 
+                                                    </button>
+                                                </a>
+                                                <br>
+                                                <br>
+                                                <%}%>
+                                                <%if(user.userCanDeployMassMigration){%>
+                                                    <button class="btn_mass_migration_disable_red" onclick="Profile.toogle_user_deploy_mass('<%=user._id%>')">
+                                                    Disable Deploy Merkroot
+                                                    </button>
+                                                <%}else{%>
+                                                     <button class="btn_mass_migration" onclick="Profile.toogle_user_deploy_mass('<%=user._id%>')">
+                                                    Enable Deploy Merkroot
+                                                    </button>
+                                                <%}%>
+                                                <!-- <br>
+                                                    <a href="/auto-login-admin?id=<%=user._id%>">
+                                                    <button class="btn_mass_migration">
+                                                        Auto Login
+                                                    </button>
+                                                </a>
+                                                <br> -->
+                                            </td>
+                                        </tr>
+                                        <%  }) %>
+                                </table>
+                            </div>
+
+                            <!-- pagination -->
+                            <nav aria-label="Page navigation example" id="pagination">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" href="<%=paginate.href(true).prev%>">PREV</a></li>
+                                    <%
+                                    pages.forEach(function(page){
+                                    %>
+                                        <li class="page-item">
+                                            <a class="page-link" href="<%=page.url%>">
+                                                <%=page.number%>
+                                            </a>
+                                        </li>
+                                    <%})%>
+                                        <li class="page-item"><a class="page-link" href="<%=paginate.href().next%>">NEXT</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+
+                        <div id="menu1" class="tab-pane fade">
+                            <h3>Menu 1</h3>
+                            <p>Some content in menu 1.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                  <%- include ../process/loading.ejs %>
+            </div>
+            <div class="right-content">
+                <%- include ../menu/right_menu_content.ejs %>
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+      <span class="close">&times;</span>
+      <img class="modal-content" id="img01">
+      <div id="caption"></div>
+    </div>
+</body>
+    <script>
+        $('.dropdown-menu li a').click(function() {
+            $('#search').val($(this).text());
+            $('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+        });
+
+        $(document).ready(() => {
+            $('#<%=menu_index%>').addClass('active');
+        });
+
+        var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+                disable: true,
+            },
+            notifyButton: {
+                enable: true,
+                prenotify: true,
+                position: 'bottom-left',
+                size: 'medium',
+                showCredit: false
+            }
+        }]);
+
+        function showFullImage(img){
+            // Get the modal
+            var modal = document.getElementById('myModal');
+
+            // Get the image and insert it inside the modal - use its "alt" text as a caption
+            var modalImg = document.getElementById("img01");
+            var captionText = document.getElementById("caption");
+            modal.style.display = "block";
+            modalImg.src = img.src;
+            captionText.innerHTML = img.alt;
+            
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() { 
+              modal.style.display = "none";
+            }
+        }
+    </script>
+</html>

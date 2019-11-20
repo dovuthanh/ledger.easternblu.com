@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MY SONGS</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<!-- <link rel="stylesheet" href="css/home/home_loggedin.css"> -->
+	<link rel="stylesheet" href="css/search_results/search_results.css">
+	<link rel="stylesheet" href="css/my_songs/my_songs.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+	<link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="song">
+		<%- include ../menu/nor_header.ejs %>
+	</div>
+	<div class="home_content">
+		<div class="center_home">
+			<div class="left_content col-md-10 col-sm-9">
+				<div class="wrap_content" id="tab-content">
+					<ul class="nav nav-tabs">
+						<li style="width: 50px; height: 30px;">
+							<div class="ic-close" style="top: 5px; right: 10px;">
+								<a href="/" style="background: transparent; border: none;"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+							</div>
+						</li>
+					  		<li class="active" id="work_tab"><a data-toggle="tab" href="#menu1">WORKS</a></li>
+					</ul>
+					<div class="tab-content">
+					  	<div id="menu2" class="fade in search_results">
+					    	<div class="search_left">
+					  		 	<h3>My works</h3>
+						  	</div>
+						  	<div class="search_right">
+						  		<div class="col-md-4" hidden="true">
+						  			<a href="#">
+						  				<button class="btn_search_results btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						  				</button>
+						  			</a>
+					  			</div>
+					  			<div class="filter col-md-4" hidden="true">
+							  		<div class="dropdown">
+									  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									    FILTER
+									    <span class="caret"></span>
+									  </button>
+									  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="dropdown-ul">
+									    <li class="has-child">
+									    	<a href="#">FILTER 1</a>
+									    	<ul class="dropdown-menu" >
+									    		<li><a href="">OPSTION 1</a></li>
+									    		<li><a href="">OPSTION 2</a></li>
+									    		<li><a href="">OPSTION 3</a></li>
+									    	</ul>
+									    </li>
+									    <li class="has-child">
+									    	<a href="#">FILTER 2</a>
+									    	<ul class="dropdown-menu" >
+									    		<li><a href="">OPSTION 1</a></li>
+									    		<li><a href="">OPSTION 2</a></li>
+									    		<li><a href="">OPSTION 3</a></li>
+									    	</ul>
+									    </li>
+									  </ul>
+									</div>
+							  	</div>
+						  		<div class="col-md-4" style="float: right;">
+						  			<a href="/new-work-registration">
+						  				<button class="btn_search_results btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" onclick="javascripts: location.href = '/new-work-registration';">
+						  				NEW WORK
+						  				</button>
+						  			</a>
+					  			</div>
+						  	</div>
+
+						  	<div class="clear"></div>
+						  	<div class="table-responsive" id="table_search">
+						  		<table class="table table-curved">
+						    		<tr>
+						    			<td></td>
+						    			<td id="song_title"><p>Song Title</p></td>
+						    			<td><p>Composer Name</p></td>
+						    			<td><i class="fa fa-clock-o" aria-hidden="true"></i></td>
+						    			<td><p>Register Address</p></td>
+						    			<td><p>Verification</p></td>
+						    			<td><p>Certificate</p></td>
+						    		</tr>
+						    		 <%
+						    		 var i=0;
+						    		 composers.forEach(function(composer){
+						    		 	i++;
+						    		 %>
+						    		 	<tr>
+							    			<td>
+							    				<a class="skin-font-color13 skin-color-hover1 fap-single-track" href="<%=composer.composerDemoFileUrl%>" title="<%= composer.composerSongTitle%>" data-meta="#fap-meta-track1" meta="<%=composer.composerSongTitle%>">
+						    					<img src="images/Search_Results_09.png" alt="">
+							    				</a>
+							    			</td>
+							    			<td class="td-song-title"><a href="/update-work-info?id=<%=composer._id%>"><%=composer.composerSongTitle%></a></td>
+							    			<%if (composer.composerName){%>
+							    				<td style="min-width: 150px;"><p><%=composer.composerName%></p><h6>Composer</h6></td>
+							    			<%}else{%>
+							    				<td style="min-width: 150px;"><p>Unknow</p><h6>Composer</h6></td>
+							    			<%}%>
+							    			<td style="min-width: 75px;"><%=composer.composerSongLengthOfTime%></td>
+							    			<%if (composer.composerContractAddress){%>
+							    				<td><a href="<%=url%><%=composer.composerContractAddress%>" target="_blank"><%=composer.composerContractAddress%></a></td>
+											<%}else if(composer.verified != undefined && composer.verified == false){%>
+												<td style="color: #ff0000;">Failed</td>
+								    		<%}else{%>
+												<td>Processing</td>
+											<%}%>
+											<%if(composer.verified == true){%>
+												<td class="verif" style="color: #0000ff;">VERIFIED<img src="images/Search_Results_12.png" alt=""></td>
+												<td>
+							    					<a href="/certificate-work?id=<%=composer._id%>">
+						    							<button class="btn_search_results" style="width: 120px;">CERTIFICATE</button>
+						    						</a>
+							    				</td>
+											<%}else{%>
+												<td class="verif" style="color: #ff0000;"></td>
+												<td></td>
+											<%}%>
+							    		</tr>
+						    		 <%});%>
+						    	</table>
+						  	</div>
+
+						  	<!-- pagination -->
+						  	<nav aria-label="Page navigation example" id="pagination">
+							  	<ul class="pagination">
+							  		<!-- <li class="page-item"><a class="page-link" href="<%=paginate.href(true).prev%>">FIRST</a></li> -->
+								    <li class="page-item"><a class="prev" href="<%=paginate.href(true).prev%>">PREV</a></li>
+								    <%
+								    pages1.forEach(function(page){
+								    %>
+								    <li class="page-item"><a class="page-link" href="<%=page.url%>"><%=page.number%></a></li>
+								    <%})%>
+								    <li class="page-item"><a class="next" href="<%=paginate.href().next%>">NEXT</a></li>
+								    <!-- <li class="page-item"><a class="page-link" href="<%=paginate.href().next%>">LAST</a></li> -->
+							  	</ul>
+							</nav>
+					  	</div>
+					</div>
+				</div>
+			</div>
+			<dir class="right-content">
+				<%- include ../menu/right_menu_content.ejs %>
+			</dir>
+		</div>
+		<div class="music-player has-player"></div>
+	</div>
+
+	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+	<!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile.customized.min.js"></script>
+	<script type="text/javascript" src="js/wait.js"></script>
+	<script type="text/javascript" src="js/jquery.parallax.min.js"></script>
+
+	<script type="text/javascript" src="js/jquery.tweet.js"></script>
+	<script type="text/javascript" src="js/jquery.scrollTo.js"></script>
+
+
+	<!-- <script type="text/javascript" src="js/camera.js"></script> -->
+
+	<script type="text/javascript" src="js/jquery.prettyPhoto.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+
+	<!-- Player -->
+	<script type="text/javascript" src="js/player/soundmanager2-nodebug-jsmin.js"></script>
+	<script type="text/javascript" src="https://connect.soundcloud.com/sdk.js"></script>
+	<script type="text/javascript" src="js/player/amplify.min.js"></script>
+	<script type="text/javascript" src="js/player/jquery.fullwidthAudioPlayer.min.js"></script>
+
+	<!-- Custom Js -->
+	<script type="text/javascript" src="js/custom.js"></script>
+	<script>
+		$('.dropdown-menu li a').click(function() {
+			$('#search').val($(this).text());
+			$('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+		});
+		$(document).ready(function(){
+			$('#<%=menu_index%>').addClass('active');
+		});
+	</script>
+	<!-- <script type="text/javascript">
+		$(document).ready((e) => {
+			var url = window.location.href;
+			url.split('&'); // type=work
+			if (type == 'work') {
+				$('#song_tab')addClass('active');
+			}
+		});
+	</script> -->
+	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+      <script>
+        var OneSignal = OneSignal || [];
+          OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+              disable: true,
+            },
+            notifyButton: {
+              enable: true,
+              prenotify: true,
+              position: 'bottom-left',
+              size: 'medium',
+              showCredit: false
+            }
+          }]);
+    </script>
+</body>
+</html>

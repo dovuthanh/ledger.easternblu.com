@@ -1,0 +1,48 @@
+<div class="col-md-12" id="my_artist" style="margin-top: 20px; margin-bottom: 20px;">
+	<div class="search_left">
+		<div class="title col-md-7">
+			<h4>Export Data</h4>
+		</div>
+	</div>
+	<div class="search_right sort">
+		<div class="filter col-md-4 col-xs-6">
+
+	  	</div>
+		<div class="col-md-4 col-xs-6 tot_talent">
+
+		</div>
+	</div>
+</div>
+<div class='clear'></div>
+<div class="col-md-12" id="my_artist" style="margin-top: 20px;margin-left: 20px ;margin-bottom: 20px;">
+	<%if(exportData){%>
+	<div class="alert alert-warning alert-dismissible" id="text-message">
+		We're processing your data. Please wait sometime.
+	</div>
+	<%}else{%>
+		<div class="alert alert-warning alert-dismissible" id="text-message" style="display: none">
+			We're processing your data. Please wait sometime.
+		</div>
+		<div id="select_file">
+			<ol>
+				<div class="row">
+					<li>
+						<p> Download Import template <a href="/export-artist-csv">Click here</a> to download</p>
+					</li>
+					<li>
+						<p> Enter artist information.</p>
+					</li>
+					<li>
+						<p> Artist Data <button id="btn_upload_artist" class="">Click here</button> to Browse location
+							<label id="artist_data_file_name"></label></p>
+						<input type="file" style="width: 0px;" accept=".xlsx" name="artist_data_file" id="artist_data_file"/>
+						<input type="hidden" id="url_artist_data_file" />
+					</li>
+					<li>
+						<p>When the locations of the folder of the artist files is determined above, <button class="" onclick="ValidateFile();">click here</button> to export those data </p>
+					</li>
+				</div>
+			</ol>
+		</div>
+	<%}%>
+</div>

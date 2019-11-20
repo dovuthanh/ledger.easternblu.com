@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REGISTER SONG</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="http://jschr.github.io/bootstrap-modal/css/bootstrap-modal.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/my_songs/my_songs.css">
+    <link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+    <link rel="stylesheet" href="css/mass_registration/mas_register.css">
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="css/mass_registration/nav-wizard.bootstrap.css">
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.233.1.min.js"></script>
+    <script type="text/javascript" src="javascripts/awsHelper.js"></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+        <!-- Custom Js -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="javascripts/mass.js"></script>
+    <script src="js/jquery.csv.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div id="regis_step_1">
+                        <div class="regis_song">
+                            <h3>MASS MIGRATION</h3>
+                            <div class="upload">
+                                <div class="song_name" id="song_file_name"></div>
+                                <div class="upload-right" id="progress"></div>
+                                <div class="clear"></div>
+                                <div class="tbar" style="display: none;">
+                                    <div id="myBar" class="uploading" style="width: 0;"></div>
+                                </div>
+                            </div>
+                            <ul class="nav nav-pills nav-wizard">
+                                <li><a href="/mass-registration" >1. PREPARE CSV FILE</a></li>
+                                <li class="active"><a href="#">2. UPLOAD CSV FILE</a></li>
+                                <li><a href="#" >3. PREVIEW</a></li>
+                                <li><a href="#" >4. DEPLOY</a></li>
+                            </ul>
+                             <div class="up" id="drop_zone">
+                                <div class="up1">
+                                    <img src="images/upload.jpg" alt="">
+                                    <p>Begin upload by dragging CSV file here</p>
+                                    <p>or</p>
+                                    <input type="file" multiple id="files" accept=".csv" name="files[]" style="display: none;">
+                                    <input type="file" multiple id="song_file" accept="audio/*" style="display: none;" onchange="getListFileUpload(this);">
+                                    <button type="button" class="btn btn-default up_button" id="btn_select_file">UPLOAD CSV FILE</button>
+                                </div>
+                            </div>
+                            <div class="info" id="info">
+                            </div>
+                            <div id="result" border></div>
+                            <div class="clear"></div>
+                            <div id="loading">
+						        <img class='img-load' src="images/loading.gif">
+						        <p class='load'></p>
+						    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-content">
+                <%- include ../menu/right_menu_content.ejs %>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    
+    <script>
+        var type = 'csv';
+        var checkCSVFileStatus;
+        var pathList = [];
+        var filelist = [];
+        var axcvs = [];
+        var failedlist = [];
+        var allowanced = false;
+        var countErrorRow = 0;
+        $(document).ready(function() {
+            if (isAPIAvailable()) {
+                $('#files').bind('change', handleFileSelect);
+            }
+        });
+
+        function isAPIAvailable() {
+            // Check for the various File API support.
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                // Great success! All the File APIs are supported.
+                return true;
+            } else {
+                // source: File API availability - http://caniuse.com/#feat=fileapi
+                // source: <output> availability - http://html5doctor.com/the-output-element/
+                document.writeln('The HTML5 APIs used in this form are only available in the following browsers:<br />');
+                // 6.0 File API & 13.0 <output>
+                document.writeln(' - Google Chrome: 13.0 or later<br />');
+                // 3.6 File API & 6.0 <output>
+                document.writeln(' - Mozilla Firefox: 6.0 or later<br />');
+                // 10.0 File API & 10.0 <output>
+                document.writeln(' - Internet Explorer: Not supported (partial support expected in 10.0)<br />');
+                // ? File API & 5.1 <output>
+                document.writeln(' - Safari: Not supported<br />');
+                // ? File API & 9.2 <output>
+                document.writeln(' - Opera: Not supported');
+                return false;
+            }
+        }
+        $(document).ready(function() {
+            $("body").on('click', '.add-new', function(e) {
+                e.preventDefault();
+                var own = $(this).closest('.sub_own');
+                $('.owners').append('<div class="col-md-10 col-xs-10 sub_own">' + own.html() + '</div>');
+                own.find('.add-new').remove();
+            });
+            $('#<%=menu_index%>').addClass('active');
+        });
+        $('#btn_select_file').on('click', function(e) {
+            type = 'csv';
+            document.getElementById('files').click();
+        });
+        $('#btn_mapping_file').on('click', function(e) {
+            type = 'mapping';
+            document.getElementById('filesmapping').click();
+        });
+
+        $('#btn_deploy').on('click', (e) => {
+            Mass.validate_merkle_root();
+        });
+
+        $('#btn_convert_romanized').on('click', (e) => {
+            $.post('/api/mass/admin-convert-romanized', {
+
+            }, (data) => {
+
+            });
+        });
+
+        $('#btn_mapping_song').on('click', (e) => {
+            type = 'mapping_songs';
+            document.getElementById('mapping_songs').click();
+        });
+
+        $('#btn_export_song').on('click', (e) => {
+            $.post('/api/mass/admin-export-song', (data) => {
+                console.log(data.songs);
+                var html = '';
+                html += "<table id='fail_table' class='fail-table table-hover'>";
+                html += "<thead><tr><th>No.</th>";
+                html += "<th>Song Name</th>";
+                html += "<th>Singer</th>";
+                html += "<th>Writer</th>";
+                html += "<th>Lyricist</th>";
+                html += "<th>Song Url</th>";
+                html += "<th>Song Path</th>";
+                html += "<th>Artist Pictures</th>";
+                html += '</tr></thead><tbody>';
+                var i = 1;
+                data.songs.forEach((obj) => {
+                    console.log(obj, i);
+                    console.log(obj.songArtistRefer != undefined, obj.songComposerRefer != undefined, obj.songLyricRefer != undefined);
+                    html += '<tr><td>' + i + '</td>';
+                    html += "<td>" + obj.songCatNo + '</td>';
+                    html += "<td>" + obj.songTitle + '</td>';
+                    if (obj.songArtistRefer != undefined) {
+                        html += "<td>" + obj.songArtistRefer.artistProfessionName + '</td>';
+                    }else{
+                        html += "<td></td>";
+                    }
+                    if (obj.songComposerRefer != undefined) {
+                        html += "<td>" + obj.songComposerRefer.artistProfessionName + '</td>';
+                    }else{
+                        html += "<td></td>";
+                    }
+                    if (obj.songLyricRefer != undefined) {
+                        html += "<td>" + obj.songLyricRefer.artistProfessionName + '</td>';
+                    }else{
+                        html += "<td></td>";
+                    }
+                    html += "<td>" + obj.songUrl + '</td>';
+                    pathList.forEach((object) => {
+                        if (object.songname == obj.songTitle && object.cat == obj.songCatNo) {
+                            html += "<td>" + object.filepath + '</td>';
+                        }
+                    });
+                    if (obj.songArtistRefer != undefined) {
+                        if (obj.songArtistRefer.artistsPictures != undefined) {
+                            html += "<td>" + 'http://ledger.easternblu.com' + obj.songArtistRefer.artistsPictures + "</td></tr>";
+                        }else{
+                            html += "<td></td></tr>";
+                        }
+                    }else{
+                        html += "<td></td></tr>";
+                    }
+
+                    i++;
+                });
+                html += '</tbody></table>';
+
+                bootbox.dialog({
+                    message: html,
+                    closeButton: false,
+                    buttons: {
+                        ok: {
+                            label: '<i class="fa fa-check"></i> OK',
+                            class: 'btn btn-primary',
+                            callback: () => {
+                                window.location.reload();
+                            }
+                        }
+                    }
+                });
+                var fail_search = '';
+                fail_search += "<div class='input-group search1-group'>";
+                fail_search += "<input type='search' id='search1' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+                fail_search += "<div class='input-group-addon search1'></div></div>";
+
+                $('#fail_table').dataTable({
+                    "scrollY": 200,
+                    "scrollCollapse": true,
+                    "jQueryUI": true,
+                    "paging": false,
+                    'responsive': true
+                });
+
+                $('#fail_table_filter').append(fail_search);
+                $('#fail_table_filter label').hide();
+
+                $('#search1').on('keyup', function() {
+                    var s = $('#search1').val();
+                    $('#fail_table_filter label input[type=search]').val(s);
+                    $('#fail_table_filter label input[type=search]').keyup();
+                });
+            });
+        });
+        function handleFileSelect(evt) {
+            var files = evt.target.files; // FileList object
+            var file = files[0];
+            if (type == 'csv') {
+                printTable(file);
+            }
+        }
+
+	    function loading(txt){
+	    	$('.load').html(txt);
+	        $('#loading').show();
+		}
+
+	    function hide(){
+           $('#loading').hide();
+        }
+
+        function printTable(file) {
+            try{
+                checkCSVFileStatus = true;
+                var reader = new FileReader();
+                reader.readAsText(file);
+                reader.onload = async function(event) {
+                    filelist = [];
+                    failedlist = [];
+                    axcvs = [];
+                    var csv = event.target.result;
+                    var data = $.csv.toArrays(csv);
+                    if(data.length >500){
+                        bootbox.alert("Song limit is 500.");
+                        return;
+                    }
+                    var html = "<table class='table table-hover' id='contents'>";
+                    loading('loading...');
+                    for (var row in data) {
+                        if (row < 8027) {
+                            if (row == 0) {
+                                html += '<thead><tr>\r\n';
+                                html += '<th>No.</th>\r\n';
+                                for (var item in data[row]) {
+                                    // console.log(item);
+                                    if (item == 0 || item == 1 || item == 2 || item == 3 || item == 4 || item == 5 || item == 6) {
+                                        if (item <= data[row].length) {
+                                            html += '<th>' + data[row][item] + '</th>\r\n';
+                                        }
+                                    }
+                                }
+                                html += '<th>message</th>\r\n';
+                                html += '</tr></thead><tbody>\r\n';
+                            } else {
+                                var obj = {};
+                                obj.id = row;
+                                html += '<tr>\r\n';
+                                html += '<th>' + row + '</th>\r\n';
+
+                                for (var item in data[row]) {
+                                    console.log(item);
+                                    if (item <= data[row].length) {
+                                        if (item == 0) { // name
+                                            obj.songname = data[row][item].length == 0 ? '' : data[row][item];
+                                            html += '<td><input type="text" readonly="" hidden="" name="songname" id="songname' + row + '" value="' + obj.songname + '">' + obj.songname + '</td>\r\n';
+                                        } else if (item == 1) { // Song location
+                                            obj.songlocation = data[row][item].length == 0 ? '' : data[row][item];
+                                            html += '<td><input type="text" readonly="" hidden="" name="obj.song_location" id="song_location' + row + '" value="' + obj.songlocation + '">' + obj.songlocation + '</td>\r\n';
+                                        } else if (item == 2) { // singer
+                                            obj.singername = data[row][item].length == 0 ? '' : data[row][item];
+                                            html += '<td><input type="text" readonly="" hidden="" name="singername" id="singername' + row + '" value="' + obj.singername + '">' + obj.singername + '</td>\r\n';
+                                        }  else if (item == 3) { // duration
+                                            obj.duration = data[row][item].length == 0 ? '' : data[row][item];
+                                            html += '<td><input type="text" readonly="" hidden="" name="duration" id="duration' + row + '" value="' + data[row][item] + '">' + data[row][item] + '</td>\r\n';
+                                        }
+                                        else if (item == 4) { // publish date
+                                            obj.publishdate = data[row][item].length == 0 ? '' : data[row][item];
+                                            html += '<td><input type="text" readonly="" hidden="" name="publishdate" id="publishdate' + row + '" value="' + obj.publishdate + '">' + obj.publishdate + '</td>\r\n';
+                                        }
+                                    }
+                                }
+                                var result = validateRow(obj);
+                                if(!result){
+                                    countErrorRow ++;
+                                    checkCSVFileStatus =false;
+                                }
+                                html += '<td><input type="text" readonly="" hidden="" name="errorMessage" id="errorMessage' + row + '" value="' + obj.errorMessage + '">' + obj.errorMessage + '</td>\r\n';
+                                html += '<td name="tdpath" id="tdpath'+row+'"></td>\r\n';
+                                html += '</tr>\r\n';
+                                filelist.push(obj);
+                            }
+                        }
+                    }
+                    html += '</tbody></table>';
+                    // <i class="fa fa-times" aria-hidden="true" style="color: #ff0000; font-size: 1.5em;"></i>
+                    if(checkCSVFileStatus){
+                        html += '<button class="btn btn-default" id="upfile" onclick="getListFileUpload();">Save</button>';
+                    }else{
+                        html += '<button class="btn btn-default disabled" id="upfile">Save</button>';
+                        bootbox.alert("There are few issue with your csv file. Please correct it before upload.");
+                    }
+                
+                    setTimeout(function(){
+                         //hidden zone
+                        var dropZone = document.getElementById('drop_zone');
+                        dropZone.style.display = "none";
+
+                        //show sumary information
+                        var htmlInfo = "";
+                        htmlInfo +="<p>Your Songs:"+filelist.length+" - Error: "+countErrorRow+"</p>"
+                        $('#info').html(htmlInfo);
+                    	$('#result').html(html);
+                    	var search = '';
+    	                search += "<div class='input-group search1-group'>";
+    	                search += "<input type='search' id='search' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+    	                search += "<div class='input-group-addon search1' data-click-state='0'></div></div>";
+
+    	                $('#contents').dataTable({
+    	                    "scrollY": 400,
+    	                    "scrollCollapse": true,
+    	                    "jQueryUI": true,
+    	                    "paging": false,
+    	                });
+
+    	                $('#contents_filter').append(search);
+    	                $('#contents_filter label').hide();
+
+    	                $('#search').on('keyup', function() {
+    	                    var s = $('#search').val();
+    	                    $('#contents_filter label input[type=search]').val(s);
+    	                    $('#contents_filter label input[type=search]').keyup();
+    	                });
+
+                    }, 1000);
+
+                    document.addEventListener('DOMSubtreeModified', hide);
+                    $('#files').on('click',function(){
+                        $('#result').html('');
+                    });
+                };
+
+                reader.onerror = function() {
+                    alert('Unable to read ' + file.fileName);
+                };
+            } catch(err){
+                 bootbox.alert(err);
+            }
+        }
+
+        var idx = 0;
+        $('#btn_mapping_artist').on('click', function(e) {
+            var obj = filelist[idx];
+            console.log(obj);
+
+            mappingArtist(obj);
+        });
+
+        function validateRow(obj){
+            obj.errorMessage = "";
+            if(obj.songname.length ==0){
+                obj.errorMessage = "Please enter song name.";
+                return false;
+            }
+            if(obj.songlocation.length ==0){
+                obj.errorMessage = "Please enter song location.";
+                return false;
+            }
+            if(obj.singername.length ==0){
+                obj.errorMessage = "Please enter singer name.";
+                return false;
+            }
+            if(obj.duration.length ==0){
+                obj.errorMessage = "Please enter song duration.";
+                return false;
+            }
+            if(obj.publishdate.length ==0){
+                obj.errorMessage = "Please enter publish date.";
+                return false;
+            }
+
+            var i = 0;
+            filelist.forEach(element => {
+                i++;
+                if(element.errorMessage.length == 0){
+                if(element.songname == obj.songname && element.singername == obj.singername && element.duration ==obj.duration && element.publishdate == obj.publishdate){
+                    obj.errorMessage = "Duplicate song with row "+ i;
+                    return false;
+                }
+              }
+            });
+            return true;
+        }
+
+        function getListFileUpload() {
+            $('html, body').animate({ scrollTop: 0 }, 600);
+            if (!checkCSVFileStatus) {
+                bootbox.alert("There are few issue with your csv file. Please correct it before upload.");
+                return;
+            }
+            uploadDataToServerToWAdminCheck();
+        }
+
+        function uploadDataToServerToWAdminCheck(){
+            loading('loading...');
+            $.ajax({
+                type: 'POST',
+                url: "/api/mass/create-multi-songs",
+                data: {
+                    songs: filelist
+                },
+                cache: false
+            }).done((res) => {
+                if(res.failedList.length >0){
+                    // bootbox.alert("Upload completed", function(){ window.location.href = '/mass-registration';});
+                    bootbox.alert({ 
+                      title: "Error",
+                      message: "There are some errors:<br/>" + res.failedList.join("<br>"), 
+                      callback: function(){  }
+                    })
+                }else{
+                    bootbox.alert("Upload completed. We will process data and will let you know next step shortly. Thanks!!!", function(){ window.location.href = '/mass-registration-preview-list';});
+                }
+            }).fail(() => {
+                bootbox.alert("There is something wrong");
+            });
+        }
+
+        $(document).ready(function() {
+            $('.btn_cancel').on('click', function() {
+                $('#popup').removeClass('show');
+                $('body').toggleClass('modal-open');
+            });
+        });
+
+        function handleFileSelectByDrag(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          var files = evt.dataTransfer;
+          printTable(files.files[0]);
+        }
+
+        function handleDragOver(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelectByDrag, false);
+    </script>
+</body>
+
+</html>

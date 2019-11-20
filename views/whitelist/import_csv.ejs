@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WHITELIST</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://jschr.github.io/bootstrap-modal/css/bootstrap-modal.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <!-- <link rel="stylesheet" href="css/home/home_loggedin.css"> -->
+    <link rel="stylesheet" href="css/search_results/search_results.css">
+    <link rel="stylesheet" href="css/mass_registration/mas_register.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+    <link rel="stylesheet" href="css/whitelist/uikit.min.css">
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div class="tab-content">
+                        <div id="regis_step_1">
+                            <div class="regis_song">
+                                <h3>Import white list</h3>
+                                <div class="upload">
+                                    <p>Begin upload file csv here</p>
+                                    <input type="file" multiple id="files" accept=".csv" name="files[]" style="display: none;">
+                                    <button type="button" class="btn btn-default up_button" id="btn_select_file">SELECT FILE .CSV</button>
+                                </div>
+                                <!--  <output id="list">
+                          </output> -->
+                                <hr />
+                                <div id="result" border></div>
+                                <div class="clear"></div>
+                                <div id="loading">
+                                    <img class='img-load' src="images/loading.gif">
+                                    <p class='load'></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <dir class="right-content">
+                <%- include ../menu/right_menu_content.ejs %>
+            </dir>
+        </div>
+        <div class="music-player has-player">
+        </div>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://getbootstrap.com/2.3.2/assets/js/google-code-prettify/prettify.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="javascripts/jquery.zoiaTable.js"></script>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script>
+        var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+                disable: true,
+            },
+            notifyButton: {
+                enable: true,
+                prenotify: true,
+                position: 'bottom-left',
+                size: 'medium',
+                showCredit: false
+            }
+        }]);
+    </script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery.csv.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.btn_cancel').on('click', function() {
+                $('#popup').removeClass('show');
+                $('body').toggleClass('modal-open');
+            });
+
+            $("body").on('click', '.add-new', function(e) {
+                e.preventDefault();
+                var own = $(this).closest('.sub_own');
+                $('.owners').append('<div class="col-md-10 col-xs-10 sub_own">' + own.html() + '</div>');
+                own.find('.add-new').remove();
+            });
+
+            $('#<%=menu_index%>').addClass('active');
+        });
+
+        $('#btn_select_file').on('click', function(e) {
+            document.getElementById('files').click();
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            if (isAPIAvailable()) {
+                $('#files').bind('change', handleFileSelect);
+            }
+        });
+
+        function isAPIAvailable() {
+            // Check for the various File API support.
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                // Great success! All the File APIs are supported.
+                return true;
+            } else {
+                // source: File API availability - http://caniuse.com/#feat=fileapi
+                // source: <output> availability - http://html5doctor.com/the-output-element/
+                document.writeln('The HTML5 APIs used in this form are only available in the following browsers:<br />');
+                // 6.0 File API & 13.0 <output>
+                document.writeln(' - Google Chrome: 13.0 or later<br />');
+                // 3.6 File API & 6.0 <output>
+                document.writeln(' - Mozilla Firefox: 6.0 or later<br />');
+                // 10.0 File API & 10.0 <output>
+                document.writeln(' - Internet Explorer: Not supported (partial support expected in 10.0)<br />');
+                // ? File API & 5.1 <output>
+                document.writeln(' - Safari: Not supported<br />');
+                // ? File API & 9.2 <output>
+                document.writeln(' - Opera: Not supported');
+                return false;
+            }
+        }
+
+        function handleFileSelect(evt) {
+            var files = evt.target.files; // FileList object
+            var file = files[0];
+            // read the file contents
+            printTable(file);
+        }
+
+        var totalWalletList = [];
+
+        function loading(txt){
+            $('.load').html(txt);
+            $('#loading').show();
+        }
+
+        function hide(){
+           $('#loading').hide();
+        }
+
+        function printTable(file) {
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = async function(event) {
+                var csv = event.target.result;
+                var data = $.csv.toArrays(csv);
+                console.log(data);
+                var html = '<table id="contents">';
+                //loading
+                loading('loading...');
+                for (var row in data) {
+                    if (row <= data.length) {
+                        if (row == 0) {
+                            html += '<thead><tr>\r\n';
+                            html += '<th>No.</th>\r\n';
+                            for (var item in data[row]) {
+                                // console.log(item);
+                                if (item == 1 || item == 2 || item == 3 || item == 4) {
+                                    if (item <= data[row].length) {
+                                        html += '<th>' + data[row][item] + '</th>\r\n';
+                                    }
+                                }
+                            }
+                            html += '<th>&nbsp;</th>\r\n';
+                            html += '</tr></thead><tbody>\r\n';
+                        } else {
+                            var obj = {};
+                            obj.id = row;
+                            html += '<tr>\r\n';
+                            html += '<th>' + row + '</th>\r\n';
+                            // if (data[row].length == 12) {
+                            for (var item in data[row]) {
+                                if (item <= data[row].length) {
+                                    if (item == 1) {
+                                        obj.firstname = data[row][item].length == 0 ? '' : data[row][item];
+                                        if (data[row][item].length == 0) {
+                                            html += '<td><input type="text" readonly="" hidden="" name="first_name" id="first_name' + row + '" value="0">&nbsp;</td>\r\n';
+                                        } else {
+                                            html += '<td><input type="text" readonly="" hidden="" name="first_name" id="first_name' + row + '" value="' + data[row][item] + '">' + data[row][item] + '</td>\r\n';
+                                        }
+                                    } else if (item == 2) {
+                                        obj.lastname = data[row][item].length == 0 ? '' : data[row][item];
+                                        if (data[row][item].length == 0) {
+                                            html += '<td><input type="text" readonly="" hidden="" name="last_name" id="last_name' + row + '" value="0">&nbsp;</td>\r\n';
+                                        } else {
+                                            html += '<td><input type="text" readonly="" hidden="" name="last_name" id="last_name' + row + '" value="' + data[row][item] + '">' + data[row][item] + '</td>\r\n';
+                                        }
+                                    } else if (item == 3) {
+                                        obj.email = data[row][item].length == 0 ? '' : data[row][item];
+                                        if (data[row][item].length == 0) {
+                                            html += '<td><input type="text" readonly="" hidden="" name="email_address" id="email_address' + row + '" value="0">&nbsp;</td>\r\n';
+                                        } else {
+                                            html += '<td><input type="text" readonly="" hidden="" name="email_address" id="email_address' + row + '" value="' + data[row][item] + '">' + data[row][item] + '</td>\r\n';
+                                        }
+                                    } else if (item == 4) {
+                                        obj.wallet = data[row][item].length == 0 ? '' : data[row][item];
+                                        if (data[row][item].length == 0) {
+                                            html += '<td><input type="text" readonly="" hidden="" name="wallet_address" id="wallet_address' + row + '" value="0">&nbsp;</td>\r\n';
+                                        } else {
+                                            html += '<td><input type="text" readonly="" hidden="" name="wallet_address" id="wallet_address' + row + '" value="' + data[row][item] + '">' + data[row][item] + '</td>\r\n';
+                                        }
+                                    }
+                                }
+                            }
+                            html += '<td><i name="state" id="state' + row + '" class="fa fa-circle" aria-hidden="true" style="color: #bdc3c7; font-size: 1.5em;"></i></i>&nbsp;&nbsp;<p id="status' + row + '" style="display: inline">Waitting</p></td>\r\n';
+                            // }
+                            html += '</tr>\r\n';
+                            totalWalletList.push(obj);
+                        }
+                    }
+                }
+                html += '</tbody></table>';
+                // <i class="fa fa-times" aria-hidden="true" style="color: #ff0000; font-size: 1.5em;"></i>
+                html += '<button class="btn btn-default" id="upfile" onclick="uploadListWallet();">Continute</button>';
+                // html += '<button class="btn btn-default" onclick="uploadListWalletAndSync();">Sync Now</button>';
+                setTimeout(function(){
+                    $('#result').html(html);
+                    var search = '';
+                    search += "<div class='input-group search1-group'>";
+                    search += "<input type='search' id='search' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+                    search += "<div class='input-group-addon search1' data-click-state='0'></div></div>";
+
+                    $('#contents').dataTable({
+                        "scrollY": 450,
+                        "scrollCollapse": true,
+                        "jQueryUI": true,
+                        "paging": false,
+                    });
+
+                    $('#contents_filter').append(search);
+                    $('#contents_filter label').hide();
+
+                    $('#search').on('keyup', function() {
+                        var s = $('#search').val();
+                        $('#contents_filter label input[type=search]').val(s);
+                        $('#contents_filter label input[type=search]').keyup();
+                    });
+
+                }, 1000);
+
+                document.addEventListener('DOMSubtreeModified', hide);
+
+                $('#files').on('click',function(){
+                    $('#result').html('');
+                });
+
+            };
+
+            reader.onerror = function() {
+                alert('Unable to read ' + file.fileName);
+            };
+        }
+    </script>
+
+    <script type="text/javascript" src="javascripts/whitelist.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script type="text/javascript">
+        var failedList = [];
+        var idx = 0;
+
+        function uploadListWallet() {
+            $('html, body').animate({ scrollTop: 0 }, 600);
+            if (totalWalletList.length != 0) {
+                saveWallet(idx);
+            }
+        }
+
+        // function uploadListWalletAndSync() {
+        //  uploadListWallet();
+        // }
+
+        function instancePopup(list) {
+            var html = '';
+            html += "<table id='fail_table' class='fail-table table-hover'>";
+            html += "<thead><tr><th class='f1'>No.</th>";
+            html += "<th class='f2'>Email</th>";
+            html += "<th class='f3'>Wallet Address</th>";
+            html += "<th class='f4'>Error Message</th>";
+            html += '</tr></thead><tbody>';
+            var i = 1;
+            list.forEach((obj) => {
+                html += "<tr><td>" + i + '</td>';
+                html += "<td style='width:30%'>" + obj.email + '</td>';
+                html += "<td class='sub_wallet'>" + obj.wallet.slice(0,21) + '...' + '</td>';
+                html += "<td class='errmsg'>" + obj.errmsg + '</td></tr>'
+                i++;
+            });
+            html += '</tbody></table>';
+
+            bootbox.dialog({
+                message: html,
+                closeButton: false,
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancel',
+                        class: 'btn btn-default',
+                        callback: () => {
+                            window.location.reload();
+                        }
+                    },
+                    continute: {
+                        label: '<i class="fa fa-check"></i> Continute',
+                        class: 'btn btn-primary',
+                        callback: () => {
+                            window.location.href = '/white-list';
+                        }
+                    }
+                }
+            });
+
+            var fail_search = '';
+            fail_search += "<div class='input-group search1-group'>";
+            fail_search += "<input type='search' id='search1' class='search2_active' placeholder='Search...' aria-controls='contents'>";
+            fail_search += "<div class='input-group-addon search1'></div></div>";
+
+            $('#fail_table').dataTable({
+                "scrollY": 200,
+                "scrollCollapse": true,
+                "jQueryUI": true,
+                "paging": false,
+                'responsive': true
+            });
+
+            $('#fail_table_filter').append(fail_search);
+            $('#fail_table_filter label').hide();
+
+            $('#search1').on('keyup', function() {
+                var s = $('#search1').val();
+                $('#fail_table_filter label input[type=search]').val(s);
+                $('#fail_table_filter label input[type=search]').keyup();
+            });
+        }
+
+        function success(msg) {
+            var state = 'state' + (idx + 1);
+            var status = 'status' + (idx + 1);
+            $('#' + state + '').removeClass('fa-circle').addClass('fa-check');
+            document.getElementById(state).style.color = '#00ff00';
+            document.getElementById(status).innerHTML = 'Succeeed';
+            document.getElementById(status).style.color = '#00ff00';
+
+            idx++;
+            if (idx >= totalWalletList.length) {
+                if (failedList.length != 0) {
+                    //show list wallet failed
+                    console.log(failedList);
+                    instancePopup(failedList);
+                    return;
+                }
+                window.location.href = '/white-list';
+                return;
+            }
+            saveWallet(idx);
+        }
+
+        function failure(msg) {
+            var state = 'state' + (idx + 1);
+            var status = 'status' + (idx + 1);
+            $('#' + state + '').removeClass('fa-circle').addClass('fa-times');
+            document.getElementById(state).style.color = '#ff0000';
+            document.getElementById(status).innerHTML = 'Failed';
+            document.getElementById(status).style.color = '#ff0000';
+            var walletObj = {
+                firstname: totalWalletList[idx].firstname,
+                lastname: totalWalletList[idx].lastname,
+                email: totalWalletList[idx].email,
+                wallet: totalWalletList[idx].wallet,
+                errmsg: msg
+            };
+
+            failedList.push(walletObj);
+
+            idx++;
+            if (idx >= totalWalletList.length) {
+                if (failedList.length != 0) {
+                    //show list wallet failed
+                    console.log(failedList);
+                    instancePopup(failedList);
+                    return;
+                }
+                window.location.href = '/white-list';
+                return;
+            }
+            saveWallet(idx);
+        }
+
+        function saveWallet(idx) {
+            var obj = totalWalletList[idx];
+            var walletID = obj.wallet;
+            var email = obj.email;
+            var firstname = obj.firstname;
+            var lastname = obj.lastname;
+
+            const params = {
+                wallet: walletID,
+                email: email,
+                firstname: firstname,
+                lastname: lastname
+            };
+            WhiteList.validate_wallet(params, success, failure);
+        }
+    </script>
+</body>
+
+</html>

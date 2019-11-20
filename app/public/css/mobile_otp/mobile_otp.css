@@ -1,0 +1,36 @@
+.mobile h3 {
+	text-align: center;
+    font-size: 25px;
+    padding-top: 40px;
+    font-weight: 300;
+    text-transform: initial;
+}
+
+.mobile h5 {
+	text-align: center;
+    font-size: 18px;
+    padding-top: 40px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.mobile_text {
+	width: 70%;
+	margin: 0 auto;
+    text-align: center;
+}
+
+.account_id {
+    padding-right: 12px;
+    text-align: right;
+    background: none;
+}
+
+.form_login {
+    margin: 30px auto;
+}
+
+.form_login label {
+    font-weight: 500;
+    font-size: 17px;
+}

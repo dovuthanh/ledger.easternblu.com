@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>EDITTING WORK</title>
+      <link rel="stylesheet" href="css/common/bootstrap.min.css">
+      <link rel="stylesheet" href="css/common/font-awesome.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="css/common/common.css">
+      <link rel="stylesheet" href="css/song_registration/register_songs.css">
+      <script src="js/jquery.min.js"></script>
+      <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery-ui.js"></script>
+   </head>
+   <body>
+      <div class="song">
+         <%- include ../menu/nor_header.ejs %>
+      </div>
+      <!-- menu mobile -->
+      <nav class="navbar navbar-inverse">
+         <div class="container-fluid">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+               <ul class="nav navbar-nav">
+                  <li><a href="#">HOME</a></li>
+                  <li><a href="#">MY TALENTS</a></li>
+                  <li><a href="#">MY SONGS</a></li>
+                  <li><a href="#">LICENSING</a></li>
+                  <li class="active"><a href="#">REGISTER SONG</a></li>
+                  <li><a href="#">VERIFY</a></li>
+                  <li><a href="#">TRANSACTIONS</a></li>
+                  <li><a href="#">SETTINGS</a></li>
+               </ul>
+            </div>
+         </div>
+      </nav>
+      <div class="home_content">
+         <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+               <div class="wrap_content" id="tab-content">
+                  <div id="regis_step_2">
+                     <div class="regis_song1">
+                        <h3>Edit work registration</h3>
+                        <form class="register_song2" action="#" onsubmit="return false;">
+                           <div class="col-md-12 col-xs-12" hidden="true">
+                              <input type="text" name="composer_id" id="composer_id" readonly="true" class="form-control" tabindex="0" value="<%=composer._id%>">
+                           </div>
+                           <%if(composer.composerContractAddress == undefined || composer.composerContractAddress.length == 0){%>
+                              <div class="form-group deg" hidden="true">
+                                 <label class="col-md-6 control-label">Composer Registration Address</label>
+                                 <div class="col-md-12 col-xs-12">
+                                    <input type="text" name="composer_contract_address" id="composer_contract_address" class="form-control" tabindex="0" value="" readonly="true">
+                                 </div>
+                              </div>
+                           <%}else{%>
+                              <div class="form-group deg">
+                                 <label class="col-md-6 control-label">Composer Registration Address</label>
+                                 <div class="col-md-12 col-xs-12">
+                                    <input type="text" name="composer_contract_address" id="composer_contract_address" class="form-control" tabindex="0" value="<%=composer.composerContractAddress%>" readonly="true">
+                                 </div>
+                              </div>
+                           <%}%>
+                           <div class="form-group deg" hidden="">
+                              <label class="col-md-6 control-label">Composer ID(*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_id" id="composer_id" class="form-control" tabindex="0" value="<%=composer._id%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Composer Name(*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_name" id="composer_name" class="form-control" tabindex="0" value="<%=composer.composerName%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Romanized Name(if any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_romanized_name" id="composer_romanized_name" class="form-control" tabindex="0" value="<%=composer.composerRomanizedName%>">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Address</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_address" id="composer_address" class="form-control" tabindex="0" value="<%=composer.composerAddress%>">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Contact Number</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_contact_number" id="composer_contact_number" class="form-control" tabindex="0" value="<%=composer.composerContactNumber%>">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Has the Musical Composition been released?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <%if(composer.hasReleased){%>
+                                    <input type="radio" name="has_released" value="true" checked=""> YES<br>
+                                    <input type="radio" name="has_released" value="false"> NO<br>
+                                 <%}else{%>
+                                    <input type="radio" name="has_released" value="true"> YES<br>
+                                    <input type="radio" name="has_released" value="false" checked=""> NO<br>
+                                 <%}%>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">If YES, which of these formats was it released in?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <%if(composer.hasReleasedSoundRecording){%>
+                                    <input type="checkbox" name="released_sound_recording" id="released_sound_recording" checked=""> Sound Recording<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="released_sound_recording" id="released_sound_recording"> Sound Recording<br>
+                                 <%}%>
+                                 <%if(composer.hasReleasedKaraoke){%>
+                                    <input type="checkbox" name="released_kara" id="released_kara" checked=""> Karaoke<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="released_kara" id="released_kara"> Karaoke<br>
+                                 <%}%>
+                                 <%if(composer.hasReleasedThemeSong){%>
+                                    <input type="checkbox" name="released_theme" id="released_theme" checked=""> Theme song<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="released_theme" id="released_theme"> Theme song<br>
+                                 <%}%>
+                                 <%if(composer.hasReleasedGaming){%>
+                                    <input type="checkbox" name="released_gaming" id="released_gaming" checked=""> Gaming<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="released_gaming" id="released_gaming"> Gaming<br>
+                                 <%}%>
+                                 <%if(composer.hasReleasedMusical){%>
+                                    <input type="checkbox" name="released_musical" id="released_musical" checked=""> Musical score sheet<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="released_musical" id="released_musical"> Musical score sheet<br>
+                                 <%}%>
+                                 <%if(composer.hasReleasedOthers){%>
+                                    <input type="checkbox" name="released_other" id="released_other" checked=""> Others - please state<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="released_other" id="released_other"> Others - please state<br>
+                                 <%}%>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Song Title (*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_song_title" id="composer_song_title" class="form-control" tabindex="0" value="<%=composer.composerSongTitle%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Romanized Title (if any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_romanized_title" id="composer_romanized_title" class="form-control" tabindex="0" value="<%=composer.composerSongRomanizedTitle%>" readonly="true">
+                              </div>
+                           </div>
+                           <div class="form-group deg time">
+                              <label class="col-md-12 control-label">Length of time (*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <div class="bootstrap-timepicker">
+                                    <input type="text" name="length_of_time" id="length_of_time" readonly="true" class="form-control timepicker" placeholder="00:00" value="<%=composer.composerSongLengthOfTime%>">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Types of Copyright claims?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <%if(composer.copyrightClaimReproductionMechanical){%>
+                                    <input type="checkbox" name="copyright_rm" id="copyright_rm" checked=""> Reproduction/Mechanical<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="copyright_rm" id="copyright_rm"> Reproduction/Mechanical<br>
+                                 <%}%>
+                                 <%if(composer.copyrightClaimSynchronisation){%>
+                                    <input type="checkbox" name="copyright_sync" id="copyright_sync" checked=""> Synchronisation<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="copyright_sync" id="copyright_sync"> Synchronisation<br>
+                                 <%}%>
+                                 <%if(composer.copyrightClaimAdaptation){%>
+                                    <input type="checkbox" name="copyright_adaptation" id="copyright_adaptation" checked=""> Adaptations<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="copyright_adaptation" id="copyright_adaptation"> Adaptations<br>
+                                 <%}%>
+                                 <%if(composer.copyrightClaimPublicPerformances){%>
+                                    <input type="checkbox" name="copyright_public_perform" id="copyright_public_perform" checked=""> Public Performances<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="copyright_public_perform" id="copyright_public_perform"> Public Performances<br>
+                                 <%}%>
+                                 <%if(composer.copyrightClaimCommunication){%>
+                                    <input type="checkbox" name="copyright_communication" id="copyright_communication" checked=""> Communication to Public via wired or wireless means<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="copyright_communication" id="copyright_communication"> Communication to Public via wired or wireless means<br>
+                                 <%}%>
+                                 <%if(composer.copyrightClaimBroadcasting){%>
+                                    <input type="checkbox" name="copyright_broadcasting" id="copyright_broadcasting" checked=""> Broadcasting<br>
+                                 <%}else{%>
+                                    <input type="checkbox" name="copyright_broadcasting" id="copyright_broadcasting"> Broadcasting<br>
+                                 <%}%>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Country</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <div class="selectdiv">
+                                    <select id="country" class="form-control">
+                                       <option selected="" class="pla" hidden="">Select country</option>
+                                       <%
+                                          countries.forEach(function(country){
+                                       %>
+                                          <%if(composer.composerCountry){%>
+                                             <option class="pla" value="<%=country.countryName%>" selected=""><%=country.countryName%></option>
+                                          <%}else{%>
+                                             <option class="pla" value="<%=country.countryName%>"><%=country.countryName%></option>
+                                          <%}%>
+                                       <%});%>
+                                    </select>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Has the Pulic Performance Right been assigned, or exclusive to a Collective Management Organisation(CMO) or a Performance Right Organisation (PRO)?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <%if(composer.hasThePulicPerformanceRightCMOPRO){%>
+                                    <input type="radio" name="has_public_perform" value="true" checked=""> YES<br>
+                                    <input type="radio" name="has_public_perform" value="false"> NO<br>
+                                 <%}else{%>
+                                    <input type="radio" name="has_public_perform" value="true"> YES<br>
+                                    <input type="radio" name="has_public_perform" value="false" checked=""> NO<br>
+                                 <%}%>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Has the Broadcasting Rights been assinged, or exclusive to a Collective Management Organisation(CMO) or a Performance Right Organisation (PRO)?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <%if(composer.hasThePulicBroadcastingRightCMOPRO){%>
+                                    <input type="radio" name="has_broadcasting" value="true" checked=""> YES<br>
+                                    <input type="radio" name="has_broadcasting" value="false"> NO<br>
+                                 <%}else{%>
+                                    <input type="radio" name="has_broadcasting" value="true"> YES<br>
+                                    <input type="radio" name="has_broadcasting" value="false" checked=""> NO<br>
+                                 <%}%>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Has any other rights been assigned or managed by a Music Publishing Company?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <%if(composer.hasAnyOtherRights){%>
+                                    <input type="radio" name="has_other_right" value="true" checked=""> YES<br>
+                                    <input type="radio" name="has_other_right" value="false"> NO<br>
+                                 <%}else{%>
+                                    <input type="radio" name="has_other_right" value="true"> YES<br>
+                                    <input type="radio" name="has_other_right" value="false" checked=""> NO<br>
+                                 <%}%>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">If YES, mark the type of rights and duration of the assignment or license?</label>
+                              <table class="table-other-rights">
+                                 <tr>
+                                    <td class="td-label"><label class="col-md-12 control-label">Reproduction/Mechanical</span></label></td>
+                                    <td><input type="date" name="time_reproduction_mechanical" id="time_reproduction_mechanical" class="form-control td-input" tabindex="0" placeholder="DD-MM-YYYY" value=""></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="td-label"><label class="col-md-12 control-label">Synchronisations</span></label></td>
+                                    <td><input type="date" name="time_synchronisations" id="time_synchronisations" class="form-control td-input" tabindex="0" placeholder="DD-MM-YYYY" value=""></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="td-label"><label class="col-md-12 control-label">Adaptations</span></label></td>
+                                    <td><input type="date" name="time_adaptations" id="time_adaptations" class="form-control td-input" tabindex="0" placeholder="DD-MM-YYYY" value=""></td>
+                                 </tr>
+                              </table>
+                           </div>
+                           <div class="col-md-12 col-xs-12">
+                              <%if(song.songDisabled){%>
+                              <button type="button" class="btn btn-success enable" onclick="enableWork('<%=song._id%>');">ENABLE WORK</button>
+                              <%}else{%>
+                              <button type="button" class="btn btn-danger disable" onclick="disableWork('<%=song._id%>');">DISABLE WORK</button>
+                              <%}%>
+                           </div>
+                           <div class="form-group deg">
+                              <div class="col-md-12 col-xs-12">
+                                 <button type="button" class="btn btn-primary submit" onclick="completeEditWork();">COMPLETE EDITTING WORK</button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="right-content">
+               <%- include ../menu/right_menu_content.ejs %>
+            </div>
+         </div>
+      </div>
+      </div>
+      <script src="js/bootstrap-datepicker.min.js"></script>
+      <script src="js/bootstrap-timepicker.min.js"></script>
+      <script type="text/javascript" src="javascripts/work.js"></script>
+      <script>
+         $(document).ready(function(){
+         	$('#<%=menu_index%>').addClass('active');
+
+            $('.btn_cancel').on('click', function() {
+                $('#popup').removeClass('show');
+                $('body').toggleClass('modal-open');
+            });
+         });
+
+         $('#date').datepicker({
+         	format: 'dd-mm-yyyy',
+              	autoclose: true,
+         });
+      </script>
+      <script type="text/javascript">
+         function completeEditWork(){
+            Work.validate_edit_work();
+         }
+         function disableSong(id){
+            var html = "<p class='w_logout'>Are you sure disable work ?</p>";
+            bootbox.dialog({
+              message: html,
+              closeButton: true,
+              size: 'normal',
+              buttons: {
+                 cancel: {
+                         label: '<i class="fa fa-times"></i> No',
+                         className: 'btn-default',
+                         callback: () => {
+                             
+                         }
+                     },
+                  continute: {
+                      label: '<i class="fa fa-check"></i> Yes',
+                      className: 'btn-danger',
+                      callback: () => {
+                          Song.activate_song(id, 1);
+                      }
+                  }            
+              }
+            });
+         }
+         function enableSong(id){
+            var html = "<p class='w_logout'>Are you sure enable work ?</p>";
+            bootbox.dialog({
+              message: html,
+              closeButton: true,
+              size: 'normal',
+              buttons: {
+                 cancel: {
+                         label: '<i class="fa fa-times"></i> No',
+                         className: 'btn-default',
+                         callback: () => {
+                             
+                         }
+                     },
+                  continute: {
+                      label: '<i class="fa fa-check"></i> Yes',
+                      className: 'btn-danger',
+                      callback: () => {
+                          Song.activate_song(id, 0);
+                      }
+                  }            
+              }
+            });
+         }
+      </script>
+
+      <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+      <script>
+        var OneSignal = OneSignal || [];
+          OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+              disable: true,
+            },
+            notifyButton: {
+              enable: true,
+              prenotify: true,
+              position: 'bottom-left',
+              size: 'medium',
+              showCredit: false
+            }
+          }]);
+      </script>
+   </body>
+</html>

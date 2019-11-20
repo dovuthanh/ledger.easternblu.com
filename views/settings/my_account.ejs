@@ -1,0 +1,57 @@
+<div class="form_settings">
+    <div class="col-md-6 left">
+        <h4>My Account</h4>
+    </div>
+    <div class="form-group col-md-6 right">
+        <div class="form-group col-md-6">
+            <button id="bt1" type="button" class="btn btn-primary" onclick="changePassword();">CHANGE PASSWORD</button>
+        </div>
+        <div class="form-group col-md-6">
+            <button id="bt2" type="button" class="btn btn-primary" onclick="gotoEditProfile();">EDIT PROFILE</button>
+        </div>
+    </div>
+
+    <div class="form_text">
+        <div class="form_result">
+            <div class="table-responsive table_verify_result">
+                <table class="table">
+                    <tr>
+                        <th>User ID</th>
+                        <td><%=user.userAccountName%></td>
+                    </tr>
+                    <tr>
+                        <th>Public wallet</th>
+                        <td><%=user.userWalletAddress%></td>
+                    </tr>
+
+                    <tr>
+                        <th>Email</th>
+                        <td><%=user.userEmail%></td>
+                    </tr>
+                    <tr>
+                        <th>Address Line</th>
+                        <td><%=user.userAddress%></td>
+                    </tr>
+                    <tr>
+                        <th>City</th>
+                        <td><%=user.userCity%></td>
+                    </tr>
+                    <tr>
+                        <th>Postal</th>
+                        <td><%=user.userPostalZip%></td>
+                    </tr>
+                    <tr>
+                        <th>Country</th>
+                        <td><%=user.userCountry%></td>
+                    </tr>
+                    <tr>
+                        <th>Mobile</th>
+                        <td><%=user.userCountryCode%> <%=user.userPhone%>
+                            <button id="bt3" type="button" class="btn btn-primary" style="margin-left: 20px;" onclick="changeMobile();">CHANGE MOBILE</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

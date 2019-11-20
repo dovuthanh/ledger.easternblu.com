@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>WORK REGISTRATION</title>
+      <link rel="stylesheet" href="css/common/bootstrap.min.css">
+      <link rel="stylesheet" href="css/common/font-awesome.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link rel="stylesheet" href="css/common/common.css">
+      <link rel="stylesheet" href="css/song_registration/register_songs.css">
+      <script src="js/jquery.min.js"></script>
+      <!-- <script src="js/jquery-3.2.1.min.js"></script> -->
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery-ui.js"></script>
+   </head>
+   <body>
+      <div class="song">
+         <%- include ../menu/nor_header.ejs %>
+      </div>
+      <!-- menu mobile -->
+      <nav class="navbar navbar-inverse">
+         <div class="container-fluid">
+            <div class="navbar-header">
+               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+               <ul class="nav navbar-nav">
+                  <li><a href="#">HOME</a></li>
+                  <li><a href="#">MY TALENTS</a></li>
+                  <li><a href="#">MY SONGS</a></li>
+                  <li><a href="#">LICENSING</a></li>
+                  <li class="active"><a href="#">REGISTER SONG</a></li>
+                  <li><a href="#">VERIFY</a></li>
+                  <li><a href="#">TRANSACTIONS</a></li>
+                  <li><a href="#">SETTINGS</a></li>
+               </ul>
+            </div>
+         </div>
+      </nav>
+      <div class="home_content">
+         <div class="center_home">
+            <div class="left_content col-md-10 col-sm-8">
+               <div class="wrap_content" id="tab-content">
+                  <div id="regis_step_1">
+                     <div class="regis_song">
+                        <h3>Add work</h3>
+                        <span>1 OF 2</span>
+                        <p>Register work into blockchain</p>
+                        <div class="up" id="drop_zone">
+                           <div class="up1">
+                              <img src="images/upload.jpg" alt="">
+                              <p>Begin upload by dragging demo song here</p>
+                              <p>or</p>
+                              <input type="file" id="song_file" accept="audio/*" style="display: none;" onchange="songFileUpload(this);">
+                              <button type="button" class="btn btn-default up_button" id="btn_select_file">SELECT FILE FROM FOLDER</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div id="regis_step_2" style="display: none;">
+                     <div class="regis_song1">
+                        <h3>Add work</h3>
+                        <span>2 OF 2</span>
+                        <p>Register work into blockchain</p>
+                        <div class="upload" style="padding-left: 15px; margin-bottom: 20px">
+                           <div class="song_name" id="song_file_name"></div>
+                           <div class="upload-right" id="upload-loading"></div>
+                           <div class="clear"></div>
+                           <div class="tbar">
+                              <input type="text" name="composer_song_file_name" id="composer_song_file_name" readonly="true" class="form-control" tabindex="0" value="" style="display: none;">
+                              <input type="text" name="composer_song_temp_url" id="composer_song_temp_url" hidden="true" readonly="true">
+                              <div id="myBar" class="uploading" style="width: 0;"></div>
+                           </div>
+                        </div>
+                        <form class="register_song2" action="#" onsubmit="return false;">
+                           <div class="col-md-12 col-xs-12" hidden="true">
+                              <input type="text" name="role" id="role" readonly="true" class="form-control" tabindex="0" value="<%=session.passport.user.userWalletAddress%>">
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Composer Name(*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_name" id="composer_name" class="form-control" tabindex="0" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Romanized Name(if any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_romanized_name" id="composer_romanized_name" class="form-control" tabindex="0" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Address</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_address" id="composer_address" class="form-control" tabindex="0" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Contact Number</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_contact_number" id="composer_contact_number" class="form-control" tabindex="0" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Has the Musical Composition been released?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <input type="radio" name="has_released" value="true"> YES<br>
+                                 <input type="radio" name="has_released" value="false"> NO<br>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">If YES, which of these formats was it released in?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <input type="checkbox" name="released_sound_recording" id="released_sound_recording" value="cd"> Sound Recording<br>
+                                 <input type="checkbox" name="released_kara" id="released_kara" value="dvd"> Karaoke<br>
+                                 <input type="checkbox" name="released_theme" id="released_theme" value="karaoke"> Theme song<br>
+                                 <input type="checkbox" name="released_gaming" id="released_gaming" value="digital"> Gaming<br>
+                                 <input type="checkbox" name="released_musical" id="released_musical" value="Car"> Musical score sheet<br>
+                                 <input type="checkbox" name="released_other" id="released_other" value="Car"> Others - please state<br>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Song Title (*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_song_title" id="composer_song_title" class="form-control" tabindex="0" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Romanized Title (if any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="composer_romanized_title" id="composer_romanized_title" class="form-control" tabindex="0" value="">
+                              </div>
+                           </div>
+                           <div class="form-group deg time">
+                              <label class="col-md-12 control-label">Length of time (*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <div class="bootstrap-timepicker">
+                                    <input type="text" name="length_of_time" id="length_of_time" maxlength="5" class="form-control timepicker" placeholder="00:00">
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Types of Copyright claims?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <input type="checkbox" name="copyright_rm" id="copyright_rm" value="cd"> Reproduction/Mechanical<br>
+                                 <input type="checkbox" name="copyright_sync" id="copyright_sync" value="dvd"> Synchronisation<br>
+                                 <input type="checkbox" name="copyright_adaptation" id="copyright_adaptation" value="karaoke"> Adaptations<br>
+                                 <input type="checkbox" name="copyright_public_perform" id="copyright_public_perform" value="digital"> Public Performances<br>
+                                 <input type="checkbox" name="copyright_communication" id="copyright_communication" value="Car"> Communication to Public via wired or wireless means<br>
+                                 <input type="checkbox" name="copyright_broadcasting" id="copyright_broadcasting" value="Car"> Broadcasting<br>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-6 control-label">Country</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <div class="selectdiv">
+                                    <select id="country" class="form-control">
+                                       <option selected="" class="pla" hidden="">Select country</option>
+                                       <%
+                                          countries.forEach(function(country){
+                                       %>
+                                          <option class="pla" value="<%=country.countryName%>"><%=country.countryName%></option>
+                                       <%});%>
+                                    </select>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Has the Pulic Performance Right been assigned, or exclusive to a Collective Management Organisation(CMO) or a Performance Right Organisation (PRO)?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <input type="radio" name="has_public_perform" value="true"> YES<br>
+                                 <input type="radio" name="has_public_perform" value="false"> NO<br>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Has the Broadcasting Rights been assinged, or exclusive to a Collective Management Organisation(CMO) or a Performance Right Organisation (PRO)?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <input type="radio" name="has_broadcasting" value="true"> YES<br>
+                                 <input type="radio" name="has_broadcasting" value="false"> NO<br>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Has any other rights been assigned or managed by a Music Publishing Company?</label>
+                              <div class="col-md-12 col-xs-12 check" >
+                                 <input type="radio" name="has_other_right" value="true"> YES<br>
+                                 <input type="radio" name="has_other_right" value="false"> NO<br>
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">If YES, mark the type of rights and duration of the assignment or license?</label>
+                              <table class="table-other-rights">
+                                 <tr>
+                                    <td class="td-label"><label class="col-md-12 control-label">Reproduction/Mechanical</span></label></td>
+                                    <td><input type="date" name="time_reproduction_mechanical" id="time_reproduction_mechanical" class="form-control td-input" tabindex="0" placeholder="DD-MM-YYYY" value=""></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="td-label"><label class="col-md-12 control-label">Synchronisations</span></label></td>
+                                    <td><input type="date" name="time_synchronisations" id="time_synchronisations" class="form-control td-input" tabindex="0" placeholder="DD-MM-YYYY" value=""></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="td-label"><label class="col-md-12 control-label">Adaptations</span></label></td>
+                                    <td><input type="date" name="time_adaptations" id="time_adaptations" class="form-control td-input" tabindex="0" placeholder="DD-MM-YYYY" value=""></td>
+                                 </tr>
+                              </table>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Price of Registration</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="price_of" id="price_of" class="form-control" value="$20" readonly="">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Voucher Code (If Any)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="voucher_code" id="voucher_code" class="form-control" placeholder="Enter voucher code here">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <label class="col-md-12 control-label">Authorized ID(*)</label>
+                              <div class="col-md-12 col-xs-12">
+                                 <input type="text" name="private_key" id="private_key" class="form-control" placeholder="Private key">
+                              </div>
+                           </div>
+                           <div class="form-group deg">
+                              <div class="col-md-12 col-xs-12">
+                                 <button type="button" class="btn btn-primary submit" onclick="registrationWork(this);">REGISTRATION WORK</button>
+                              </div>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+
+                  <div class="clear"></div>
+                  <%- include ../process/loading.ejs %>
+               </div>
+            </div>
+            <div class="right-content">
+               <%- include ../menu/right_menu_content.ejs %>
+            </div>
+         </div>
+      </div>
+      </div>
+      <script src="js/bootstrap-datepicker.min.js"></script>
+      <script src="js/bootstrap-timepicker.min.js"></script>
+      <script src="javascripts/progress.js"></script>
+      <script src="https://checkout.stripe.com/checkout.js"></script>
+      <script type="text/javascript" src="javascripts/translator.js"></script>
+      <script type="text/javascript" src="javascripts/work.js"></script>
+      <script>
+         $(document).ready(function(){
+           $('.btn_cancel').on('click', function() {
+               $('#popup').removeClass('show');
+               $('body').toggleClass('modal-open');
+           });
+         	$('#<%=menu_index%>').addClass('active');
+         });
+
+         $('#btn_select_file').on('click', function(e){
+         	document.getElementById('song_file').click();
+         });
+
+         $('#date').datepicker({
+         	format: 'dd-mm-yyyy',
+              	autoclose: true,
+         });
+
+         $('#composer_name').on('change', function(e){
+            var composer_name = document.getElementById('composer_name').value;
+            var composer_romanized_name = document.getElementById('composer_romanized_name').value;
+            Translator.detect_non_romanized(composer_name, composer_romanized_name, res => {
+               document.getElementById('composer_romanized_name').value = res;
+            });
+         });
+
+         $('#composer_song_title').on('change', function(e){
+            var song_title = document.getElementById('composer_song_title').value;
+            var song_chinese_title = document.getElementById('composer_romanized_title').value;
+            Translator.detect_non_romanized(song_title, song_chinese_title, res => {
+               document.getElementById('composer_romanized_title').value = res;
+            });
+         });
+      </script>
+      <script src="https://sdk.amazonaws.com/js/aws-sdk-2.233.1.min.js"></script>
+      <script type="text/javascript" src="javascripts/awsHelper.js"></script>
+      <script type="text/javascript">
+         var regis1 = document.getElementById('regis_step_1');
+         var regis2 = document.getElementById('regis_step_2');
+         var file_name = document.getElementById('composer_song_file_name');
+         var progress = document.getElementById('myBar');
+         var width = 0;
+         var file;
+
+         function songFileUpload(file_input){
+            // console.log(file_input.files[0]);
+            if (file_input.files && file_input.files[0]) {
+               file = file_input.files[0];
+               regis1.style.display = 'none';
+               regis2.style.display = 'block';
+               file_name.innerHTML = file.name;
+               Work.work_file_upload(file, progressHandler, success);
+            }
+         }
+
+         function success(hashOfWork) {
+            Upload.upload_song(file, (err, data, workTempUrl) => {
+               if (err) {
+                  alert('Could not upload this song');
+                  window.location.reload();
+                  return
+               }
+
+               console.log(data);
+               console.log(workTempUrl);
+
+               progress.style.width = 100 + '%';
+               document.getElementById("upload-loading").innerHTML = 'Upload successed';
+               document.getElementById('composer_song_temp_url').value = workTempUrl;
+               document.getElementById('composer_song_file_name').value = file.name;
+            }, progressHandler);
+         }
+
+
+         function progressHandler(percent){
+            // if (evt.lengthComputable) {
+            //    var percentComplete = evt.loaded / evt.total;
+            //    percentComplete = parseInt(percentComplete * 100);
+               width = parseInt(percent * 100);
+               progress.style.width = width + '%';
+               document.getElementById("upload-loading").innerHTML = 'Uploading ' + width * 1  + '%';
+            //    document.getElementById
+            //    document.getElementById("upload-loading").innerHTML = 'Uploading ' + width * 1  + '%';
+            //    document.getElementById('song_file_name').innerHTML = file.name;
+            //    console.log(percentComplete + '%');
+            //    if (width == 100) {
+            //       document.getElementById('composer_song_temp_url').value = '/uploads/audio/' + file.name;
+            //       document.getElementById('composer_song_file_name').value = file.name;
+            //       getDuration('/uploads/audio/' + file.name).then(function(length) {
+            //          // console.log('I got length ' + length);
+            //          document.getElementById('length_of_time').value = lengthToDuration(length);
+            //       });
+            //    }
+            // }
+         }
+
+         // function getDuration(src) {
+         //    return new Promise(function(resolve) {
+         //       var audio = new Audio();
+         //       $(audio).on("loadedmetadata", function(){
+         //          resolve(audio.duration);
+         //       });
+         //       audio.src = src;
+         //    });
+         // }
+
+         // function lengthToDuration(length){
+         //    var sec = Number(length);
+         //    // var h = Math.floor(sec / 3600);
+         //    var m = Math.floor(sec % 3600 / 60);
+         //    var s = Math.floor(sec % 3600 % 60);
+
+         //    // var hDisplay = h > 0 ? (h < 10 ? '0' : '') + h : '';
+         //    var mDisplay = m >= 0 ? (m < 10 ? '0' : '') + m : '';
+         //    var sDisplay = s >= 0 ? (s < 10 ? '0' : '') + s : '';
+         //    return mDisplay + ':' + sDisplay;
+         // }
+
+         function registrationWork(){
+            if(!Work.validate_work_registration(file)){
+               return;
+            }
+            Work.checking_voucher_if_any(openStripe);
+         }
+
+         var priceOf = 0;
+         function openStripe(payPrice) {
+            priceOf = payPrice;
+            var checkout = StripeCheckout.configure({
+                 key: 'pk_test_ywev9rlXeo2eMcddrx8aSgVW',
+                 token: onReceiveToken,
+                 image: '/images/logo-spx-stripe.png',
+                 name: '<%=session.passport.user ? session.passport.user.email : ''%>',
+                 description: 'Payment to registration work',
+                 amount: payPrice,
+                 billingAddress: true
+            });
+
+            checkout.open();
+         }
+
+         function onReceiveToken(token, args) {
+            console.log(token.id);
+            if (priceOf == 0) {
+               alert('Could not payment');
+               return;
+            }
+            Work.regis_charge(token.id, priceOf);
+         }
+      </script>
+
+      <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+      <script>
+        var OneSignal = OneSignal || [];
+          OneSignal.push(["init", {
+            appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+            // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+            autoRegister: true,
+            safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+            welcomeNotification: {
+              disable: true,
+            },
+            notifyButton: {
+              enable: true,
+              prenotify: true,
+              position: 'bottom-left',
+              size: 'medium',
+              showCredit: false
+            }
+          }]);
+      </script>
+
+      <!-- drop and drag file -->
+      <script>
+        function handleFileSelect(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          var files = evt.dataTransfer;
+          var check = evt.dataTransfer.files[0].type;
+          if(check == 'audio/mp3') {
+            songFileUpload(files);
+          }
+          else {
+            alert('file is not formatted correctly');
+          }
+
+        }
+
+        function handleDragOver(evt) {
+          evt.stopPropagation();
+          evt.preventDefault();
+          evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+        }
+
+        // Setup the dnd listeners.
+        var dropZone = document.getElementById('drop_zone');
+        dropZone.addEventListener('dragover', handleDragOver, false);
+        dropZone.addEventListener('drop', handleFileSelect, false);
+      </script>
+   </body>
+</html>

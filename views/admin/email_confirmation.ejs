@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Register LightWallet Seed</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/jslider.css" type="text/css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="css/register/register_lightwallet_seed.css">
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="des">
+					<div class="col-md-12 col-xs-12">
+						<img class="img_logo" src="images/logo_1.jpg" alt="">
+						<h3>create account</h3>
+						<div class="regis_seed">
+							<p>An email confirmation has been sent to <%=user.userEmail%>. Please click confirmation link.</p>
+							<form class="contact-form" action="/email-confirmation" method="post" id="my_form">
+	        					<div class="alert alert-danger"><%=message%></div>	
+								<div class="item">
+					                <input type="text" hidden="true" value="<%=user._id%>"  name="user_id" id="user_id" placeholder="Name" />
+					            </div>
+							    <div class="item">
+					                <input type="text" hidden="true" readonly="true" value="<%=user.userEmail%>" required title="Enter your email" name="email" id="email" placeholder="Email" />
+					            </div>
+					            <div class="item">
+					            	<input type="hidden" id="code" name="code" value="" />
+	            					<input type="hidden" id="csrf_nonce" name="csrf_nonce" value="" />
+					            </div>
+					            <div class="item">
+					            	<button type="submit" class="btn btn-primary next" id="btn-next" name="btn-next">Resend email confirmation</button>
+					            </div>
+							</form>
+						</div>			
+					</div>
+					<div class="ic-close">
+						<a href="/"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+					</div>
+					<div class="clear"></div>		
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/range_js/jshashtable-2.1_src.js"></script>
+	<script type="text/javascript" src="js/range_js/jquery.numberformatter-1.2.3.js"></script>
+	<script type="text/javascript" src="js/range_js/tmpl.js"></script>
+	<script type="text/javascript" src="js/range_js/jquery.dependClass-0.1.js"></script>
+	<script type="text/javascript" src="js/range_js/draggable-0.1.js"></script>
+	<script type="text/javascript" src="js/range_js/jquery.slider.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	    jQuery("#SliderSingle").slider({ from: 0, to: 100, step: 2.5, round: 1, format: { format: '##', locale: 'de' }, skin: "round" });
+	</script>
+
+	<script src="javascripts/web3.min.js"></script>
+	<script src="javascripts/entropy-collector.js"></script>
+	<script src="javascripts/lightwallet.min.js"></script>
+    <script src="javascripts/hooked-web3-provider.min.js"></script>
+	<script src="javascripts/wallet.js"></script>
+</body>
+</html>

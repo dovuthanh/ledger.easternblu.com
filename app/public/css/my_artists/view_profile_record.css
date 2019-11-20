@@ -1,0 +1,81 @@
+.right_sidebar li a {
+	color: #0A3E6D;
+}
+.media img{
+	    height: 195px;
+}
+.icon-content{
+	padding-top: 10px;
+}
+.icon-content img{
+	    height: 36px;
+    border: 0;
+    padding: 0px 5px;
+}
+.table-content{
+	padding-top: 10px;
+}
+#tab-content .tab-content {
+
+   padding: 0px 20px 45px;
+}
+.text{
+	text-align: center;
+}
+.table-wight{
+	width: 800px;
+}
+.table-wight2{
+	width: 100px;
+}
+#th_first {
+	width: 5%;
+}
+#th_songtitle {
+	width: 30%;
+}
+th.th-header {/*mod by sinhvu*/
+	background-position: 40% center !important;
+}
+#table_search .table tbody tr:first-child {
+    font-weight: initial !important;
+    color: initial !important;
+}
+#song_by {
+	color: #858585;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
+/*mod by sinhvu*/
+.th-center{
+	min-width: 50px;
+	text-align: center;
+}
+
+@media only screen and (max-width: 767px) {
+ 	#tab-content .media-left {
+		width: 100%;
+		float: left;
+		text-align: -webkit-center;
+	}
+
+	#tab-content .media-heading {
+		text-align: justify;
+		padding-top: 20px;
+		font-size: 16px;
+	}
+
+	#tab-content .icon-content {
+		text-align: center;
+	    margin: 20px 0px;
+	}
+
+	#tab-content .icon-content img {
+	    height: 55px;
+	}
+	th.header {
+		background-position: right center !important;
+	}
+
+}

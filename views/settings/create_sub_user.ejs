@@ -1,0 +1,59 @@
+<div class="form_login col-md-12" style="margin-top: 30px;">
+    <h4 style="margin-bottom: 20px;">Add Sub-User</h4>
+    <form action="/" onsubmit="return false;">
+    	<div class="form-group">
+            <label for="crt_user_wallet_address" class="control-label">account id</label>
+            <input type="text" class="form-control" required="true" id="crt_user_wallet_address" value="">
+        </div>
+        <div class="form-group">
+            <label for="crt_user_email">email</label>
+            <input type="email" class="form-control" required="true" id="crt_user_email">
+        </div>
+        <div class="form-group">
+            <label for="crt_user_fullname" class="control-label">full name</label>
+            <input type="text" class="form-control" required="true" id="crt_user_fullname" value="">
+        </div>
+        <div class="form-group">
+            <label for="crt_user_address" class="control-label">address Line 1</label>
+            <input type="text" class="form-control" id="crt_user_address" value="">
+        </div>
+        <div class="form-group" style="height: 60px;">
+            <div class="col-md-6 col-xs-12 col-sm-6" id="pad-left">
+                <label for="crt_user_city" class="control-label">city</label>
+                <input type="text" class="form-control" id="crt_user_city" value="">
+            </div>
+            <div class="col-md-6 col-xs-12 col-sm-6" id="pad-right">
+                <label for="crt_user_postal" class="control-label">postal/zip</label>
+                <input type="number" class="form-control" id="crt_user_postal" value="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="user_country" class="control-label">country</label>
+            <div class="selectdiv">
+            	<select id="crt_country" class="form-control">
+                    <option selected="" class="pla" hidden="">Select country</option>
+                    <%
+                    	countries.forEach(function(country){
+                    %>
+                    	<option class="pla" id="<%=country.countryName%>"><%=country.countryName%></option>
+                    <%});%>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="pwd">password</label>
+            <input type="password" class="form-control" id="crt_pwd">
+        </div>
+        <div class="form-group">
+            <label for="confirm_pwd">comfirm Password</label>
+            <input type="password" class="form-control" id="crt_confirm_pwd">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" onclick="Profile.validate_create_sub_user();">Create User</button>
+        </div>
+    </form>
+
+    <div class="ic-close" style="margin: -10px 0px 0px 0px">
+        <a href="#" onclick="gotoAccountManagement();"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+    </div>
+</div>

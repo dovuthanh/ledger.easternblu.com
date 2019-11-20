@@ -1,0 +1,30 @@
+.right_sidebar li a {
+	color: #0A3E6D;
+}
+.media img{
+	    height: 195px;
+}
+.icon-content{
+	padding-top: 10px;
+}
+.icon-content img{
+	    height: 36px;
+    border: 0;
+    padding: 0px 5px;
+}
+.table-content{
+	padding-top: 10px;
+}
+#tab-content .tab-content {
+
+   padding-left: 20px;
+}
+.text{
+	text-align: center;
+}
+.table-wight{
+	width: 800px;
+}
+.table-wight2{
+	width: 100px;
+}

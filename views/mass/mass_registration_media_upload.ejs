@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REGISTER SONG</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/my_songs/my_songs.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+    <link rel="stylesheet" href="css/mass_registration/mas_register.css">
+    <link rel="stylesheet" href="css/mass_registration/nav-wizard.bootstrap.css">
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="javascripts/mass.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <!-- menu mobile -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div id="regis_step_1">
+                        <div class="regis_song">
+                            <h3>REGISTRATION</h3>
+                            <div class="upload">
+                                <div class="song_name" id="song_file_name"></div>
+                                <div class="upload-right" id="progress"></div>
+                                <div class="clear"></div>
+                                <div class="tbar" style="display: none;">
+                                    <div id="myBar" class="uploading" style="width: 0;"></div>
+                                </div>
+                            </div>
+                            <ul class="nav nav-pills nav-wizard">
+                                <li><a href="/mass-registration">1. Import templates</a></li>
+                                <li><a href="/mass-registration-csv" >2. Export data</a></li>
+                                <li class="active"><a href="#" >3. Upload media file</a></li>
+                                <li><a href="/mass-registration-preview-list" >4. Preview</a></li>
+                                <!-- <li><a href="#" >5. Create wallet</a></li> -->
+                                <li><a href="#" >6. Deploy</a></li>
+                            </ul>
+                            <br/>
+                            <div class="clear"></div>
+                            <div class="info">
+                                <!-- <ol>  -->
+                                    <!-- <li class="">
+                                        <p>Export Data to make sure it correct</p>
+                                        <ol>
+                                            <li type="circle"><p>Blockchain Data Spreadsheet <a href="/BlockchainTemplate.xlsx" target="_blank">Click here</a> to download Spreadsheet</p></li>
+                                            <li type="circle"><p>Songs Database <a href="/BlockchainTemplate.xlsx" target="_blank">Click here</a> to download Spreadsheet </p></li>
+                                            <li type="circle"><p>Artist Database <a href="/BlockchainTemplate.xlsx" target="_blank">Click here</a> to download Spreadsheet </p></li>
+                                        </ol>
+                                    </li> -->
+                                    <!-- <li class=""> -->
+                                        <!-- <p>Dowload Media upload app <a href="https://drive.google.com/file/d/1j3KdpnLqJ-rG4cIxqmHEAon4d841qwPp/view" target="_blank">Click here</a> to download app</p></li></p>  -->
+                                        <p>Dowload Media upload app <a href="https://drive.google.com/open?id=1WtdwD9aoUcK5LXeJqIQxjFLVY-Idq3jQ" target="_blank">Click here</a> to download app</p></li></p>
+                                        <ol>
+                                            <li type="numbers"><p>Run Media upload app.</p></li> 
+                                            <li type="numbers"><p>Login</p></li> 
+                                            <li type="numbers"><p>Select Media file(s) folder</p></li> 
+                                            <li type="numbers"><p>Click "Confirm" button on app to confirm you data</p></li>
+                                            <li type="numbers"><p>Fix any error app show (missing information, Media file doesn't exist, duplicate song)</p></li>
+                                            <li type="numbers"><p>If There is no error, "Upload" button will be enabled</p></li>
+                                            <li type="numbers"><p>Click "Upload" to complete process</p></li>
+                                            <li type="numbers"><p>Go to website and preview data before deploying</p></li>
+                                    <!-- </li> -->
+                                <!-- </ol> -->
+                                <!-- <button class="btn btn-default left_content" id="upfile" onclick="ResetData();">Reset Data</button> -->
+                            </div>
+                            <div class="col-md-12 col-xs-12" hidden="true">
+                                <input type="text" name="role" id="role" readonly="true" class="form-control" tabindex="0" value="<%=session.passport.user.userWalletAddress%>">
+                            </div>
+                            <div class="form-group" hidden="">
+                                <div class="col-md-12 col-xs-12">
+                                    <input type="text" name="user_id" id="user_id" readonly="" class="form-control" tabindex="0"  value="<%=user._id%>">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <%- include ../process/loading.ejs %>
+                </div>
+            </div>
+            <div class="right-content">
+                <%- include ../menu/right_menu_content.ejs %>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="music-player has-player">
+    </div>
+    <script>
+        function ResetData() {
+            var dialog = bootbox.dialog({
+                    title: "Confirmation",
+                    message: "Do you want reset data?",
+                    closeButton: false,
+                    buttons: {
+                        cancel: {
+                             label: '<i class="fa fa-times"></i> Cancel',
+                             className: 'btn-default',
+                             callback: () => {
+                             }
+                         },
+                        continute: {
+                          label: '<i class="fa fa-check"></i> Confirm',
+                          className: 'btn-danger',
+                          callback: () => {
+                            loading("Processing...");
+                            $.ajax({
+                                type: 'GET',
+                                url: "/api/mass/resetdata",
+                                cache: false
+                            }).done((res) => {
+                                hide();
+                                bootbox.hideAll();
+                                bootbox.alert('Data has been reset.', function(){
+                                    window.location.href="/mass-registration";
+                                });
+                            }).fail(() => {
+                                hide();
+                                bootbox.alert("There is something wrong");
+                            });
+                          }
+                        }            
+                    }
+                });
+        }    
+        function loading(txt){
+            $('.load').html(txt);
+            $('#loading').show();
+        }
+
+        function hide(){
+           $('#loading').hide();
+        }
+    </script>
+</body>
+
+</html>

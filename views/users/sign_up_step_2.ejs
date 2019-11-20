@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Register LightWallet Seed</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/jslider.css" type="text/css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="css/register/register_lightwallet_seed.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			document.getElementById('btn-next').disabled = true;
+		});
+	</script>
+</head>
+<body>
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="des">
+					<div class="col-md-12 col-xs-12">
+						<img class="img_logo" src="images/logo_1.jpg" alt="">
+						<h3>create account</h3>
+						<!-- <h4>2 OF 2</h4> -->
+						<div class="regis_seed">
+							<p>Please move your mouse to add entropy to the seed generation.</p>
+							 <div class="layout-slider">
+						      	<input id="SliderSingle" type="slider" name="price" value="0" />
+						    </div>
+							
+							<div class="form-group" hidden="true">
+								<label class="col-md-4 control-label">seed</label>
+								<div class="col-md-12 col-xs-12">
+									<input type="text" name="seed" id="seed" class="form-control" tabindex="0" readonly="true" value="">
+								</div>
+							</div>
+							<div class="form-group" hidden="true">
+								<label class="col-md-4 control-label">account id</label>
+								<div class="col-md-12 col-xs-12">
+									<input type="text" name="role" id="role" class="form-control" tabindex="1" readonly="true" value="">
+									<input type="text" name="user_id" id="user_id" class="form-control" tabindex="1" readonly="true" value="<%=user_id%>">
+								</div>
+							</div>
+							<div class="form-group" hidden="true">
+								<label class="col-md-4 control-label">account id</label>
+								<div class="col-md-12 col-xs-12">
+									<input type="text" name="private_key" id="private_key" class="form-control" tabindex="1" readonly="true" value="">
+								</div>
+							</div>
+							<button class="btn btn-primary next" id="btn-next" name="btn-next" onclick="gotoNextStep();">NEXT</button>
+						</div>			
+					</div>
+					<div class="ic-close">
+						<a href="/sign-up-step-1"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+					</div>
+					<div class="clear"></div>		
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/range_js/jshashtable-2.1_src.js"></script>
+	<script type="text/javascript" src="js/range_js/jquery.numberformatter-1.2.3.js"></script>
+	<script type="text/javascript" src="js/range_js/tmpl.js"></script>
+	<script type="text/javascript" src="js/range_js/jquery.dependClass-0.1.js"></script>
+	<script type="text/javascript" src="js/range_js/draggable-0.1.js"></script>
+	<script type="text/javascript" src="js/range_js/jquery.slider.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	    jQuery("#SliderSingle").slider({ from: 0, to: 100, step: 2.5, round: 1, format: { format: '##', locale: 'de' }, skin: "round" });
+	</script>
+
+	<script src="javascripts/web3.min.js"></script>
+	<script src="javascripts/entropy-collector.js"></script>
+	<script src="javascripts/lightwallet.min.js"></script>
+    <script src="javascripts/hooked-web3-provider.min.js"></script>
+	<script src="javascripts/wallet.js"></script>
+	<script type="text/javascript">
+	    var entropy_limit = 5000;
+	    var seed = null;
+	    var percentage = 0;
+	    var progress = 0;
+	    var url = '<%=url%>';
+	    EntropyCollector.start();
+	    var interval_timer = window.setInterval(function() {
+	        if (EntropyCollector.estimatedEntropy > entropy_limit) {
+	           $("#SliderSingle").slider('value', 100);
+	            seed = lightwallet.keystore.generateRandomSeed(String.fromCharCode.apply(null, new Uint16Array(EntropyCollector.buffer)));
+	            $(document).unbind('mousemove touchmove');
+	            clearInterval(interval_timer);
+	            $("#seed").val(seed);
+	            EntropyCollector.stop();
+	            var password = prompt("Please enter your password:", "");
+				if (password != null) {
+				  	generate_addresses(seed,url,password);
+				}else{
+					return;
+				}
+	        } else {
+	            percentage = parseInt(EntropyCollector.estimatedEntropy / entropy_limit * 100);
+	            if (percentage > progress) {
+	                $("#SliderSingle").slider('value', percentage);
+	                progress = percentage;
+	            }
+	        }
+	    }, 1000 / 30);
+
+	    function gotoNextStep(){
+	    	var user_id = document.getElementById("user_id").value;
+	    	var seed = document.getElementById("seed").value;
+	    	var privateKey = document.getElementById("private_key").value;
+	    	var publicKey = document.getElementById("role").value;
+	    	location.href = '/sign-up-step-3?id='+user_id+'&seed=' + seed + '&private_key=' + privateKey + '&public_key=' + publicKey;
+	    }
+	</script>
+</body>
+</html>

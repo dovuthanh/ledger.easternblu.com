@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REGISTER SONG</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/my_songs/my_songs.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/camera.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/prettyPhoto.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/jquery.fullwidthAudioPlayer-responsive.css" media="screen">
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="css/mass_registration/mas_register.css">
+    <link rel="stylesheet" href="css/mass_registration/nav-wizard.bootstrap.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.8/xlsx.full.min.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="javascripts/mass.js"></script>
+    <script src="js/jquery.csv.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+     $(document).ready(function(){
+        $('#<%=menu_index%>').addClass('active');
+     });
+    </script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div id="regis_step_1">
+                        <div class="regis_song">
+                            <h3>Registration</h3>
+                            <div class="upload">
+                                <div class="song_name" id="song_file_name"></div>
+                                <div class="upload-right" id="progress"></div>
+                                <div class="clear"></div>
+                                <div class="tbar" style="display: none;">
+                                    <div id="myBar" class="uploading" style="width: 0;"></div>
+                                </div>
+                            </div>
+                            <ul class="nav nav-pills nav-wizard">
+                                <li class="active"><a href="/mass-registration" >1. Import templates</a></li>
+                                <li><a href="/mass-registration-csv" >2. Export data</a></li>
+                                <li><a href="/mass-registration-media-upload" >3. Upload media file</a></li>
+                                <li><a href="/mass-registration-preview-list" >4. Preview</a></li>
+                                <!-- <li><a href="#" >5. Create wallet</a></li> -->
+                                <li><a href="/mass-registration-deploy-login" >5. Deploy</a></li>
+                            </ul>
+                            <div class="clear"></div>
+                            <div class="info margin-left-10" id="info">
+                                <br/>
+                                <br/>
+                                <!-- <ol>  -->
+                                    <!-- <li class=""> -->
+                                        <!-- <p>Import the folowing template</p>
+                                        <ol>
+                                            <li type="circle"><p>Blockchain</li>
+                                            <li type="circle"><p>Songs</p></li>
+                                            <li type="circle"><p>Artist</p></li>
+                                        </ol> -->
+                                    <!-- </li> -->
+                                    <!-- <li> -->
+                                        <p><a href="/RegistrationDataTemplate.xlsx">Import templates</a></p>
+                                    <!-- </li> -->
+                                </ol>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="clear"></div>
+                            <div id="loading">
+                                <img class='img-load' src="images/loading.gif">
+                                <p class='load'></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <%- include ../process/loading.ejs %>
+                </div>
+            </div>
+            <div class="right-content">
+                <%- include ../menu/right_menu_content.ejs %>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script type="text/javascript">
+    </script>
+</body>
+
+</html>

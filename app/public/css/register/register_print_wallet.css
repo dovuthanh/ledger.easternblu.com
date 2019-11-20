@@ -1,0 +1,54 @@
+.wrap h4 {
+	text-align: center;
+}
+
+.keep_kp, .private_key {
+	text-align: center;
+}
+
+.keep_kp img {
+	height: 70px;
+}
+
+.keep_kp h1, .private_key {
+	margin-bottom: 20px;
+}
+
+.keep_kp  p, .private_key p {
+	/*width: 50%;*/
+    margin: 0 auto;
+    font-size: 16px;
+}
+
+.keep_kp {
+    margin: 50px 0;
+}
+
+.form_login {
+    width: 70%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.form_login button {
+    width: 100%;
+    border-radius: 25px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    background: #0a3e6d;
+    outline: none !important;
+    height: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+	.keep_kp p {
+		width: 100%;
+	}
+
+	.private_key p {
+		width: 100%;
+		overflow: scroll;
+	}
+}

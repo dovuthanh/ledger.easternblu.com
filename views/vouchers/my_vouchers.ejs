@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MY VOUCHERS</title>
+	<link rel="stylesheet" href="../css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/common/common.css">
+	<link rel="stylesheet" href="../css/home/home.css">
+	<link rel="stylesheet" href="../css/search_results/search_results.css">
+	<link rel="stylesheet" href="../css/my_songs/my_songs.css">
+	<link rel="stylesheet" type="text/css" href="../css/vouchers/voucher.css">
+
+	<script src="../js/jquery-3.2.1.min.js"></script>
+	<script src="../js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="song">
+         <%- include ../menu/header_vouchers.ejs %>
+    </div>
+    <div class="home">
+    	<div class="center_home">
+    		<div class="left-content col-md-10 col-sm-9">
+    			<div class="wrap_content">
+    				<div class="search_left">
+    					<h3>My Vouchers</h3>
+    				</div>
+    				<div class="search_right">
+    					<%if(session.userVoucher.type == 'admin'){%>
+	    					<div class="management">
+		    					<button class="btn-standard" type="button"> CHANGE DISCOUNT </button>
+		    				</div>
+	    				<%}else if(session.userVoucher.type == 'investor'){%>
+	    					<div class="management">
+		    					<a href="/vouchers/request-vouchers"><button class="btn-standard" type="button"> REQUEST VOUCHERS </button></a>
+		    					<button class="btn-standard" type="button" onclick="changeDiscount()"> CHANGE DISCOUNT </button>
+		    				</div>
+	    				<%}else if(session.userVoucher.type == 'standard'){%>
+	    					<div class="management">
+		    					<a href="/vouchers/shop-cart"><button class="btn-standard" type="button"> SHOP CART </button></a>
+		    				</div>
+	    				<%}%>
+    				</div>
+    				<div class="clear"></div>
+    				<div class="table-responsive" id="table_search">
+			    		<table class="table table-curved">
+			    			<tbody>
+			    				<tr>
+				    				<td><p>No.</p></td>
+				    				<td><p>Code</p></td>
+				    				<%if(session.userVoucher.type != 'standard'){%>
+				    					<td><p>Buyer</p></td>
+				    				<%}%>
+				    				<%if(session.userVoucher.type != 'investor'){%>
+				    					<td><p>Owner Address</p></td>
+				    				<%}%>
+					    			<td style="min-width: 150px;"><p>Type</p></td>
+					    			<td style="min-width: 150px;"><p>Status</p></td>
+					    			<td><p>Amount</p></td>
+					    			<td><p>Discount</p></td>
+					    			<td><p>Verification</p></td>
+					    		</tr>
+					    		<%
+					    			var i = 0;
+					    			vouchers.forEach((voucher) => {
+					    				i++;
+					    		%>
+					    			<tr>
+					    				<td><%=i%></td>
+						    			<td><p><%=voucher.code%></p></td>
+						    			<%if(session.userVoucher.type != 'standard'){%>
+					    					<td><p><%=voucher.buyerAddress%></p></td>
+					    				<%}%>
+						    			<%if(session.userVoucher.type != 'investor'){%>
+					    					<td><p><%=voucher.ownerAddress%></p></td>
+					    				<%}%>
+						    			<td style="min-width: 150px;"><p><%=voucher.type%></p></td>
+						    			<%if(voucher.status == 'failed'){%>
+					    					<td style="min-width: 150px; color: #ff0000"><p><%=voucher.status%></p></td>
+					    				<%}else{%>
+					    					<td style="min-width: 150px;"><p><%=voucher.status%></p></td>
+					    				<%}%>
+						    			<td><p>$<%=voucher.amount%></p></td>
+						    			<td><p><%=voucher.discount%>%</p></td>
+						    			<td><p>Verified</p></td>
+						    		</tr>
+					    		<%});%>
+			    			</tbody>
+			    		</table>
+			    	</div>
+
+			    	<!-- pagination -->
+				  	<nav aria-label="Page navigation example" id="pagination">
+					  	<ul class="pagination">
+						    <li class="page-item"><a class="page-link" href="<%=paginate.href(true).prev%>">PREV</a></li>
+						    <%
+						    pages.forEach(function(page){
+						    %>
+						    <li class="page-item"><a class="page-link" href="<%=page.url%>"><%=page.number%></a></li>
+						    <%})%>
+						    <li class="page-item"><a class="page-link" href="<%=paginate.href().next%>">NEXT</a></li>
+					  	</ul>
+					</nav>
+    			</div>
+    		</div>
+    		<%- include ../menu/right_menu_content_vouchers.ejs %>
+    	</div>
+    </div>
+
+	<script src="../js/icheck.min.js"></script>
+	<script type="text/javascript" src="../js/bootbox.js"></script>
+	<script src="../javascripts/vouchers.js"></script>
+
+	<script type="text/javascript">
+		function changeDiscount() {
+			bootbox.prompt({
+			    title: "Enter discount you want to update.",
+			    inputType: 'number',
+			    callback: function (result) {
+			    	if (result != null) {
+			    		if (result.length == 0) {
+			    			alert('Please enter discount before update');
+			    			return;
+			    		}
+			    		if (parseInt(result) <= 0) {
+			    			alert('Please enter discount correctly');
+			    			return;
+			    		}
+			    		Voucher.vouchers_change_discount();
+			    	}
+			    }
+			});
+		};
+	</script>
+	<script type="text/javascript">
+    	$('document').ready(() => {
+    		$('#<%=menu_index%>').addClass('active');
+    	});
+    </script>
+</body>
+</html>

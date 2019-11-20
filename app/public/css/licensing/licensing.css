@@ -1,0 +1,76 @@
+.licensing_content {
+	width: 65%;
+	margin: 0 auto;
+	overflow: hidden;
+	padding: 40px 0 30px 0;
+}
+
+.form_login {
+    width: 70%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.form_login .form-group {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.form_login button {
+    width: 100%;
+    border-radius: 25px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    background: #0a3e6d;
+    outline: none !important;
+    height: 50px;
+}
+
+.form_login .form-control {
+    border-radius: 25px;
+    height: 40px;
+}
+
+.td-left-content{
+    vertical-align: top;
+    font-size: 14px;
+    width: 170px;
+    color: #b5b3b3; 
+    line-height: 40px;
+}
+
+.td-right-content{
+    vertical-align: top;
+    font-size: 16px;
+    line-height: 40px;
+}
+
+.selectdiv {
+  position: relative;         
+  float: left;
+  width: 100%;
+  overflow: hidden;
+}
+
+.selectdiv:after {
+    content: '\f078';
+    font: normal normal normal 12px/1 FontAwesome;
+    color: #0a3e6d;
+    right: 23px;
+    top: 0;
+    padding: 15px 0px 0px 8px;
+    position: absolute;
+    pointer-events: none;
+}
+
+.selectdiv select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      display: block;
+      width: 100%;
+      background-color: #ffffff;
+      background-image: none;
+      -ms-word-break: normal;
+      word-break: normal;
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Register Print Wallet</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="css/register/register_wallet.css">
+	<link rel="stylesheet" href="css/register/register.css">
+
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="javascripts/qrcode.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var room_id = Math.round((Math.random() * 1000000));
+	        document.getElementById('qrcode').innerHTML = '';
+	        var qrcode = new QRCode("qrcode", {
+	        	width: 200,
+	        	height: 200,
+	            colorDark: "#000000",
+	            colorLight: "#ffffff",
+	            correctLevel: QRCode.CorrectLevel.H
+			});
+			$("#qrcode > img").css({"margin":"0px auto"});
+			var str = {
+				"room_id": room_id.toString(),
+				"room_type": 'sign-in'
+			}
+			qrcode.makeCode(JSON.stringify(str));
+
+			var socket = io.connect('https://spxtros.yez.vn');
+			// var socket = io.connect('http://localhost:8000');
+			socket.on('connect', function(){
+				console.log('Connect successed');
+				socket.emit('join-to-room', {
+		        	room_id: room_id,
+		        	client: 'browser',
+		        	room_type: 'sign-in'
+		        });
+
+		        socket.on('error', function(data){
+		        	alert(data);
+		        });
+
+		        socket.on('add-public-key-sign-in', function(data){
+		        	var pub_key = data['pub_key'];
+		        	var type = '<%=type%>';
+		        	if (type == 'sign-in') {
+		        		location.href = '/sign-in?wallet=' + pub_key.toLowerCase();
+		        	}else if(type == 'light-wallet'){
+		        		location.href = '/sign-up-info?wallet=' + pub_key.toLowerCase();
+		        	}else{
+		        		location.href = '/';
+		        	}
+		        });
+			});
+		});
+
+		function gotoNextStep(){
+			var type = '<%=type%>';
+			var role = document.getElementById('role').value;
+        	if (type == 'sign-in') {
+        		location.href = '/sign-in?wallet=' + role.toLowerCase();
+        	}else if(type == 'light-wallet'){
+        		location.href = '/sign-up-info?wallet=' + role.toLowerCase();
+        	}else{
+        		location.href = '/';
+        	}
+		}
+	</script>
+</head>
+<body>
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="des">
+					<div class="col-md-12 col-xs-12">
+						<img class="img_logo" src="images/logo_1.jpg" alt="">
+						<h3>wallet access</h3>
+						<div class="wallet">
+							<p>Please scan the QR code from your wallet to link you</p>
+							<p>wallet to your Spectrum account</p>
+						</div>
+					</div>
+					<div class="ic-close">
+						<%if (type == 'sign-in'){%>
+							<a href="/sign-in"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+						<%}else if (type == 'light-wallet'){%>
+							<a href="/sign-up-step-1"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+						<%}else{%>
+							<a href="/"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+						<%}%>
+					</div>
+					<div class="col-md-12 col-xs-12">
+						<div class="regis">
+							<form class="account" style="margin: 0px 0px 30px 0px;" onsubmit="return false;">
+								<div class="form-group">
+									<label class="col-md-4 control-label">wallet address</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" style="width: 75%; float: left;" name="role" id="role" class="form-control" tabindex="0" placeholder="type your wallet address" value="">
+										<button type="submit" class="btn btn-primary" style="width: 20%; margin-left: 14px;" onclick="gotoNextStep()">NEXT</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<p style="margin: 0px 0px 30px 0px; font-size: 20px; font-weight: bold; text-align: center;">OR SCAN QR CODE</p>
+					<div class="qr">
+						<div id="qrcode"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

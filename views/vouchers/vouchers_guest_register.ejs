@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Login</title>
+	<link rel="stylesheet" href="../css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="../css/common/common.css">
+	<link rel="stylesheet" href="../css/login/login.css">
+	<link type="text/css" rel="stylesheet" href="../js/password-strength-meter/password.min.css" />
+
+	<script src="../js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../js/password-strength-meter/password.min.js"></script>
+	<script type="text/javascript">
+        jQuery(document).ready(function($) {
+          // Showing the progress bar since the first moment.
+          $('#password').password({
+            animate: false,
+            enterPass: 'Password strength:',
+            shortPass: 'Password strength: Too short',
+            badPass: 'Password strength: Weak',
+            goodPass: 'Password strength: Good',
+            strongPass: 'Password strength: Strong'
+          });
+          $('#confirm_password').password({
+          	animate: false,
+          	enterPass: 'Password strength:',
+            shortPass: 'Password strength: Too short',
+            badPass: 'Password strength: Weak',
+            goodPass: 'Password strength: Good',
+            strongPass: 'Password strength: Strong'
+          });
+        });
+    </script>
+</head>
+<body>
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="logo">				
+					<div class="col-md-12 col-xs-12">
+						<img class="img_logo" src="../images/logo_1.jpg" alt="">
+						<h3>Register</h3>
+						<div class="alert alert-danger" style="margin-top: 20px; display: none;" id="message"></div>	
+						<div class="form_login">
+							<form action="#" method="post" onsubmit="return false;">
+								<div class="form-group">
+									<label class="col-md-4 control-label">email</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="text" name="email" id="email" class="form-control" tabindex="1" value="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">password</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="password" name="password" id="password" class="form-control" tabindex="2" value="">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-4 control-label">confirm password</label>
+									<div class="col-md-12 col-xs-12">
+										<input type="password" name="confirm_password" id="confirm_password" class="form-control" tabindex="2" value="">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-12 col-xs-12">
+										<button type="submit" class="btn btn-primary submit" onclick="register();">Register Account</button>
+									</div>
+								</div>
+							</form>
+						</div>	
+					</div>
+					<div class="ic-close">
+						<a href="/vouchers/voucher-index"><img class="cancel" src="../images/cancel.jpg" alt=""></a>
+					</div>					
+					<div class="clear"></div>								
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var email = document.getElementById('email');
+		var password = document.getElementById('password');
+		var confirm_password = document.getElementById('confirm_password');
+
+		if (email.value.length == 0) {
+			email.setCustomValidity('Please enter email');
+		}
+		if (password.value.length == 0) {
+			password.setCustomValidity('Please enter password');
+		}
+		if (confirm_password.value.length == 0) {
+			confirm_password.setCustomValidity('Please enter confirm password');
+		}
+
+		email.addEventListener('input', function(){
+			email.setCustomValidity('');
+		}, false);
+		password.addEventListener('input', function(){
+			password.setCustomValidity('');
+		}, false);
+		confirm_password.addEventListener('input', function(){
+			confirm_password.setCustomValidity('');
+		}, false);
+	</script>
+	<script src="../javascripts/vouchers.js"></script>
+	<script type="text/javascript">
+		function register(){
+			Voucher.vouchers_register_account();
+		}
+	</script>
+</body>
+</html>

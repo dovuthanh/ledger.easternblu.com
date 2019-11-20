@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MY TALENTS</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="css/my_artists/my_artist.css">
+	<link rel="stylesheet" href="css/search_results/search_results.css">
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+
+	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+	<script>
+		var OneSignal = OneSignal || [];
+			OneSignal.push(["init", {
+				appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+				// appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+				autoRegister: true,
+				safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+				welcomeNotification: {
+					disable: true,
+				},
+				notifyButton: {
+					enable: true,
+					prenotify: true,
+					position: 'bottom-left',
+					size: 'medium',
+					showCredit: false
+				}
+			}]);
+	</script>
+</head>
+<body>
+	<div class="song">
+		<%- include ../menu/nor_header.ejs %>
+	<div class="home_content">
+		<div class="center_home">
+			<div class="left_content col-md-10 col-sm-9">
+				<div class="wrap_content" id="tab-content">
+					<ul class="nav nav-tabs">
+						<li style="width: 50px; height: 30px;">
+							<div class="ic-close" style="top: 5px; right: 10px;">
+								<a href="/" style="background: transparent; border: none;"><img class="cancel" src="images/ic_undo.png" alt=""></a>
+							</div>
+						</li>
+						<li class="active"><a data-toggle="tab" href="#home">ALL TALENTS</a></li>
+						<li><a data-toggle="tab" href="#menu1">ARTISTS</a></li>
+						<li><a data-toggle="tab" href="#menu2">COMPOSERS</a></li>
+						<li><a data-toggle="tab" href="#menu3">LYRICISTS</a></li>
+						<li><a data-toggle="tab" href="#menu4">EXPORT DATA</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div id="home" class="tab-pane fade in active">
+							<%- include all_talents.ejs %>
+						</div>
+
+						<div id="menu1" class="tab-pane fade">
+							<%- include all_artists.ejs %>
+						</div>
+
+						<div id="menu2" class="tab-pane fade">
+							<%- include all_composers.ejs %>
+						</div>
+
+						<div id="menu3" class="tab-pane fade">
+							<%- include all_lyricists.ejs %>
+						</div>
+						<div id="menu4" class="tab-pane fade">
+							<%- include export_talents.ejs %>
+						</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<%- include ../process/loading.ejs %>
+			</div>
+			<div class="right-content">
+				<%- include ../menu/right_menu_content.ejs %>
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+	<script>
+		$('.dropdown-menu li a').click(function() {
+			$('#search').val($(this).text());
+			$('#search-select').html($(this).text() + ' <i class="fa fa-chevron-down"></i>');
+		});
+
+		$(document).ready(function(){
+			$('.btn_cancel').on('click', function() {
+                $('#popup').removeClass('show');
+                $('body').toggleClass('modal-open');
+            });
+
+			$('#<%=menu_index%>').addClass('active');
+
+			// $('#home').load('/all-talents');
+			// $('#menu1').load('/all-artists');
+			// $('#menu2').load('/all-composers');
+			// $('#menu3').load('/all-lyricists');
+		});
+        var artistFile;
+        var artistFileUrl;
+
+        $('#btn_upload_artist').on('click', function(e) {
+            document.getElementById('artist_data_file').click();
+        });
+
+        $(document).ready(function() {
+            if (isAPIAvailable()) {
+                $('#artist_data_file').bind('change', handleFileSelect3);
+            }
+            var exportId = document.getElementById("export_id").value;
+            if(exportId!=undefined && exportId.length >0){
+                update();
+            }
+        });
+
+        function isAPIAvailable() {
+            // Check for the various File API support.
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                // Great success! All the File APIs are supported.
+                return true;
+            } else {
+                // source: File API availability - http://caniuse.com/#feat=fileapi
+                // source: <output> availability - http://html5doctor.com/the-output-element/
+                document.writeln('The HTML5 APIs used in this form are only available in the following browsers:<br />');
+                // 6.0 File API & 13.0 <output>
+                document.writeln(' - Google Chrome: 13.0 or later<br />');
+                // 3.6 File API & 6.0 <output>
+                document.writeln(' - Mozilla Firefox: 6.0 or later<br />');
+                // 10.0 File API & 10.0 <output>
+                document.writeln(' - Internet Explorer: Not supported (partial support expected in 10.0)<br />');
+                // ? File API & 5.1 <output>
+                document.writeln(' - Safari: Not supported<br />');
+                // ? File API & 9.2 <output>
+                document.writeln(' - Opera: Not supported');
+                return false;
+            }
+        }
+
+        function ValidateFile(){
+            if(artistFileUrl == undefined || artistFileUrl.length ==0){
+                bootbox.alert("Please select artist data file", function(){});
+                return;
+            }
+            loading('Processing please wait...');
+            setTimeout(function(){
+                $.ajax({
+                    method: 'POST',
+                    url: '/api/mass/exports-template',
+                    data: {blockChainFileUrl: "", songFileUrl: "", artistFileUrl:artistFileUrl},
+                    cache: false,
+                    success: function(data){
+                        if(!data.error){
+                            bootbox.alert("We're processing your data. We will send email to you soon.", function(){
+                                // window.location.href = '/mass-registration-media-upload';
+                                hide();
+                                $('div#text-message').show();
+                                $('div#select_file').hide();
+                            });
+                        }else{
+                            bootbox.alert("There is something wrong.", function(){
+                                window.location.reload(true);
+                            });
+                        }
+                    },
+                    fail: function(xhr, textStatus, errorThrown){
+                        alert('something wrong');
+                    }
+                });
+            }, 2000);
+
+        }
+
+        function handleFileSelect3(evt) {
+            var files = evt.target.files;
+            var file = files[0];
+            artistFile = file;
+            if (file) {
+                var formData = new FormData();
+                formData.append('uploads', file, file.name);
+                $.ajax({
+                    method: 'POST',
+                    url: '/api/mass/upload-template-file',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        document.getElementById('artist_data_file_name').innerHTML = file.name;
+                        document.getElementById('url_artist_data_file').value = data.url;
+                        artistFileUrl = data.url;
+                    },
+                    fail: function(xhr, textStatus, errorThrown){
+                        alert('something wrong');
+                    }
+                });
+            }
+        }
+
+        function loading(txt){
+            $('.load').html(txt);
+            $('#loading').show();
+        }
+        function hide(){
+            $('#loading').hide();
+        }
+	</script>
+
+	<script type="text/javascript">
+		function sortTalent(asc){
+			$('#home').load('/all-talents?asc=' + asc);
+		}
+
+		function sortArtist(asc){
+			$('#menu1').load('/all-artists?asc=' + asc);
+		}
+
+		function sortComposer(asc){
+			$('#menu2').load('/all-composers?asc=' + asc);
+		}
+
+		function sortLyricist(asc){
+			$('#menu3').load('/all-lyricists?asc=' + asc);
+		}
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+#verify_songs {
+	padding: 40px;
+	overflow: hidden;
+}
+
+#verify_songs h3 {
+	padding:0 15px;
+}
+
+#verify_songs p {
+	padding:0 15px;
+}
+
+.form_verify {
+	overflow: hidden;
+}
+
+.form_verify_email {
+	width: 30%;
+}
+
+.form_verify form, .form_verify_email form{
+	overflow: hidden;
+}
+
+.form_verify .form-group, .form_verify_email .form-group {
+	overflow: hidden;
+}
+
+.form_verify .form-control, .form_verify_email .form-control {
+	border-radius: 25px;
+}
+
+#form_verify_songs .submit {
+	width: 100%;
+	border-radius: 25px;
+	outline: none !important;
+	background: #0a3e6d;
+}
+
+#authenticate {
+	padding: 40px;
+	overflow: hidden;
+	width: 100%;
+}
+
+#authenticate h3 {
+	padding:0 15px;
+}
+
+#authenticate p {
+	padding:0 15px;
+}
+
+.authenticate_submit {
+	width: 100%;
+	border-radius: 25px;
+	outline: none !important;
+	background: #0a3e6d;
+}
+
+#form_verify_songs .submit:hover, #form_verify_songs .submit:focus,.authenticate_submit:hover, .authenticate_submit:focus {
+	background: #062c4e;
+}
+
+.tab-content {
+	min-height: 600px;
+}
+
+.form_result {
+	width: 90%;
+	padding: 0 15px;
+}
+
+.authen {
+	padding: 10px 15px;
+}
+
+.authen img {
+	width: 35%;
+	margin-left: 20px;
+}
+
+.authen p {
+	font-size: 20px;
+	color: #0A3E6D;
+	margin-bottom: 0px !important;
+	margin-left: -46px;
+}
+
+.table_verify_result table {
+	border: none;
+}
+
+.table_verify_result th{
+	font-size: 11px;
+	color: #8c8c8c;
+	border-top: none !important;
+	width: 15%;
+	padding-top: 12px !important;
+	padding-left: 15px !important;
+}
+
+.table_verify_result td {
+	border-top: none !important;
+	width: 85%;
+}
+
+.table_verify_result p {
+	padding: 0 !important;
+	display: inline-block;
+}
+
+.table_verify_result .copy {
+	padding: 0 12px;
+	border: 1px solid #0a3e6d;
+	border-radius: 25px;
+	color: #0a3e6d;
+}
+
+.table_verify_result .au {
+	text-decoration: none;
+	color: #0a3e6d;
+}
+
+#form_verify_songs {
+	width: 50%;
+}
+
+#verify h3{
+	padding: 0 15px;
+}
+
+#form_verify p{
+	padding: 0 15px;
+}
+
+#authentication h3{
+	padding: 0 15px;
+}
+
+#div_sigma, #div_hash, #div_role {
+	display: inline-block;
+}
+
+.copy {
+	outline: none !important;
+}
+
+@media (width: 1024px) {
+	#form_verify_songs {
+    	width: 80%;
+	}
+}
+
+@media (width: 768px) {
+	.home_content {
+		width: 100%;
+		min-height: 1024px;
+	}
+
+	#verify_songs {
+		width: 100%;
+	}
+}
+
+@media (max-width: 767px) {
+	#verify_songs {
+		width: 100%;
+		padding: 15px;
+	}
+
+	#authenticate {
+		padding: 15px;
+	}
+
+	#form_verify_songs {
+		width: 100%;
+	}
+
+	.authenticate_submit {
+		width: auto;
+	}
+}
+

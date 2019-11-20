@@ -1,0 +1,62 @@
+<div class="form_settings">
+    <div class="search_left">
+        <h3>User Mangement</h3>
+    </div>
+    <div class="search_right">
+        <div class="col-md-8">
+        </div>
+        <div class="col-md-4">
+            <a href="#">
+                <div class="form-group">
+                    <button id="bt2" type="button" class="btn btn-primary" onclick="createSubUser();" style="width: 50%; margin-bottom: 40px; float: right;">ADD USER</button>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+    <div class="table-responsive" id="table_search">
+        <table class="table table-curved">
+            <tr>
+                <td style="width: 20%">
+                    <p>Email</p>
+                </td>
+                <td style="width: 20%">
+                    <p>Fullname</p>
+                </td>
+                <td style="width: 40%">
+                    <p>Wallet Address</p>
+                </td>
+                <td>
+                    <p>Role</p>
+                </td>
+                <td>
+                    <p></p>
+                </td>
+            </tr>
+            <%
+            	users.forEach(function(user){
+            %>
+            	<tr>
+                    <td>
+                        <p><%=user.userEmail%></p>
+                    </td>
+                    <td>
+                        <p><%=user.userFullName%></p>
+                    </td>
+                    <td>
+                        <p><%=user.userWalletAddress%></p>
+                    </td>
+                    <td>
+                    	<%if(user.userIsOwner){%>
+                    		<p>Admin</p>
+                    	<%}else{%>
+                    		<p>Sub-User</p>
+                    	<%}%>
+                    </td>
+                    <td class="verif"><a href="#" onclick="gotoEditSubUser(this.id)" id="<%=user._id%>">EDIT</a</td>
+	    		</tr>
+            <%});%>
+        </table>
+    </div>
+</div>

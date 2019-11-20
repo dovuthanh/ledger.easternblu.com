@@ -1,0 +1,23 @@
+.form-group input {
+    border-radius: 1cm;
+}
+
+.form-group button {
+    width: 100%;
+    border-radius: 25px;
+    font-weight: 600;
+    background: #0a3e6d;
+    height: 40px;
+}
+
+.wrap_content{
+	overflow: hidden;
+}
+
+@media only screen and (max-width: 767px) {
+    
+    .form-group{
+    	padding: inherit;
+        overflow: hidden;
+    }
+}

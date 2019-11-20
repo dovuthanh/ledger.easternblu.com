@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Accept License</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common/common.css">
+	<link rel="stylesheet" href="css/licensing/licensing.css">
+	<link rel="stylesheet" href="css/licensing/accept_license.css">
+	<script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+	<script src="javascripts/license.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+	<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+	<script>
+		var OneSignal = OneSignal || [];
+			OneSignal.push(["init", {
+				appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+				// appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+				autoRegister: true,
+				safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+				welcomeNotification: {
+					disable: true,
+				},
+				notifyButton: {
+					enable: true,
+					prenotify: true,
+					position: 'bottom-left',
+					size: 'medium',
+					showCredit: false
+				}
+			}]);
+	</script>
+	
+</head>
+<body id="body" class="has-slider">
+
+	<div class="register">
+		<div class="container">
+			<div class="wrap">
+				<div class="col-md-12 col-xs-12">
+					<img class="img_logo" src="images/logo_1.jpg" alt="">
+					<h3>REJECT LICENSE</h3>
+
+					<div class="licensing_content">
+						<table>
+							<tr>
+								<td class="td-left-content">Song title</td>
+								<td class="td-right-content"><%=order.title%></td>
+							</tr>
+							<tr>
+								<td class="td-left-content">Artist Name</td>
+								<td class="td-right-content"><%=song ? (song.songArtistRefer ? song.songArtistRefer.artistProfessionName : '') : ''%></td>
+							</tr>
+							<tr>
+								<td class="td-left-content">Composer</td>
+								<td class="td-right-content"><%=song ? (song.songComposerName ? song.songComposerName : '') : ''%></td>
+							</tr>
+							<tr>
+								<td class="td-left-content">Registered Address</td>
+								<td class="td-right-content"><%=order.songAddress%></td>
+							</tr>
+							<tr>
+								<td class="td-left-content">Buyer</td>
+								<td class="td-right-content"><%=order.licenseFrom%></td>
+							</tr>
+							<tr>
+								<td class="td-left-content">Date Issue</td>
+								<td class="td-right-content"><%=order.dateCreated%></td>
+							</tr>
+							<tr>
+								<td class="td-left-content">Period</td>
+								<td class="td-right-content"><%=order.peroid%></td>
+							</tr>
+							<tr>
+								<td class="td-left-content">Territory</td>
+								<td class="td-right-content"><%=order.territories%></td>
+							</tr>
+							<tr>
+								<td class="td-left-content">License Address</td>
+								<td class="td-right-content"><%=order.licenseAddress%></td>
+							</tr>
+							<tr>
+								<td class="td-left-content">Contract Type</td>
+								<%if (order.licenseType == 'song_recording'){%>
+									<td class="td-right-content">Song Contract</td>
+								<%}else{%>
+									<td class="td-right-content">Work Contract</td>
+								<%}%>
+							</tr>
+						</table>
+					</div>
+					<div class="clear"></div>
+					<div class="form_login">
+						<form action="" onsubmit="return false;">
+							<div class="form-group" hidden="">
+								<div class="col-md-12 col-xs-12">
+									<input type="text" class="form-control" id="role" name="role" readonly="true" value="<%=session.passport.user.userWalletAddress%>">
+									<input type="text" class="form-control" id="song_owner_address" name="song_owner_address" readonly="true" value="<%=song ? song.songOwnerContractAddress : ''%>">
+									<input type="text" class="form-control" id="license_address" name="license_address" readonly="true" value="<%=order.licenseAddress%>">
+									<input type="text" class="form-control" id="public_key" name="public_key" readonly="true" value="<%=order.ownerAddress%>">
+								</div>
+							</div>
+							<div class="form-group" style="display: none">
+								<label class="col-md-4 control-label">Payment Method</label>
+								<div class="col-md-12 col-xs-12">
+									<div class="selectdiv">
+										<select class="form-control" id="payment_method">
+											<%
+												options.forEach(function(option){
+											%>
+												<option value="<%=option.method%>"><%=option.text%></option>
+											<%});%>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-12 col-xs-12">
+									<button type="button" id="contact_button" onclick="rejectLicense('<%=order._id%>');" class="btn btn-primary">REJECT</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+				<div class="ic-close">
+					<a href="/my-licensings"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+				</div>
+
+				<div class="clear"></div>
+                <%- include ../process/loading.ejs %>
+			</div>
+		</div>
+	</div>
+	<!-- ATTACHMENTS -->
+	<script type="text/javascript">
+		function rejectLicense(id) {
+			License.reject_license(id);
+		}
+
+    </script>
+</body>
+
+<!-- /BODY -->
+
+</html>

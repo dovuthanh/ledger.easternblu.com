@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CONFLICT</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/my_songs/my_songs.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="css/mass_registration/mas_register.css">
+    <link rel="stylesheet" href="css/mass_registration/nav-wizard.bootstrap_5.css">
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script>
+      var OneSignal = OneSignal || [];
+        OneSignal.push(["init", {
+          appId: "a1cb990b-49f3-4fc3-b74f-00e7b6d5933c", // encore.yez.vn
+          // appId: "74322ac4-f9c4-4602-a25a-e71f099fb76e", // localhost
+          autoRegister: true,
+          safari_web_id: 'web.onesignal.auto.4979c8f7-1397-4bb3-8d4b-5aebacc6595c',
+          welcomeNotification: {
+            disable: true,
+          },
+          notifyButton: {
+            enable: true,
+            prenotify: true,
+            position: 'bottom-left',
+            size: 'medium',
+            showCredit: false
+          }
+        }]);
+    </script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <!-- menu mobile -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div id="regis_step_1">
+                        <div class="regis_song">
+                            <h3>MASS MIGRATION</h3>
+                            <div class="upload">
+                                <div class="song_name" id="song_file_name"></div>
+                                <div class="upload-right" id="progress"></div>
+                                <div class="clear"></div>
+                                <div class="tbar" style="display: none;">
+                                    <div id="myBar" class="uploading" style="width: 0;"></div>
+                                </div>
+                            </div>
+                            <ul class="nav nav-pills nav-wizard 5items">
+                                <li><a href="#" >1. PREPARE CSV FILE</a></li>
+                                <li><a href="/mass-registration-csv">2. UPLOAD CSV FILE</a></li>
+                                <li><a href="#" >3. PREVIEW</a></li>
+                                <li class="active"><a href="#" >4. SOLVE CONFLICT(<%=songs.length%>)</a></li>
+                                <li><a href="#" >5. DEPLOY</a></li>
+                            </ul>
+                            <br/>
+                            <div class="clear"></div>
+                            <div class="alert alert-danger alert-dismissible">
+                                  <strong>Conflict!</strong> There are few song with same songhash. Please resolve them.
+                                </div>
+                            <%if(session.passport.user.userIsAdmin) {%>
+                                <div class="form-group" hidden="">
+                                    <div class="col-md-12 col-xs-12">
+                                        <input type="text" name="user_is_admin" id="user_is_admin" readonly="" class="form-control" tabindex="0"  value="admin">
+                                    </div>
+                                </div>
+                            <%}else{%>
+                                <div class="form-group" hidden="">
+                                    <div class="col-md-12 col-xs-12">
+                                        <input type="text" name="user_is_admin" id="user_is_admin" readonly="" class="form-control" tabindex="0"  value="standard">
+                                    </div>
+                                </div>
+                            <%}%>
+                             <%if(songs.length>0){%>
+                            <div class="table-responsive" id="table_search">
+                                <table class="table table-curved">
+                                    <tr>
+                                        <td></td>
+                                        <td id="song_title">
+                                            <p>Song Title</p>
+                                        </td>
+                                        <td>
+                                            <p>Artist Name</p>
+                                        </td>
+                                         <td>
+                                            <p>Duration</p>
+                                        </td>
+                                        <td>
+                                            <p>Publish Date</p>
+                                        </td>
+                                        <td>
+                                            <p>Song Hash</p>
+                                        </td>
+                                        <td>
+                                            <p>Action</p>
+                                        </td>
+                                    </tr>
+                                    <%
+                                    var i=0;
+                                    songs.forEach(function(song){
+                                      i++;
+                                    %>
+                                        <tr>
+                                            <td>
+                                                <%if(song.songUrl && song.songUrl.length >0){%>
+                                                <a class="skin-font-color13 skin-color-hover1 fap-single-track" href="<%=song.songUrl%>" title="<%= song.songTitle%> (<%=song.songArtistRefer != undefined ? song.songArtistRefer.artistProfessionName : 'Unknow'%>)" data-meta="#fap-meta-track1" meta="<%=song.songTitle%>">
+                                                    <img src="images/Search_Results_09.png" alt="">
+                                                </a>
+                                                <%}else{%>
+                                                    <img src="images/Search_Results_09.png" alt="">
+                                                </a>    
+                                                <%}%>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <%=song.songTitle%>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <%=song.songArtistRefer ? song.songArtistRefer.artistProfessionName : ''%>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <%=song.songDuration%>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <%=song.songPublish%>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p>
+                                                    <%=song.songHash%>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <button class="btn_mass_migration" onclick="RemoveSong('<%=song._id%>')">
+                                                    Remove
+                                                </button>
+                                                <p></p>
+                                                <button class="btn_mass_migration" onclick="openDialogToEditSong('<%=song._id%>')">
+                                                    Edit
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <%});%>
+                                </table>
+                            </div>
+
+                            <!-- pagination -->
+                            <nav aria-label="Page navigation example" id="pagination">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" href="<%=paginate.href(true).prev%>">PREV</a></li>
+                                    <%
+                                      pages.forEach(function(page){
+                                    %>
+                                        <li class="page-item">
+                                            <a class="page-link" href="<%=page.url%>">
+                                                <%=page.number%>
+                                            </a>
+                                        </li>
+                                    <%})%>
+                                        <li class="page-item"><a class="page-link" href="<%=paginate.href().next%>">NEXT</a></li>
+                                </ul>
+                            </nav>
+                            <%}%>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <%- include ../process/loading.ejs %>
+                </div>
+            </div>
+            <div class="right-content">
+                <%- include ../menu/right_menu_content.ejs %>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="music-player has-player">
+    </div>
+    <!-- Custom Js -->
+    <script src="js/jquery-ui.js"></script>
+    <script src="javascripts/mass.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("body").on('click', '.add-new', function(e) {
+                e.preventDefault();
+                var own = $(this).closest('.sub_own');
+                $('.owners').append('<div class="col-md-10 col-xs-10 sub_own">' + own.html() + '</div>');
+                own.find('.add-new').remove();
+            });
+            $('#<%=menu_index%>').addClass('active');
+        });
+        $('#btn_select_file').on('click', function(e) {
+            document.getElementById('song_file').click();
+        });
+        $('#date').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true,
+        });
+    </script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.233.1.min.js"></script>
+    <script type="text/javascript" src="javascripts/awsHelper.js"></script>
+    <script type="text/javascript">
+        var progress;
+        var index = 0;
+        var filelist = [];
+        var failedlist = [];
+
+        function loading(txt){
+            $('.load').html(txt);
+            $('#loading').show();
+        }
+
+        function hide(){
+           $('#loading').hide();
+        }
+
+        function RemoveSong(id){
+            var html = '';
+            html += '<p id="message"><strong> Are you sure? </strong></p>';
+            var dialog = bootbox.dialog({
+                title: "Remove",
+                message: html,
+                closeButton: false,
+                buttons: {
+                    cancel: {
+                         label: '<i class="fa fa-times"></i> Cancel',
+                         className: 'btn-default',
+                         callback: () => {
+                         }
+                     },
+                    continute: {
+                      label: '<i class="fa fa-check"></i> Remove',
+                      className: 'btn-danger',
+                      callback: () => {
+                        window.location.href='/mass-registration-preview-list?action=delete&song_id='+id;
+                      }
+                  }            
+              }
+            });
+            autocomplete(document.getElementById("email_partner"), document.getElementById('account_id'), document.getElementById('message'), document.getElementById('private_key'), document.getElementById('voucher_code'));//for singer 
+         }
+
+        
+
+        function openDialogToEditSong(songId) {
+            $.ajax({
+                type: 'GET',
+                url: "/api/mass/songdetail",
+                data: {
+                    id: songId
+                },
+                cache: false
+            }).done((res) => {
+                var html = '<p id="message_error" class="bg-danger" ></p>'; 
+                html += '<p id="message"><strong> Song Name</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="off" type="text" id ="song_name" value='+res.song.songTitle+' background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">';
+                if(res.song.songHash.length==0){
+                    html += '<p id="message"><strong> Song location(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="off" type="text" id ="song_location" value='+res.song.songLocalPath+' background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;">';
+                }
+                html += '<p id="message"><strong> Singer Name(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="on" type="text" id ="singer_name"background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto; value='+res.song.songArtistNameTemp+'"></form>';
+                html += '<p id="message"><strong> Avatar(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="on" type="text" id ="song_avatar"background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto; value='+res.song.avatarLocalPath+'"></form>';
+                html += '<p id="message"><strong> Duration(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="on" type="text" id ="song_duration"background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto; value='+res.song.songDuration+'"></form>';
+                html += '<p id="message"><strong> Publish Date(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="on" type="text" id ="song_publish_date"background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto; value='+res.song.songPublish+'"></form>';
+
+
+                var dialog = bootbox.dialog({
+                    title: "Edit song info",
+                    message: html,
+                    closeButton: false,
+                    buttons: {
+                        cancel: {
+                             label: '<i class="fa fa-times"></i> Cancel',
+                             className: 'btn-default',
+                             callback: () => {
+                             }
+                         },
+                        continute: {
+                          label: '<i class="fa fa-check"></i> Save',
+                          className: 'btn-danger',
+                          callback: () => {
+                            updateSongDetail(songId);
+                            return false;
+                          }
+                      }            
+                  }
+                });
+            }).fail(() => {
+                bootbox.alert("There is something wrong");
+            });
+        }
+
+        function updateSongDetail(songId){
+            var songTitle = document.getElementById('song_name').value;
+            var songLocation = document.getElementById('song_location').value;
+            var songSingerName = document.getElementById('singer_name').value;
+            var avatarLocation = document.getElementById('song_avatar').value;
+            var duration = document.getElementById('song_duration').value;
+            var publishDate = document.getElementById('song_publish_date').value;
+            if(songTitle.length ==0){
+                document.getElementById('message_error').innerHTML = "Please Enter Song Title";
+                return false;
+            }
+            if(songLocation.length ==0){
+                document.getElementById('message_error').innerHTML = "Please song location";
+                return false;
+            }
+            if(songSingerName.length ==0){
+                document.getElementById('message_error').innerHTML = "Please Enter singer name";
+                return false;
+            }
+            if(avatarLocation.length ==0){
+                document.getElementById('message_error').innerHTML = "Please Enter avatar location";
+                return false;
+            }
+            if(duration.length ==0){
+                document.getElementById('message_error').innerHTML = "Please Enter duration";
+                return false;
+            }
+            if(publishDate.length ==0){
+                document.getElementById('message_error').innerHTML = "Please Enter publish date";
+                return false;
+            }
+            $.ajax({
+                type: 'POST',
+                url: "/api/mass/updateSongDetail",
+                data: {
+                    id: songId,
+                    songTitle:songTitle,
+                    songLocation: songLocation,
+                    songSingerName: songSingerName,
+                    avatarLocation: avatarLocation,
+                    duration: duration,
+                    publishDate: publishDate,
+                },
+                cache: false
+            }).done((res) => {
+                bootbox.hideAll();
+                bootbox.alert(res.message, function(){
+                    window.location.reload();
+                });
+            }).fail(() => {
+                bootbox.alert("There is something wrong");
+            });
+
+        }
+
+
+        function openDialog() {
+            var html = '<p id="message_error" class="bg-danger" ></p>'; 
+            html += '<form class="bootbox-form" _lpchecked="1"><p id="message"><strong> Voucher Code (If Any)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="off" type="text" id ="voucher_code" name ="voucher_code" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"><br/>';
+            html += '<p id="message"><strong> Price of Registration</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="off" type="text" id ="price_of" value="$20" disabled="true" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"><br/>';
+            html += '<p id="message"><strong> Authorized ID(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="on" type="text" id ="private_key"background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"></form>';
+
+            var dialog = bootbox.dialog({
+                title: "Complete final step to deploy mass migration",
+                message: html,
+                closeButton: false,
+                buttons: {
+                    cancel: {
+                         label: '<i class="fa fa-times"></i> Cancel',
+                         className: 'btn-default',
+                         callback: () => {
+                         }
+                     },
+                    continute: {
+                      label: '<i class="fa fa-check"></i> Add',
+                      className: 'btn-danger',
+                      callback: () => {
+                        let privateKey = document.getElementById('private_key').value;
+                        let pricePay = 20 * 100;
+                        Mass.checking_voucher_if_any(openStripe);
+                        
+                        return false;
+                      }
+                  }            
+              }
+            });
+        }
+
+        var priceOf = 0;
+        function openStripe(payPrice) {
+            priceOf = payPrice;
+            var checkout = StripeCheckout.configure({
+                 key: 'pk_test_ywev9rlXeo2eMcddrx8aSgVW',
+                 token: onReceiveToken,
+                 image: '/images/logo-spx-stripe.png',
+                 name: '<%=session.passport.user ? session.passport.user.email : ''%>',
+                 description: 'Payment to registration song',
+                 amount: payPrice,
+                 billingAddress: true
+            });
+
+            checkout.open();
+        }
+
+        function onReceiveToken(token, args) {
+            console.log(token.id);
+            if (priceOf == 0) {
+               alert('Could not payment');
+               return;
+            }
+            Mass.regis_charge(token.id, priceOf);
+            sk = '';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+<div class="right_content col-md-2 col-sm-3">
+	<div class="right_sidebar">
+		<ul>
+			<%if (session.passport){%>
+				<%if (session.passport.user) {%>
+					<%if(session.passport.user.userIsAdmin){%>
+						<li id="admin-users"><a href="/">USERS</a></li>
+						<li id="my-talents"><a href="/my-talents">TALENTS</a></li>
+						<li id="admin-songs"><a href="/admin-songs">SONGS</a></li>
+						<li id="royalties"><a href="/royalties">ROYALTIES</a></li>
+						<li id="white-list"><a href="/white-list">WHITELIST</a></li>
+						<li id="history"><a href="/mass-registration-history">HISTORY</a></li>
+						<li id="verify-authen"><a href="/verification-and-authentication">VERIFY</a></li>
+						<li id="settings"><a href="/settings">SETTINGS</a></li>
+						<li id="logout"><a href="#">LOGOUT</a></li>
+					<%}else if (session.passport.user.userIsOwner){%>
+						<%if (session.passport.user.userIsCompany != undefined && session.passport.user.userIsCompany){%>
+							<li id="home"><a href="/">HOME</a></li>
+							<li id="my-talents"><a href="/my-talents">MY TALENTS</a></li>
+							<li id="my-songs"><a href="/my-songs">MY SONGS</a></li>
+							<li id="licensing"><a href="/my-licensings">LICENSING</a></li>
+							<li id="song-registration"><a href="/mass-registration">REGISTER SONG</a></li>
+							<li id="royalties"><a href="/royalties">ROYALTIES</a></li>
+							<li id="bookmarks"><a href="/bookmarks">BOOKMARKED</a></li>
+							<li id="history"><a href="/mass-registration-history">HISTORY</a></li>
+							<li id="verify-authen"><a href="/verification-and-authentication">VERIFY</a></li>
+							<!-- <li id="transactions"><a href="/transactions">TRANSACTIONS</a></li> -->
+							<li id="settings"><a href="/settings">SETTINGS</a></li>
+							<li id="logout"><a href="#">LOGOUT</a></li>
+						<%}else{%>
+							<li id="home"><a href="/">HOME</a></li>
+							<li id="my-works"><a href="/my-works">MY WORKS</a></li>
+							<li id="royalties"><a href="/royalties">ROYALTIES</a></li>
+							<li id="bookmarks"><a href="/bookmarks">BOOKMARKED</a></li>
+							<li id="verify-authen"><a href="/verification-and-authentication">VERIFY</a></li>
+							<!-- <li id="transactions"><a href="/transactions">TRANSACTIONS</a></li> -->
+							<li id="settings"><a href="/settings">SETTINGS</a></li>
+							<li id="logout"><a href="#">LOGOUT</a></li>
+						<%}%>
+					<%} else if(session.passport.user.userIsAdmin){%>
+						<li id="home"><a href="/">USERS</a></li>
+						<li id="admin-songs"><a href="/admin-songs">SONGS</a></li>
+						<!-- <li id="admin-migration"><a href="/mass-registration">MASS REGISTRATION</a></li> -->
+						<li id="royalties"><a href="/royalties">ROYALTIES</a></li>
+						<li id="verify-authen"><a href="/verification-and-authentication">VERIFY</a></li>
+						<li id="settings"><a href="/settings">SETTINGS</a></li>
+						<li id="logout"><a href="#">LOGOUT</a></li>
+					<%}else{%>
+						<li id="home"><a href="/">HOME</a></li>
+						<li id="my-talents"><a href="/my-talents">MY TALENTS</a></li>
+						<li id="my-songs"><a href="/my-songs">MY SONGS</a></li>
+						<li id="history"><a href="/mass-registration-history">HISTORY</a></li>
+						<li id="royalties"><a href="/royalties">ROYALTIES</a></li>
+						<li id="bookmarks"><a href="/bookmarks">BOOKMARKED</a></li>
+						<li id="verify-authen"><a href="/verification-and-authentication">VERIFY</a></li>
+						<li id="settings"><a href="/settings">SETTINGS</a></li>
+						<li id="logout"><a href="#">LOGOUT</a></li>
+					<%}%>
+				<%}else{%>
+					<li id="home"><a href="/">HOME</a></li>
+					<li id="sign-in"><a href="/sign-in">LOGIN</a></li>
+					<li id="sign-up"><a href="/sign-up-step-1">REGISTER</a></li>
+					<!-- <li id="sign-up"><a href="#" onclick="underDeveloper();">REGISTER</a></li> -->
+					<li id="bookmarks"><a href="/bookmarks">BOOKMARKED</a></li>
+					<li id="verify-authen"><a href="/verification-and-authentication">VERIFY</a></li>
+				<%}%>
+			<%}else{%>
+				<li id="home"><a href="/">HOME</a></li>
+				<li id="sign-in"><a href="/sign-in">LOGIN</a></li>
+				<li id="sign-up"><a href="/sign-up-step-1">REGISTER</a></li>
+				<!-- <li id="sign-up"><a href="#" onclick="underDeveloper();">REGISTER</a></li> -->
+				<li id="bookmarks"><a href="/bookmarks">BOOKMARKED</a></li>
+				<li id="verify-authen"><a href="/verification-and-authentication">VERIFY</a></li>
+			<%}%>
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+
+<script>
+	function logout(txt){
+		bootbox.dialog({
+        message: txt,
+        closeButton: true,
+        size: 'normal',
+        buttons: {
+	        cancel: {
+	                label: '<i class="fa fa-times"></i> No',
+	                className: 'btn-default',
+	                callback: () => {
+	                    
+	                }
+	            },
+            continute: {
+                label: '<i class="fa fa-check"></i> Yes',
+                className: 'btn-primary',
+                callback: () => {
+                    window.location.href = '/logout';
+                }
+            }            
+        }
+    	});
+	}
+
+	function underDeveloper() {
+		// bootbox.alert({
+		//     message: "This function is only for developer",
+		//     backdrop: true
+		// });
+		alert('This function is only for developer');
+	}
+
+	$(document).ready(function(){
+		var html = "<p class='w_logout'>Do you want logout ?</p>";
+		$('#logout a').on('click',function(e){
+			e.preventDefault;
+			logout(html);
+		});
+	});
+	
+</script>

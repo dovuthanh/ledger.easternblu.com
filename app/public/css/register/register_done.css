@@ -1,0 +1,33 @@
+.register span {
+	display: block;
+	text-align: center;
+	color: #858585;
+	font-weight: 600;
+	font-size: 20px;
+	letter-spacing: 2px;
+}
+
+.regis_done img {
+	display: block;
+	margin: 80px auto 20px;
+	width: 80px;
+}
+
+.des h4 {
+	text-align: center;
+	font-size: 20px;
+	margin-bottom: 0;
+	font-weight: 600;
+	color: #858585;
+} 
+
+.regis_done span {
+	font-size: 30px;
+	margin-bottom: 10px;
+}
+
+.regis_done p {
+	text-align: center;
+	font-size: 18px;
+	margin-bottom: 0;
+}

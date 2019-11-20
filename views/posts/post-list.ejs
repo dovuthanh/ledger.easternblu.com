@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Index</title>
+	<link rel="stylesheet" href="css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="css/home/common.css">
+	<link rel="stylesheet" href="css/post/post.css">
+	<link rel="stylesheet" href="css/post/rrssb.css">
+	<link rel="stylesheet" href="css/square/blue.css">
+	<link rel="stylesheet" href="css/skin/scheme1.css" type="text/css">
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="slider">
+		<div class="header" style="background: #1385e5">
+			<div class="col-md-3 col-sm-3">
+				<div class="logo_home">
+					<a href="/">
+						<img src="images/logo_home.png" alt="">
+						<!--<p>The Registry of Sound</p>-->
+					</a>
+				</div>
+			</div>
+			<div class="col-md-6 col-sm-6">
+				<div class="search">
+					<form action="#" onsubmit="return false;">
+						<div class="input-group" id="group">
+							<input type="text" <%if( typeof key!='undefined'){%> value="<%=key%> <%}%>"  name="key" class="form-control" placeholder="SEARCH" id="search-input" onchange="search();"">
+							<input type="text" name="search-type" id="search-type" value="song" hidden="">
+							<div class="input-group-btn">
+								<div class="btn-group">
+								  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="search-select">IN SONGS<i class="fa fa-chevron-down"></i>
+								  </button>
+								</div>
+								<button type="submit" class="btn btn-default" aria-label="Help" id="search-icon" onclick="searchClick();"></button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-3 col-sm-3 col-xs-12 header_right">
+				<div class="col-md-6 col-sm-12 col-xs-6 res">
+				</div>
+				<div class="col-md-6 col-sm-12 col-xs-6 log">
+					<div class="log_header">
+						<a href="/sign-up-step-1">SIGN UP</a>
+					</div>
+					<br/>
+					<div class="log_header">
+						<a href="/sign-in">SIGN IN</a>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!-- content -->
+	<div class="wrap_home1" style="margin-bottom: 20px;">
+		<div class="spxtrum" style="height: auto; background: #ffffff">
+			<div class="col-sm-10 col-md-8">
+				<div id="content-data">
+					<div class="row"></div>
+					<div id="logo_spxtrum" style="margin-top: 145px;"></div>
+					<%for(var i=0;i<posts.length;i++){%>
+					<div class="col-sm-10 col-md-6" style="margin-top: 10px;">
+						<img src="<%=posts[i].image.secure_url%>" style="width: 100%" alt="">
+					</div>
+					<div class="col-sm-10 col-md-6">
+						<a href="/post-detail?id=<%=posts[i]._id%>"><h3 ><%- posts[i].title%></h3></a>
+						<%- posts[i].content.brief%>
+					</div>
+					<div class="row"></div>
+					<%}%>
+				</div>
+				<input type="hidden" name="" value="1" id="current-page">
+				<button id="load">Show Content</button></pre>
+				<div id="content"></div>
+			</div>
+		</div>
+	</div>
+	<!-- end content -->
+
+	<!-- footer -->
+	<div class="footer">
+		<div class="container-fluid" style="background: #232323">
+			<div class="images_footer">
+				<div class="col-md-3">
+					<img src="images/logo_home.png"><br>
+				</div>
+				<div class="col-md-9"></div>
+			</div>
+			<div class="clear"></div>
+			<div class="row_footer">
+				<div class="col-md-3">
+					<div class="col_footer">
+
+						<a href="">MAIN</a><br>
+						<hr>
+						<a href="">HOME</a><br>
+						<a href="">LOGIN</a><br>
+						<a href="">REGISTER</a><br>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="col_footer">
+						<a href="">ACCOUNT</a><br>
+						<hr>
+						<a href="">MY TALENTS</a><br>
+						<a href="">MY SONGS</a><br>
+						<a href="">LICENSING</a><br>
+						<a href="">REGISTER SONGS</a><br>
+						<a href="">BOOKMARKED</a><br>
+						<a href="/verification-and-authentication">VERIFY</a><br>
+						<a href="">SETTINGS</a><br>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="col_footer">
+						<a href="">CUSTOMER SERVICE</a><br>
+						<hr>
+						<a href="">FAQ</a><br>
+						<a href="">CONTACT US</a><br>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="col_footer">
+						<a href="">JOIN OUR COMMUNITY</a><br>
+						<hr>
+						<input type="" placeholder="YOUREMAIL@DOMAIN.COM" class="form-control" id="join"><br>
+						<hr>
+						<a href="">FOLLOW US</a><br>
+						<div class="icon_footer">
+							<a href=""><img src="images/ft_fb.png"></a>
+							<a href=""><img src="images/ft_tw.png"></a>
+							<a href=""><img src="images/ft_itg.png"></a>
+							<a href=""><img src="images/ft_wifi.png"></a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="clear"></div>
+			<div class="content_footer">
+				<p>Copyright 2018. ©Spxtrum Pte Ltd. All rights reserved. All trademarks. pictures and brands are the property of their respective owners. Use of this Web site constitutes acceptance of the Spextrum's Terms of Use and Privacy Policy </p>
+			</div>
+			<div class="music-player has-player">
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	
+	$('#load').click(function (){
+		 $('#load').hide();
+		 $('#content').html('<img id="loader-img" alt="" src="https://cdn.dribbble.com/users/825103/screenshots/3130661/web_loader_dribbble.gif" width="200"  align="center" />');
+		 var page = $('#current-page').val();
+		 // Ajax Request
+		 $.ajax({
+		 type: "POST",
+		 dataType: "json",
+		 data:{page:page},
+		 url: "/api/post-list",
+		  success: function (data) {
+		  	if(data.data.length>0){
+		  		$('#load').show();
+		  		$('#current-page').val(page+1);
+		  		for (var i = 0; i < data.data.length; i++) {
+		  			var item = '<div class="col-sm-10 col-md-6" style="margin-top: 10px;">';
+		  			item+= '<img src="'+data.data[i].image.url+'" style="width: 100%" alt=""></div>';
+		  			item+= '<div class="col-sm-10 col-md-6"><a href="/post-detail?id='+data.data[i]._id+'"><h3>'+data.data[i].title+'</h3></a>'+data.data[i].content.brief+'</div><div class="row"></div>';
+		  			$('#content-data').append(item).children(':last').hide().fadeIn(1000);
+		  		}
+		  		$('#content').html("");
+		  	}
+		    setTimeout(function () {
+		       $('#content').html("");
+		          }, 3000);
+		    }
+		    });
+		});
+</script>
+</body>
+</html>

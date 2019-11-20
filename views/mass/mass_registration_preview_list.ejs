@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>REGISTRATION</title>
+    <link rel="stylesheet" href="css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="css/common/font-awesome.min.css">
+    <link rel="stylesheet" href="css/common/common.css">
+    <link rel="stylesheet" href="css/admin_user/admin_user.css">
+    <link rel="stylesheet" href="css/mass_registration/mas_register.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/mass_registration/nav-wizard.bootstrap.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="song">
+        <%- include ../menu/nor_header.ejs %>
+    </div>
+    <div class="home_content">
+        <div class="center_home">
+            <div class="left_content col-md-10 col-sm-9">
+                <div class="wrap_content" id="tab-content">
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active search_results">
+                            <div class="search_left">
+                                <h3>REGISTRATION</h3>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="upload">
+                                <div class="song_name" id="song_file_name"></div>
+                                <div class="upload-right" id="progress"></div>
+                                <div class="clear"></div>
+                                <div class="tbar" style="display: none;">
+                                    <div id="myBar" class="uploading" style="width: 0;"></div>
+                                </div>
+                            </div>
+                            <ul class="nav nav-pills nav-wizard">
+                                <li><a href="/mass-registration">1. Import templates</a></li>
+                                <li><a href="/mass-registration-csv" >2. Export data</a></li>
+                                <li><a href="/mass-registration-media-upload" >3. Upload media file</a></li>
+                                <li class="active"><a href="/mass-registration-preview-list" >4. Preview</a></li>
+                                <li><a href="/mass-registration-deploy-login" >5. Deploy</a></li>
+                            </ul>
+                            <br>
+                            <br>
+                            <div class="table-responsive" id="table_search">
+                                <table class="table table-curved">
+                                    <tr>
+                                        <td>
+                                            <p>#</p>
+                                        </td>
+                                        <td>
+                                            <p>Batch ID</p>
+                                        </td>
+                                        <td>
+                                            <p>Album Name</p>
+                                        </td>
+                                        <td>
+                                            <p>Status</p>
+                                        </td>
+                                        <td>
+                                            <p>User ID</p>
+                                        </td>
+                                        <td>
+                                            <p>Registered Date</p>
+                                        </td>
+                                        <td>
+                                            <p>Action</p>
+                                        </td>
+                                    </tr>
+                                    <%
+					    		 	var i=0;
+					    		 	merkles.forEach(function(merkle){
+					    		 		i++;
+					    		 	%>
+                                        <tr>
+                                            <td>
+                                                <p class="">
+                                                    <%=i%>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p class="crop"><%=merkle.batchId%></p>
+                                            </td>
+                                            <td>
+                                                <p class="crop"><%=merkle.albumName%></p>
+                                            </td>
+                                            <td>
+                                                <p class="crop">Waiting review</p>
+                                            </td>
+                                        <%if(merkle.userRefer){%>
+                                            <td>
+                                                <p>
+                                                    <%=merkle.userRefer.userAccountName%>
+                                                </p>
+                                            </td>
+                                        <%}else{%>
+                                            <td>
+                                                <p>Unknown</p>
+                                            </td>
+                                        <%}%>
+                                            <td>
+                                                <p>
+                                                    <%=merkle.dateRegistration%>
+                                                </p>
+                                            </td>
+                                            <%if(merkle.blockHash == undefined || merkle.blockHash.length == 0) {%>
+                                                <td>
+                                                    <a href="/mass-registration-preview-detail?id=<%=merkle._id%>" >
+                                                        <button class="btn_mass_migration">
+                                                            Preview
+                                                        </button>
+                                                    </a>
+                                                    <br/>
+                                                    <br/>
+                                                    <a href="javascript:void(0);" >
+                                                        <button class="btn_mass_migration_warning" onclick="removeBatchID('<%=merkle._id%>','<%=merkle.batchId%>');">
+                                                            Remove
+                                                        </button>
+                                                    </a>
+                                                </td>
+                                            <%}else{%>
+                                                <td>
+                                                    <p></p>
+                                                </td>
+                                            <%}%>
+                                        </tr>
+                                        <%});%>
+                                </table>
+                            </div>
+
+                            <!-- pagination -->
+                            <nav aria-label="Page navigation example" id="pagination">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" href="<%=paginate.href(true).prev%>">PREV</a></li>
+                                    <%
+						    			pages.forEach(function(page){
+						    		%>
+                                        <li class="page-item">
+                                            <a class="page-link" href="<%=page.url%>">
+                                                <%=page.number%>
+                                            </a>
+                                        </li>
+                                    <%})%>
+                                        <li class="page-item"><a class="page-link" href="<%=paginate.href().next%>">NEXT</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <%- include ../process/loading.ejs %>
+                </div>
+            </div>
+            <dir class="right-content">
+                <%- include ../menu/right_menu_content.ejs %>
+            </dir>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        function loading(txt){
+            $('.load').html(txt);
+            $('#loading').show();
+        }
+
+        function hide(){
+           $('#loading').hide();
+        }
+
+        function removeBatchID(id, batch_id){
+            var html = '';
+            html += '<p id="message"><strong> Are you sure delete: <label style="">'+batch_id+'<label></strong></p>';
+            html+='<p id="message_error" class="bg-danger" ></p>';
+            html+='<form class="bootbox-form" ><p id="message"><strong> Enter Batch ID:(*)</strong></p><input class="bootbox-input bootbox-input-email form-control" autocomplete="off" type="text" id ="batch_id" name ="batch_id" background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;"><br/>';
+
+            var dialog = bootbox.dialog({
+                title: "Remove",
+                message: html,
+                closeButton: false,
+                buttons: {
+                    cancel: {
+                         label: '<i class="fa fa-times"></i> Cancel',
+                         className: 'btn-default',
+                         callback: () => {
+                         }
+                     },
+                    continute: {
+                      label: '<i class="fa fa-check"></i> Remove',
+                      className: 'btn-danger',
+                      callback: () => {
+                        var batch_id_value =  document.getElementById('batch_id').value;
+                        if(batch_id != batch_id_value){
+                            document.getElementById('message_error').innerHTML = "Batch ID is not correct.";
+                            return false;
+                        }
+                        var message_error = document.getElementById('message_error');
+                        if(batch_id == undefined || batch_id.length ==0){
+                            document.getElementById('message_error').innerHTML = "Please Enter Batch ID.";
+                            return false;
+                        }
+                        loading("Processing...");
+                        $.ajax({
+                            type: 'POST',
+                            url: "/api/mass/delete-batch",
+                            data: {
+                                id: id,
+                            },
+                            cache: false
+                        }).done((res) => {
+                            hide();
+                            bootbox.hideAll();
+                            if(res.status == 200){
+                                bootbox.alert(res.message, function(){
+                                    window.location.reload();
+                                });
+                            }else{
+                                hide();
+                                bootbox.alert(res.message);    
+                            }
+                        }).fail(() => {
+                            hide();
+                            bootbox.alert("There is something wrong");
+                        });
+                        return false;
+                      }
+                  }            
+              }
+            });
+        }    
+    </script>
+</body>
+
+</html>

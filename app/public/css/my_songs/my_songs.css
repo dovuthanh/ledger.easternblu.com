@@ -1,0 +1,29 @@
+#table_search {
+	margin-top: 20px;
+}
+.filter {
+	width: initial;
+}
+#song_title {
+	/*width: 10%;*/
+}
+#song_hash {
+	width: 20%;
+}
+
+#song_note {
+	width: 15%;
+}
+.td-song-title{
+	text-align: left !important;
+}
+.td-song-title a{
+	padding-left: 10px;
+}
+
+.text-danger{
+	color: #e8100b!important
+}
+table td{
+  word-break: break-word;
+}

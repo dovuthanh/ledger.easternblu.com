@@ -1,0 +1,25 @@
+<div class="form_settings change_mobile col-md-5">
+	<h4 style="margin-bottom: 20px;">Change mobile</h4>
+	<div class="form-group" style="height: 70px;">
+		<label class="control-label mlabel">mobile</label>	
+		<div class="clear"></div>								
+		<div class="col-md-3 col-xs-4 no-padding-right">
+			<div class="input-group sphone">
+				<div class="input-group-addon plus" style="padding-right: 10px;">+</div>
+				<input type="number" pattern="\d*" maxlength="4" name="user_code" id="user_code" required="true" class="country_code form-control" tabindex="6" value="">
+			</div>
+		</div>								
+		
+		<div class="col-md-9 col-xs-8 no-padding-left">
+			<input type="number" name="user_phone" id="user_phone" required="true" class="form-control" tabindex="7" value="">
+		</div>
+	</div>
+
+	<div class="form-group" style="padding-left: 15px; padding-right: 15px;">
+        <button type="button" class="btn btn-primary" onclick="btn_phone_click();">Change Mobile</button>
+    </div>
+
+	<div class="ic-close" style="margin: -10px 0px 0px 0px">
+        <a href="#" onclick="gotoMyAccount();"><img class="cancel" src="images/cancel.jpg" alt=""></a>
+    </div>
+</div>
