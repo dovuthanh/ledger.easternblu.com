@@ -94,7 +94,7 @@
     "node-cron": "^2.0.3",
     "node-gyp": "^3.8.0",
     "node-mailjet": "^3.2.1",
-    "nodemailer": "^4.4.1",
+    "nodemailer": "^6.4.16",
     "onesignal-node": "^1.2.0",
     "opn": "4.0.2",
     "p-iteration": "^1.1.8",
